@@ -1,9 +1,15 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {PermissionsAndroid, Text} from 'react-native';
 
+import {CameraRoll} from '@react-native-camera-roll/camera-roll';
+
 export default function App() {
+  const [uris, setUris] = useState([]);
+
+  console.log(uris);
+
   useEffect(() => {
-    askPermission();
+    askPermission().then(() => getUris(setUris));
   }, []);
 
   return <Text>Goodbye, world.</Text>;
@@ -27,4 +33,10 @@ const askPermission = async () => {
   );
 
   return granted === PermissionsAndroid.RESULTS.GRANTED;
+};
+
+// Get and set photos' uri.
+const getUris = async setUris => {
+  const photos = CameraRoll.getPhotos({first: 20});
+  setUris((await photos).edges.map(edge => edge.node.image.uri));
 };
