@@ -4,6 +4,8 @@ import {Image, PermissionsAndroid, View, Text, ScrollView} from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 export default function App() {
+  const [folders, setFolders] = useState([]);
+  const [albums, setAlbums] = useState([]);
   const [uris, setUris] = useState([]);
 
   useEffect(() => {
@@ -41,13 +43,17 @@ const askPermission = async () => {
     },
   );
 
-  console.log(granted);
-
   return granted === PermissionsAndroid.RESULTS.GRANTED;
 };
 
 // Get and set photos' uri.
 const getUris = async setUris => {
-  const photos = CameraRoll.getPhotos({first: 20});
+  const photos = await CameraRoll.getPhotos({first: 20});
+
+  photos.edges.forEach(edge => {
+    const uri = edge.node.image.uri;
+    const folder = uri.split("/").at(-2);
+    console.log(folder)
+  })
   setUris(photos.edges.map(edge => edge.node.image.uri));
 };
