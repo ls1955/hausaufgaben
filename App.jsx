@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Image, PermissionsAndroid, View, Text} from 'react-native';
+import {Image, PermissionsAndroid, View, Text, ScrollView} from 'react-native';
 
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
@@ -11,6 +11,7 @@ export default function App() {
   }, []);
 
   const images = uris.map((uri, i) => {
+    console.log(uri)
     return (
       <Image
         key={i}
@@ -21,7 +22,7 @@ export default function App() {
     );
   });
 
-  return <View>{images}</View>;
+  return <ScrollView>{images}</ScrollView>;
 }
 
 // Asks for storage access permission, return true if granted permission, else false.
