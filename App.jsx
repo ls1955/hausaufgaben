@@ -11,7 +11,6 @@ export default function App() {
   }, []);
 
   const images = uris.map((uri, i) => {
-    console.log(uri)
     return (
       <Image
         key={i}
@@ -50,5 +49,5 @@ const askPermission = async () => {
 // Get and set photos' uri.
 const getUris = async setUris => {
   const photos = CameraRoll.getPhotos({first: 20});
-  setUris((await photos).edges.map(edge => edge.node.image.uri));
+  setUris(photos.edges.map(edge => edge.node.image.uri));
 };
