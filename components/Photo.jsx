@@ -22,7 +22,10 @@ export default function Photo({uris, status}) {
   });
 
   return (
-    <Swiper loop={false} index={status['selectedPhotoIndex']}>
+    <Swiper
+      index={status['selectedPhotoIndex']}
+      loop={false}
+      showsPagination={false}>
       {photos}
     </Swiper>
   );
