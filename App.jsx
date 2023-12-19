@@ -11,11 +11,12 @@ import {
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 import Folder from './components/Folder';
+import Photos from './components/Photos';
 
 export default function App() {
   const [folders, setFolders] = useState({});
   const [albums, setAlbums] = useState({});
-  // state: home | album | folder | photos | photo
+  // state: home | inAlbum | inFolder | inPhoto
   const [status, useStatus] = useState({
     state: 'home',
     selectedFolder: null,
@@ -25,6 +26,16 @@ export default function App() {
   useEffect(() => {
     askPermission().then(() => setFolderAndAlbum(setFolders, setAlbums));
   }, []);
+
+  if (status['state'] === 'inFolder') {
+    const uris = folders[status['selectedFolder']].uris;
+
+    return (
+      <SafeAreaView style={{flex: 1}}>
+        <Photos uris={uris} />
+      </SafeAreaView>
+    );
+  }
 
   // Differentiate which folder is in an album to not rerender them again.
   const inAlbumFolderIds = new Set(
@@ -43,17 +54,6 @@ export default function App() {
         onStatus={useStatus}></Folder>
     );
   });
-
-  // const images = uris.map((uri, i) => {
-  //   return (
-  //     <Image
-  //       key={i}
-  //       style={{width: 100, height: 100}}
-  //       source={{uri}}
-  //       onError={e => console.error(e.nativeEvent.error)}
-  //     />
-  //   );
-  // });
 
   return (
     <SafeAreaView style={{flex: 1}}>

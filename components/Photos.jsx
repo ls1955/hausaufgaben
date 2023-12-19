@@ -1,4 +1,5 @@
 import {Image, ScrollView} from 'react-native';
+
 // The photos inside a Folder component. This component will be render when a folder has been clicked.
 export default function Photos({uris}) {
   // TODO: Exit back to Folder when clicked back button
@@ -7,14 +8,16 @@ export default function Photos({uris}) {
     return (
       <Image
         key={i}
-        style={{minWidth: 100, minHeight: 100, flex: 1}}
+        style={{width: '25%', minHeight: 100}}
         source={{uri}}
+        onError={e => console.error(e.nativeEvent.error)}
       />
     );
   });
 
   return (
-    <ScrollView style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>
+    <ScrollView
+      contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}>
       {photos}
     </ScrollView>
   );
