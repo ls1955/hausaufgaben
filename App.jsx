@@ -15,9 +15,8 @@ import Photo from './components/Photo';
 export default function App() {
   const [folders, setFolders] = useState({});
   const [albums, setAlbums] = useState({});
-  // state: home | inAlbum | inFolder | inPhoto
   const [status, setStatus] = useState({
-    state: 'home',
+    state: 'home', // home | inAlbum | inFolder | inPhoto
     selectedFolder: null,
     selectedAlbum: null,
     selectedPhotoIndex: -1,
