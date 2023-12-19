@@ -6,25 +6,24 @@ import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 export default function App() {
   const [folders, setFolders] = useState({});
   const [albums, setAlbums] = useState({});
-  // TODO: Remove obsolete setUris
-  const [uris, setUris] = useState([]);
 
   useEffect(() => {
-    askPermission().then(() => setFolderAndAlbum(setFolders, setAlbums, setUris));
+    askPermission().then(() => setFolderAndAlbum(setFolders, setAlbums));
   }, []);
 
-  const images = uris.map((uri, i) => {
-    return (
-      <Image
-        key={i}
-        style={{width: 100, height: 100}}
-        source={{uri}}
-        onError={e => console.error(e.nativeEvent.error)}
-      />
-    );
-  });
+  // const images = uris.map((uri, i) => {
+  //   return (
+  //     <Image
+  //       key={i}
+  //       style={{width: 100, height: 100}}
+  //       source={{uri}}
+  //       onError={e => console.error(e.nativeEvent.error)}
+  //     />
+  //   );
+  // });
 
-  return <ScrollView>{images}</ScrollView>;
+  // return <ScrollView>{images}</ScrollView>;
+  return <Text>Maintainence ongoing...</Text>
 }
 
 // Asks for storage access permission, return true if granted permission, else false.
@@ -51,7 +50,7 @@ const askPermission = async () => {
 const nonGroupFolders = new Set(['相机', '下载', 'Whatsapp']);
 
 // Gets photos' uri, then set new folders and albums with them.
-const setFolderAndAlbum = async (setFolders, setAlbums, setUris) => {
+const setFolderAndAlbum = async (setFolders, setAlbums) => {
   // NOTE: Grabbing 40 images for now...
   const photos = await CameraRoll.getPhotos({first: 40});
 
@@ -76,5 +75,4 @@ const setFolderAndAlbum = async (setFolders, setAlbums, setUris) => {
 
   setFolders(newFolders);
   setAlbums(newAlbums);
-  setUris(photos.edges.map(edge => edge.node.image.uri));
 };
