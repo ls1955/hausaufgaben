@@ -13,7 +13,7 @@ import Photo from './components/Photo';
 
 export default function App() {
   const [urisByFolder, setUrisByFolder] = useState({});
-  const [folderIdsByAlbum, setFolderIdsByAlbum] = useState({});
+  const [foldersByAlbum, setFoldersByAlbum] = useState({});
   const [status, setStatus] = useState({
     state: 'home', // home | inAlbum | inFolder | inPhoto
     selectedFolder: null,
@@ -24,7 +24,7 @@ export default function App() {
   // settle read storage permission beforehand...
   useEffect(() => {
     askPermission().then(() =>
-      setFolderAndAlbum(setUrisByFolder, setFolderIdsByAlbum),
+      setFolderAndAlbum(setUrisByFolder, setFoldersByAlbum),
     );
   }, []);
 
@@ -60,6 +60,8 @@ export default function App() {
       </SafeAreaView>
     );
   }
+
+  console.log(foldersByAlbum)
 
   const folders = Object.entries(urisByFolder).map(([name, uris], i) => {
     return (
@@ -112,12 +114,12 @@ const askPermission = async () => {
 const nonGroupFolders = new Set(['相机', '下载', 'Whatsapp']);
 
 // Gets photos' uri, then set new folders and albums with them.
-const setFolderAndAlbum = async (setUrisByFolder, setFolderIdsByAlbum) => {
+const setFolderAndAlbum = async (setUrisByFolder, setFoldersByAlbum) => {
   // NOTE: Grabbing 40 images for now...
   const photos = await CameraRoll.getPhotos({first: 40});
 
   const newUrisByFolder = {};
-  const newFolderIdsByAlbum = {};
+  const newFoldersByAlbum = {};
 
   photos.edges.forEach((edge, i) => {
     const uri = edge.node.image.uri;
@@ -130,10 +132,10 @@ const setFolderAndAlbum = async (setUrisByFolder, setFolderIdsByAlbum) => {
 
     const albumName = folder[0].toUpperCase();
 
-    newFolderIdsByAlbum[albumName] = newFolderIdsByAlbum[albumName] ?? [];
-    newFolderIdsByAlbum[albumName].push(i);
+    newFoldersByAlbum[albumName] = newFoldersByAlbum[albumName] ?? new Set();
+    newFoldersByAlbum[albumName].add(folder);
   });
 
   setUrisByFolder(newUrisByFolder);
-  setFolderIdsByAlbum(newFolderIdsByAlbum);
+  setFoldersByAlbum(newFoldersByAlbum);
 };
