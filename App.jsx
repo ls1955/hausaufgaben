@@ -3,6 +3,7 @@ import {
   BackHandler,
   PermissionsAndroid,
   SafeAreaView,
+  Text,
   View,
 } from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
@@ -22,7 +23,7 @@ export default function App() {
     selectedPhotoIndex: -1,
   });
 
-  // settle read storage permission beforehand...
+  // settle read storage permission and read image URIs beforehand...
   useEffect(() => {
     askPermission().then(() =>
       setFolderAndAlbum(setUrisByFolder, setFoldersByAlbum),
@@ -60,12 +61,15 @@ export default function App() {
         <Photo uris={uris} status={status} onStatus={setStatus}></Photo>
       </SafeAreaView>
     );
+  } else if (status['state'] === 'inAlbum') {
+    return <Text>Showing folders in album {status['selectedAlbum']}</Text>;
   }
 
-  // TODO: Render albums and folders that are not inside the group together...
-
   const albums = Object.entries(foldersByAlbum).map(([album, folders], i) => {
-    return <Album key={i} name={album}></Album>;
+    // TODO: Include folder names at here?
+    return (
+      <Album key={i} name={album} status={status} onStatus={setStatus} />
+    );
   });
 
   return (
