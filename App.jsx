@@ -19,7 +19,7 @@ export default function App() {
     state: 'home',
     selectedFolder: null,
     selectedAlbum: null,
-    selectedPhotoIndex: -1
+    selectedPhotoIndex: -1,
   });
 
   // settle read storage permission beforehand...
@@ -34,6 +34,8 @@ export default function App() {
 
       if (status['state'] === 'inFolder') {
         setStatus({...status, state: 'home'});
+      } else if (status['state'] === 'inPhoto') {
+        setStatus({...status, state: 'inFolder'});
       }
       return true;
     };
@@ -51,6 +53,11 @@ export default function App() {
     return (
       <SafeAreaView style={{flex: 1}}>
         <Photos uris={uris} status={status} onUpdate={setStatus} />
+      </SafeAreaView>
+    );
+  } else if (status['state'] === 'inPhoto') {
+    return (
+      <SafeAreaView style={{flex: 1}}>
       </SafeAreaView>
     );
   }
