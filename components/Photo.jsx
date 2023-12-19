@@ -1,32 +1,14 @@
-import {Image, View} from 'react-native';
-import Swiper from 'react-native-swiper';
+import ImageView from 'react-native-image-viewing';
 
-// A component that support swiping across photos while showing one at the time.
-export default function Photo({uris, status}) {
-  const photos = uris.map((uri, i) => {
-    return (
-      <View
-        key={i}
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <Image
-          style={{width: '100%', flex: 1}}
-          resizeMode="contain"
-          source={{uri}}
-        />
-      </View>
-    );
-  });
-
+// A component that takes a lits of uris, and show one photo at the time. Support swiping and zooming.
+export default function Photo({uris, status, onStatus}) {
   return (
-    <Swiper
-      index={status['selectedPhotoIndex']}
-      loop={false}
-      showsPagination={false}>
-      {photos}
-    </Swiper>
+    <ImageView
+      images={uris.map(uri => ({uri}))}
+      imageIndex={status['selectedPhotoIndex']}
+      visible={true}
+      onRequestClose={() => onStatus({...status, state: 'inFolder'})}
+      HeaderComponent={() => null}
+    />
   );
 }

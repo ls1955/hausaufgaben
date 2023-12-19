@@ -59,7 +59,7 @@ export default function App() {
     const uris = folders[status['selectedFolder']].uris;
     return (
       <SafeAreaView style={{flex: 1}}>
-        <Photo uris={uris} status={status}></Photo>
+        <Photo uris={uris} status={status} onStatus={setStatus}></Photo>
       </SafeAreaView>
     );
   }
