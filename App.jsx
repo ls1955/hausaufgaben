@@ -19,6 +19,7 @@ export default function App() {
     state: 'home',
     selectedFolder: null,
     selectedAlbum: null,
+    selectedPhotoIndex: -1
   });
 
   // settle read storage permission beforehand...
@@ -47,10 +48,9 @@ export default function App() {
 
   if (status['state'] === 'inFolder') {
     const uris = folders[status['selectedFolder']].uris;
-
     return (
       <SafeAreaView style={{flex: 1}}>
-        <Photos uris={uris} />
+        <Photos uris={uris} status={status} onUpdate={setStatus} />
       </SafeAreaView>
     );
   }
