@@ -1,9 +1,9 @@
 import {Image, ScrollView, TouchableOpacity} from 'react-native';
 
 // The photos inside a Folder component. This component will be render when a folder has been clicked.
-export default function Photos({uris, status, onUpdate}) {
+export default function Photos({uris, status, onStatus}) {
   const handleStatus = index => () => {
-    return onUpdate({...status, state: 'inPhoto', selectedPhotoIndex: index});
+    return onStatus({...status, state: 'inPhoto', selectedPhotoIndex: index});
   };
 
   const photos = uris.map((uri, i) => {
