@@ -3,6 +3,8 @@ import {Image, PermissionsAndroid, View, Text, ScrollView} from 'react-native';
 
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
+import Folder from './components/Folder';
+
 export default function App() {
   const [folders, setFolders] = useState({});
   const [albums, setAlbums] = useState({});
@@ -19,6 +21,10 @@ export default function App() {
     askPermission().then(() => setFolderAndAlbum(setFolders, setAlbums));
   }, []);
 
+  const folderComponents = Object.entries(folders).map(([name, folder], i) => {
+    return <Folder key={i} name={name} uris={folder.uris}></Folder>;
+  })
+
   // const images = uris.map((uri, i) => {
   //   return (
   //     <Image
@@ -31,7 +37,7 @@ export default function App() {
   // });
 
   // return <ScrollView>{images}</ScrollView>;
-  return <Text>Maintainence ongoing...</Text>;
+  return <Text>{folderComponents}</Text>;
 }
 
 // Asks for storage access permission, return true if granted permission, else false.
