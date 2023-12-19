@@ -1,18 +1,13 @@
 import {useEffect, useState} from 'react';
-import {
-  BackHandler,
-  PermissionsAndroid,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {BackHandler, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 import Album from './components/Album';
 import Folder from './components/Folder';
 import Photos from './components/Photos';
 import Photo from './components/Photo';
+
+import askPermission from './utils/permissionHelpers';
 
 export default function App() {
   const [urisByFolder, setUrisByFolder] = useState({});
@@ -91,30 +86,10 @@ export default function App() {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-    <View style={styles.galleryLayout}>{albums}</View>
+      <View style={styles.galleryLayout}>{albums}</View>
     </SafeAreaView>
   );
 }
-
-// Asks for storage access permission, return true if granted permission, else false.
-const askPermission = async () => {
-  const hasPermission = await PermissionsAndroid.check(
-    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-  );
-
-  if (hasPermission) return true;
-
-  const granted = await PermissionsAndroid.request(
-    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-    {
-      title: 'hausaufgaben read storage permission',
-      message: 'To read your homework folders',
-      buttonPositive: 'Ok',
-    },
-  );
-
-  return granted === PermissionsAndroid.RESULTS.GRANTED;
-};
 
 // folders that do not wanna be put into a group.
 const nonGroupFolders = new Set(['Download', 'Whatsapp', '相机', '下载']);
