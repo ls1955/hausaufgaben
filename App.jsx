@@ -2,14 +2,15 @@ import {useEffect, useState} from 'react';
 import {
   BackHandler,
   PermissionsAndroid,
-  View,
   SafeAreaView,
+  View,
 } from 'react-native';
 
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 import Folder from './components/Folder';
 import Photos from './components/Photos';
+import Photo from './components/Photo';
 
 export default function App() {
   const [folders, setFolders] = useState({});
@@ -56,8 +57,10 @@ export default function App() {
       </SafeAreaView>
     );
   } else if (status['state'] === 'inPhoto') {
+    const uris = folders[status['selectedFolder']].uris;
     return (
       <SafeAreaView style={{flex: 1}}>
+        <Photo uris={uris} status={status}></Photo>
       </SafeAreaView>
     );
   }
