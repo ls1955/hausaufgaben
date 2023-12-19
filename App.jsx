@@ -33,12 +33,7 @@ export default function App() {
     const handleBackAction = () => {
       if (status['state'] === 'home') BackHandler.exitApp();
 
-      if (status['state'] === 'inFolder') {
-        setStatus({...status, state: 'home'});
-      } else if (status['state'] === 'inPhoto') {
-        // OBSOLETE?
-        setStatus({...status, state: 'inFolder'});
-      }
+      if (status['state'] === 'inFolder') setStatus({...status, state: 'home'});
       return true;
     };
 
@@ -66,27 +61,17 @@ export default function App() {
     );
   }
 
-  // Differentiate which folder is in an album to not rerender them again.
-  // const inAlbumFolderIds = new Set(
-  //   Object.values(folders).flatMap(({id}) => id),
-  // );
-  // Object.values(albums).forEach(album => {
-  //   album.folderIds.forEach(id => inAlbumFolderIds.delete(id));
-  // });
-
-  const folderComponents = Object.entries(urisByFolder).map(
-    ([name, uris], i) => {
-      return (
-        <Folder
-          key={i}
-          name={name}
-          uris={uris}
-          status={status}
-          onStatus={setStatus}
-        />
-      );
-    },
-  );
+  const folders = Object.entries(urisByFolder).map(([name, uris], i) => {
+    return (
+      <Folder
+        key={i}
+        name={name}
+        uris={uris}
+        status={status}
+        onStatus={setStatus}
+      />
+    );
+  });
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -97,7 +82,7 @@ export default function App() {
           flexWrap: 'wrap',
           justifyContent: 'space-between',
         }}>
-        {folderComponents}
+        {folders}
       </View>
     </SafeAreaView>
   );
