@@ -1,5 +1,12 @@
 import {useEffect, useState} from 'react';
-import {Image, PermissionsAndroid, View, Text, ScrollView} from 'react-native';
+import {
+  Image,
+  PermissionsAndroid,
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
 
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
@@ -23,7 +30,7 @@ export default function App() {
 
   const folderComponents = Object.entries(folders).map(([name, folder], i) => {
     return <Folder key={i} name={name} uris={folder.uris}></Folder>;
-  })
+  });
 
   // const images = uris.map((uri, i) => {
   //   return (
@@ -36,8 +43,13 @@ export default function App() {
   //   );
   // });
 
-  // return <ScrollView>{images}</ScrollView>;
-  return <Text>{folderComponents}</Text>;
+  return (
+    <SafeAreaView style={{flex: 1}}>
+      <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-between"}}>
+        {folderComponents}
+      </View>
+    </SafeAreaView>
+  );
 }
 
 // Asks for storage access permission, return true if granted permission, else false.
