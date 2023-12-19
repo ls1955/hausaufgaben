@@ -3,7 +3,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 export default function Folder({name, uris, status, onStatus}) {
   // Update the state before going into folder's photos
   handleStatus = () => {
-    onStatus({...status, state: 'inFolder', selectedFolder: name});
+    onStatus({...status, state: "inFolder", selectedFolder: name})
   };
 
   return (

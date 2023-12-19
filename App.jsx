@@ -1,5 +1,10 @@
 import {useEffect, useState} from 'react';
-import {PermissionsAndroid, View, SafeAreaView} from 'react-native';
+import {
+  BackHandler,
+  PermissionsAndroid,
+  View,
+  SafeAreaView,
+} from 'react-native';
 
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
@@ -10,15 +15,35 @@ export default function App() {
   const [folders, setFolders] = useState({});
   const [albums, setAlbums] = useState({});
   // state: home | inAlbum | inFolder | inPhoto
-  const [status, useStatus] = useState({
+  const [status, setStatus] = useState({
     state: 'home',
     selectedFolder: null,
     selectedAlbum: null,
   });
 
+  // settle read storage permission beforehand...
   useEffect(() => {
     askPermission().then(() => setFolderAndAlbum(setFolders, setAlbums));
   }, []);
+
+  // setup back button events...
+  useEffect(() => {
+    const handleBackAction = () => {
+      if (status['state'] === 'home') BackHandler.exitApp();
+
+      if (status['state'] === 'inFolder') {
+        setStatus({...status, state: 'home'});
+      }
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackAction,
+    );
+
+    return () => backHandler.remove();
+  }, [status]);
 
   if (status['state'] === 'inFolder') {
     const uris = folders[status['selectedFolder']].uris;
@@ -44,7 +69,8 @@ export default function App() {
         key={i}
         name={name}
         uris={folder.uris}
-        onStatus={useStatus}></Folder>
+        status={status}
+        onStatus={setStatus}></Folder>
     );
   });
 
