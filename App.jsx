@@ -43,7 +43,7 @@ export default function App() {
     return () => backHandler.remove();
   }, [status]);
 
-  if (status['state'] === 'inFolder') {
+  if (status['state'] === 'inFolder' || status['state'] === 'inFolderFromAlbum') {
     const uris = urisByFolder[status['selectedFolder']];
     return (
       <SafeAreaView style={{flex: 1}}>
