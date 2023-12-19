@@ -62,7 +62,22 @@ export default function App() {
       </SafeAreaView>
     );
   } else if (status['state'] === 'inAlbum') {
-    return <Text>Showing folders in album {status['selectedAlbum']}</Text>;
+    const folders = [...foldersByAlbum[status['selectedAlbum']]].map ((folder, i) => {
+      return <Folder key={i} name={folder} status={status} onStatus={setStatus} jumpFromAlbum={true} />
+    })
+    return (
+      <SafeAreaView style={{flex: 1}}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+          }}>
+          {folders}
+        </View>
+      </SafeAreaView>
+    );
   }
 
   const albums = Object.entries(foldersByAlbum).map(([album, folders], i) => {

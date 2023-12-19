@@ -1,9 +1,11 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 
-export default function Folder({name, uris, status, onStatus}) {
-  // Update the state before going into folder's photos
+export default function Folder({name, uris, status, onStatus, jumpFromAlbum = false}) {
+  // NOTE: Is uris prop obsolete?
+
   handleStatus = () => {
-    onStatus({...status, state: "inFolder", selectedFolder: name})
+    const newState = jumpFromAlbum ? "inFolderFromAlbum" : "inFolder"
+    onStatus({...status, state: newState, selectedFolder: name})
   };
 
   return (
