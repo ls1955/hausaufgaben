@@ -3,6 +3,7 @@ import {
   BackHandler,
   PermissionsAndroid,
   SafeAreaView,
+  StyleSheet,
   Text,
   View,
 } from 'react-native';
@@ -62,42 +63,35 @@ export default function App() {
       </SafeAreaView>
     );
   } else if (status['state'] === 'inAlbum') {
-    const folders = [...foldersByAlbum[status['selectedAlbum']]].map ((folder, i) => {
-      return <Folder key={i} name={folder} status={status} onStatus={setStatus} jumpFromAlbum={true} />
-    })
+    const folders = [...foldersByAlbum[status['selectedAlbum']]].map(
+      (folder, i) => {
+        return (
+          <Folder
+            key={i}
+            name={folder}
+            status={status}
+            onStatus={setStatus}
+            jumpFromAlbum={true}
+          />
+        );
+      },
+    );
+
     return (
       <SafeAreaView style={{flex: 1}}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-          }}>
-          {folders}
-        </View>
+        <View style={styles.galleryLayout}>{folders}</View>
       </SafeAreaView>
     );
   }
 
   const albums = Object.entries(foldersByAlbum).map(([album, folders], i) => {
     // TODO: Include folder names at here?
-    return (
-      <Album key={i} name={album} status={status} onStatus={setStatus} />
-    );
+    return <Album key={i} name={album} status={status} onStatus={setStatus} />;
   });
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-        }}>
-        {albums}
-      </View>
+    <View style={styles.galleryLayout}>{albums}</View>
     </SafeAreaView>
   );
 }
@@ -151,3 +145,13 @@ const setFolderAndAlbum = async (setUrisByFolder, setFoldersByAlbum) => {
   setUrisByFolder(newUrisByFolder);
   setFoldersByAlbum(newFoldersByAlbum);
 };
+
+const styles = StyleSheet.create({
+  // used by homepage and album
+  galleryLayout: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+});
