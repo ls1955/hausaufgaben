@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
+import Album from './components/Album';
 import Folder from './components/Folder';
 import Photos from './components/Photos';
 import Photo from './components/Photo';
@@ -61,18 +62,10 @@ export default function App() {
     );
   }
 
-  console.log(foldersByAlbum)
+  // TODO: Render albums and folders that are not inside the group together...
 
-  const folders = Object.entries(urisByFolder).map(([name, uris], i) => {
-    return (
-      <Folder
-        key={i}
-        name={name}
-        uris={uris}
-        status={status}
-        onStatus={setStatus}
-      />
-    );
+  const albums = Object.entries(foldersByAlbum).map(([album, folders], i) => {
+    return <Album key={i} name={album}></Album>;
   });
 
   return (
@@ -84,7 +77,7 @@ export default function App() {
           flexWrap: 'wrap',
           justifyContent: 'space-between',
         }}>
-        {folders}
+        {albums}
       </View>
     </SafeAreaView>
   );
@@ -111,7 +104,7 @@ const askPermission = async () => {
 };
 
 // folders that do not wanna be put into a group.
-const nonGroupFolders = new Set(['相机', '下载', 'Whatsapp']);
+const nonGroupFolders = new Set(['Download', 'Whatsapp', '相机', '下载']);
 
 // Gets photos' uri, then set new folders and albums with them.
 const setFolderAndAlbum = async (setUrisByFolder, setFoldersByAlbum) => {
