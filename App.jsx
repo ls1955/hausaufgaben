@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   View,
 } from 'react-native';
-
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 import Folder from './components/Folder';
@@ -13,8 +12,8 @@ import Photos from './components/Photos';
 import Photo from './components/Photo';
 
 export default function App() {
-  const [folders, setFolders] = useState({});
-  const [albums, setAlbums] = useState({});
+  const [urisByFolder, setUrisByFolder] = useState({});
+  const [folderIdsByAlbum, setFolderIdsByAlbum] = useState({});
   const [status, setStatus] = useState({
     state: 'home', // home | inAlbum | inFolder | inPhoto
     selectedFolder: null,
@@ -24,7 +23,9 @@ export default function App() {
 
   // settle read storage permission beforehand...
   useEffect(() => {
-    askPermission().then(() => setFolderAndAlbum(setFolders, setAlbums));
+    askPermission().then(() =>
+      setFolderAndAlbum(setUrisByFolder, setFolderIdsByAlbum),
+    );
   }, []);
 
   // setup back button events...
@@ -35,6 +36,7 @@ export default function App() {
       if (status['state'] === 'inFolder') {
         setStatus({...status, state: 'home'});
       } else if (status['state'] === 'inPhoto') {
+        // OBSOLETE?
         setStatus({...status, state: 'inFolder'});
       }
       return true;
@@ -49,14 +51,14 @@ export default function App() {
   }, [status]);
 
   if (status['state'] === 'inFolder') {
-    const uris = folders[status['selectedFolder']].uris;
+    const uris = urisByFolder[status['selectedFolder']];
     return (
       <SafeAreaView style={{flex: 1}}>
-        <Photos uris={uris} status={status} onUpdate={setStatus} />
+        <Photos uris={uris} status={status} onStatus={setStatus} />
       </SafeAreaView>
     );
   } else if (status['state'] === 'inPhoto') {
-    const uris = folders[status['selectedFolder']].uris;
+    const uris = urisByFolder[status['selectedFolder']];
     return (
       <SafeAreaView style={{flex: 1}}>
         <Photo uris={uris} status={status} onStatus={setStatus}></Photo>
@@ -65,23 +67,26 @@ export default function App() {
   }
 
   // Differentiate which folder is in an album to not rerender them again.
-  const inAlbumFolderIds = new Set(
-    Object.values(folders).flatMap(({id}) => id),
-  );
-  Object.values(albums).forEach(album => {
-    album.folderIds.forEach(id => inAlbumFolderIds.delete(id));
-  });
+  // const inAlbumFolderIds = new Set(
+  //   Object.values(folders).flatMap(({id}) => id),
+  // );
+  // Object.values(albums).forEach(album => {
+  //   album.folderIds.forEach(id => inAlbumFolderIds.delete(id));
+  // });
 
-  const folderComponents = Object.entries(folders).map(([name, folder], i) => {
-    return (
-      <Folder
-        key={i}
-        name={name}
-        uris={folder.uris}
-        status={status}
-        onStatus={setStatus}></Folder>
-    );
-  });
+  const folderComponents = Object.entries(urisByFolder).map(
+    ([name, uris], i) => {
+      return (
+        <Folder
+          key={i}
+          name={name}
+          uris={uris}
+          status={status}
+          onStatus={setStatus}
+        />
+      );
+    },
+  );
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -122,29 +127,28 @@ const askPermission = async () => {
 const nonGroupFolders = new Set(['相机', '下载', 'Whatsapp']);
 
 // Gets photos' uri, then set new folders and albums with them.
-const setFolderAndAlbum = async (setFolders, setAlbums) => {
+const setFolderAndAlbum = async (setUrisByFolder, setFolderIdsByAlbum) => {
   // NOTE: Grabbing 40 images for now...
   const photos = await CameraRoll.getPhotos({first: 40});
 
-  const newFolders = {};
-  const newAlbums = {};
+  const newUrisByFolder = {};
+  const newFolderIdsByAlbum = {};
 
-  // NOTE: Using index as key (might change in the future)
   photos.edges.forEach((edge, i) => {
     const uri = edge.node.image.uri;
     const folder = uri.split('/').at(-2);
 
-    newFolders[folder] = newFolders[folder] || {id: i, uris: []};
-    newFolders[folder]['uris'].push(uri);
+    newUrisByFolder[folder] = newUrisByFolder[folder] ?? [];
+    newUrisByFolder[folder].push(uri);
 
     if (nonGroupFolders.has(folder)) return;
 
     const albumName = folder[0].toUpperCase();
 
-    newAlbums[albumName] = newAlbums[albumName] || {id: i, folderIds: []};
-    newAlbums[albumName]['folderIds'].push(i);
+    newFolderIdsByAlbum[albumName] = newFolderIdsByAlbum[albumName] ?? [];
+    newFolderIdsByAlbum[albumName].push(i);
   });
 
-  setFolders(newFolders);
-  setAlbums(newAlbums);
+  setUrisByFolder(newUrisByFolder);
+  setFolderIdsByAlbum(newFolderIdsByAlbum);
 };
