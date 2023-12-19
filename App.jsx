@@ -15,6 +15,16 @@ import Folder from './components/Folder';
 export default function App() {
   const [folders, setFolders] = useState({});
   const [albums, setAlbums] = useState({});
+  // state: home | album | folder | photos | photo
+  const [status, useStatus] = useState({
+    state: 'home',
+    selectedFolder: null,
+    selectedAlbum: null,
+  });
+
+  useEffect(() => {
+    askPermission().then(() => setFolderAndAlbum(setFolders, setAlbums));
+  }, []);
 
   // Differentiate which folder is in an album to not rerender them again.
   const inAlbumFolderIds = new Set(
@@ -24,12 +34,14 @@ export default function App() {
     album.folderIds.forEach(id => inAlbumFolderIds.delete(id));
   });
 
-  useEffect(() => {
-    askPermission().then(() => setFolderAndAlbum(setFolders, setAlbums));
-  }, []);
-
   const folderComponents = Object.entries(folders).map(([name, folder], i) => {
-    return <Folder key={i} name={name} uris={folder.uris}></Folder>;
+    return (
+      <Folder
+        key={i}
+        name={name}
+        uris={folder.uris}
+        onStatus={useStatus}></Folder>
+    );
   });
 
   // const images = uris.map((uri, i) => {
@@ -45,7 +57,13 @@ export default function App() {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-between"}}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+        }}>
         {folderComponents}
       </View>
     </SafeAreaView>
