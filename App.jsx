@@ -7,6 +7,14 @@ export default function App() {
   const [folders, setFolders] = useState({});
   const [albums, setAlbums] = useState({});
 
+  // Differentiate which folder is in an album to not rerender them again.
+  const inAlbumFolderIds = new Set(
+    Object.values(folders).flatMap(({id}) => id),
+  );
+  Object.values(albums).forEach(album => {
+    album.folderIds.forEach(id => inAlbumFolderIds.delete(id));
+  });
+
   useEffect(() => {
     askPermission().then(() => setFolderAndAlbum(setFolders, setAlbums));
   }, []);
@@ -23,7 +31,7 @@ export default function App() {
   // });
 
   // return <ScrollView>{images}</ScrollView>;
-  return <Text>Maintainence ongoing...</Text>
+  return <Text>Maintainence ongoing...</Text>;
 }
 
 // Asks for storage access permission, return true if granted permission, else false.
