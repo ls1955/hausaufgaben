@@ -4,12 +4,13 @@ import {Image, PermissionsAndroid, View, Text, ScrollView} from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 export default function App() {
-  const [folders, setFolders] = useState([]);
-  const [albums, setAlbums] = useState([]);
+  const [folders, setFolders] = useState({});
+  const [albums, setAlbums] = useState({});
+  // TODO: Remove obsolete setUris
   const [uris, setUris] = useState([]);
 
   useEffect(() => {
-    askPermission().then(() => getUris(setUris));
+    askPermission().then(() => setFolderAndAlbum(setFolders, setAlbums, setUris));
   }, []);
 
   const images = uris.map((uri, i) => {
@@ -46,14 +47,34 @@ const askPermission = async () => {
   return granted === PermissionsAndroid.RESULTS.GRANTED;
 };
 
-// Get and set photos' uri.
-const getUris = async setUris => {
-  const photos = await CameraRoll.getPhotos({first: 20});
+// folders that do not wanna be put into a group.
+const nonGroupFolders = new Set(['相机', '下载', 'Whatsapp']);
 
-  photos.edges.forEach(edge => {
+// Gets photos' uri, then set new folders and albums with them.
+const setFolderAndAlbum = async (setFolders, setAlbums, setUris) => {
+  // NOTE: Grabbing 40 images for now...
+  const photos = await CameraRoll.getPhotos({first: 40});
+
+  const newFolders = {};
+  const newAlbums = {};
+
+  // NOTE: Using index as key (might change in the future)
+  photos.edges.forEach((edge, i) => {
     const uri = edge.node.image.uri;
-    const folder = uri.split("/").at(-2);
-    console.log(folder)
-  })
+    const folder = uri.split('/').at(-2);
+
+    newFolders[folder] = newFolders[folder] || {id: i, uris: []};
+    newFolders[folder]['uris'].push(uri);
+
+    if (nonGroupFolders.has(folder)) return;
+
+    const albumName = folder[0].toUpperCase();
+
+    newAlbums[albumName] = newAlbums[albumName] || {id: i, folderIds: []};
+    newAlbums[albumName]['folderIds'].push(i);
+  });
+
+  setFolders(newFolders);
+  setAlbums(newAlbums);
   setUris(photos.edges.map(edge => edge.node.image.uri));
 };
