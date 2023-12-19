@@ -1,12 +1,5 @@
 import {useEffect, useState} from 'react';
-import {
-  Image,
-  PermissionsAndroid,
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
-} from 'react-native';
+import {PermissionsAndroid, View, SafeAreaView} from 'react-native';
 
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
