@@ -4,16 +4,14 @@ import {
   FlatList,
   SafeAreaView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 import FolderPhotosPage from './components/FolderPhotosPage';
+import PhotoPage from './components/PhotoPage';
 import Album from './components/Album';
 import Folder from './components/Folder';
-import Photos from './components/Photos';
-import Photo from './components/Photo';
 
 import askPermission from './utils/permissionHelpers';
 
@@ -65,34 +63,22 @@ export default function App() {
     return () => backHandler.remove();
   }, [status]);
 
-  let uris = null;
+  // start rendering the page according to state...
+  let uris = urisByFolder[status['selectedFolder']];
   let isFromAlbum = null;
+
   switch (status['state']) {
     case 'inFolder':
     case 'inFolderFromAlbum':
-      uris = urisByFolder[status['selectedFolder']];
       isFromAlbum = status['state'] === 'inFolderFromAlbum';
-
-      return FolderPhotosPage({uris, status, onStatus: setStatus, isFromAlbum})
+      return FolderPhotosPage({uris, status, onStatus: setStatus, isFromAlbum});
+    case 'inPhoto':
+    case 'inPhotoFromAlbum':
+      isFromAlbum = status['state'] === 'inPhotoFromAlbum';
+      return PhotoPage({uris, status, onStatus: setStatus, isFromAlbum});
   }
-  
-  if (
-    status['state'] === 'inPhoto' ||
-    status['state'] === 'inPhotoFromAlbum'
-  ) {
-    const uris = urisByFolder[status['selectedFolder']];
-    const fromAlbum = status['state'] === 'inPhotoFromAlbum';
-    return (
-      <SafeAreaView style={{flex: 1}}>
-        <Photo
-          uris={uris}
-          status={status}
-          onStatus={setStatus}
-          fromAlbum={fromAlbum}
-        />
-      </SafeAreaView>
-    );
-  } else if (status['state'] === 'inAlbum') {
+
+  if (status['state'] === 'inAlbum') {
     const folders = [...foldersByAlbum[status['selectedAlbum']]].map(
       (folder, i) => {
         return (
