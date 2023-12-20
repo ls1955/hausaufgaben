@@ -28,10 +28,24 @@ export default function App() {
 
   // setup back button events...
   useEffect(() => {
+    // go back to previous state or exit the app
     const handleBackAction = () => {
-      if (status['state'] === 'home') BackHandler.exitApp();
-
-      if (status['state'] === 'inFolder') setStatus({...status, state: 'home'});
+      switch (status['state']) {
+        case 'home':
+          BackHandler.exitApp();
+        case 'inAlbum':
+        case 'inFolder':
+          setStatus({...status, state: 'home'});
+          break;
+        case 'inFolderFromAlbum':
+          setStatus({...status, state: 'inAlbum'});
+          break;
+        case 'inPhotoFromAlbum':
+          setStatus({...status, state: 'inFolderFromAlbum'});
+          break;
+        default:
+          console.error(`Unknown state ${status['state']}`);
+      }
       return true;
     };
 
@@ -60,11 +74,15 @@ export default function App() {
         />
       </SafeAreaView>
     );
-  } else if (status['state'] === 'inPhoto' || status['state'] === 'inPhotoFromAlbum') {
+  } else if (
+    status['state'] === 'inPhoto' ||
+    status['state'] === 'inPhotoFromAlbum'
+  ) {
     const uris = urisByFolder[status['selectedFolder']];
+    const fromAlbum = status['state'] === 'inPhotoFromAlbum'
     return (
       <SafeAreaView style={{flex: 1}}>
-        <Photo uris={uris} status={status} onStatus={setStatus} />
+        <Photo uris={uris} status={status} onStatus={setStatus} fromAlbum={fromAlbum} />
       </SafeAreaView>
     );
   } else if (status['state'] === 'inAlbum') {
@@ -76,7 +94,7 @@ export default function App() {
             name={folder}
             status={status}
             onStatus={setStatus}
-            jumpFromAlbum={true}
+            fromAlbum={true}
           />
         );
       },
