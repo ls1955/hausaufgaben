@@ -18,3 +18,8 @@ improvement
 - when /\d/
 - when :chinese:, :japanese:
 - when :keyword: (本子...)
+
+tasks
+- include album thumbnails (consist of first 4 folder thumbnail)
+- include folder thumbnail (use the first picture)
+- include album and folder count
