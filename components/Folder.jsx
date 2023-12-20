@@ -15,7 +15,7 @@ export default function Folder({
   };
 
   return (
-    <View style={{alignItems: 'center', marginBottom: 20}}>
+    <View style={{alignItems: 'center', marginBottom: 20, marginRight: 15}}>
       <TouchableOpacity
         onPress={handleStatus}
         style={{

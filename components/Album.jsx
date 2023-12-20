@@ -9,7 +9,7 @@ export default function Album({name, status, onStatus}) {
   };
 
   return (
-    <View style={{alignItems: 'center', marginBottom: 20}}>
+    <View style={{alignItems: 'center', marginBottom: 20, marginRight: 15}}>
       <TouchableOpacity
         onPress={handleStatus}
         style={{width: 110, height: 110, backgroundColor: 'white'}}

@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {BackHandler, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {BackHandler, FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 import Album from './components/Album';
@@ -112,6 +112,11 @@ export default function App() {
     );
   }
 
+  // const albumsAndFoldersData = Object.keys(foldersByAlbum).map((album, i) => {
+  //   return ({id: album, album})
+  // })
+
+
   const albumsAndFolders = Object.entries(foldersByAlbum).map(
     ([album, folders], i) => {
       // TODO: Include folder names at here?
@@ -149,7 +154,7 @@ const nonGroupFolders = new Set(['Download', 'Whatsapp', '相机', '下载']);
 // Gets photos' uri, then set new folders and albums with them.
 const setFolderAndAlbum = async (setUrisByFolder, setFoldersByAlbum) => {
   // NOTE: Grabbing 40 images for now...
-  const photos = await CameraRoll.getPhotos({first: 40});
+  const photos = await CameraRoll.getPhotos({first: 200});
 
   const newUrisByFolder = {};
   const newFoldersByAlbum = {};
@@ -176,9 +181,10 @@ const setFolderAndAlbum = async (setUrisByFolder, setFoldersByAlbum) => {
 const styles = StyleSheet.create({
   // used by homepage and album
   galleryLayout: {
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    // Kinda a hack to replace "flex-between", by applying marginRight +15 to every children,
+    // then remove the marginRight of last children
+    marginRight: -15,
   },
 });
