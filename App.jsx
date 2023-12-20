@@ -86,7 +86,7 @@ export default function App() {
 
 // Gets photos' uri, then set new folders and albums with them.
 const setFolderAndAlbum = async (setUrisByFolder, setFoldersByAlbum) => {
-  // NOTE: Grabbing 40 images for now...
+  // NOTE: Configure this to your desire photo amount
   const photos = await CameraRoll.getPhotos({first: 200});
 
   const newUrisByFolder = {};
