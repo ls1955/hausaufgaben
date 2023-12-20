@@ -107,14 +107,21 @@ export default function App() {
     );
   }
 
-  const albums = Object.entries(foldersByAlbum).map(([album, folders], i) => {
+  const albumsAndFolders = Object.entries(foldersByAlbum).map(([album, folders], i) => {
     // TODO: Include folder names at here?
     return <Album key={i} name={album} status={status} onStatus={setStatus} />;
   });
 
+  // push folders that does not belong in a group into albumsAndFolders
+  nonGroupFolders.forEach((folder) => {
+    if (urisByFolder[folder] == null) return;
+
+    albumsAndFolders.push(<Folder name={folder} status={status} onStatus={setStatus} />)
+  })
+
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={styles.galleryLayout}>{albums}</View>
+      <View style={styles.galleryLayout}>{albumsAndFolders}</View>
     </SafeAreaView>
   );
 }
