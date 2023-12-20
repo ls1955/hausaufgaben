@@ -19,8 +19,8 @@ export default function Folder({
       <TouchableOpacity
         onPress={handleStatus}
         style={{
-          width: 100,
-          height: 100,
+          width: 110,
+          height: 110,
           backgroundColor: 'white',
         }}></TouchableOpacity>
       <Text>{name}</Text>
