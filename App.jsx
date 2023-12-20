@@ -1,5 +1,12 @@
 import {useEffect, useState} from 'react';
-import {BackHandler, FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  BackHandler,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 import Album from './components/Album';
@@ -112,38 +119,50 @@ export default function App() {
     );
   }
 
-  // const albumsAndFoldersData = Object.keys(foldersByAlbum).map((album, i) => {
-  //   return ({id: album, album})
-  // })
-
-
-  const albumsAndFolders = Object.entries(foldersByAlbum).map(
-    ([album, folders], i) => {
-      // TODO: Include folder names at here?
-      return (
-        <Album key={i} name={album} status={status} onStatus={setStatus} />
-      );
-    },
-  );
-
-  const indexOffset = albumsAndFolders.length;
-  // push folders that does not belong in a group into albumsAndFolders
+  const albumsAndFoldersData = Object.keys(foldersByAlbum).map((album, i) => {
+    return {id: i, name: album, isAlbum: true};
+  });
+  // since using index as key, avoid duplicate key by adding previous data length as offset
+  const offset = albumsAndFoldersData.length;
   [...nonGroupFolders].forEach((folder, i) => {
     if (urisByFolder[folder] == null) return;
 
-    albumsAndFolders.push(
-      <Folder
-        key={indexOffset + i}
-        name={folder}
-        status={status}
-        onStatus={setStatus}
-      />,
-    );
+    albumsAndFoldersData.push({id: i + offset, name: folder, isAlbum: false});
   });
 
+  const renderItem = ({item}) => {
+    if (item.isAlbum) {
+      return (
+        <Album
+          key={item.id}
+          name={item.name}
+          status={status}
+          onStatus={setStatus}
+        />
+      );
+    } else {
+      return (
+        <Folder
+          key={item.id}
+          name={item.name}
+          status={status}
+          onStatus={setStatus}
+        />
+      );
+    }
+  };
+
+  // put numColumns into const to avoid dynamically changing number of columns
+  const numColumns = 3;
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={styles.galleryLayout}>{albumsAndFolders}</View>
+      <FlatList
+        key={numColumns}
+        numColumns={numColumns}
+        data={albumsAndFoldersData}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
     </SafeAreaView>
   );
 }
