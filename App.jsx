@@ -1,15 +1,14 @@
 import {useEffect, useState} from 'react';
-import {BackHandler, FlatList, SafeAreaView, View} from 'react-native';
+import {BackHandler} from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
+import HomePage from './components/HomePage';
 import AlbumFoldersPage from './components/AlbumFoldersPage';
 import FolderPhotosPage from './components/FolderPhotosPage';
 import PhotoPage from './components/PhotoPage';
 
-import Album from './components/Album';
-import Folder from './components/Folder';
-
 import askPermission from './utils/permissionHelpers';
+import {nonGroupFolders} from './app_configs';
 
 export default function App() {
   const [urisByFolder, setUrisByFolder] = useState({});
@@ -64,6 +63,13 @@ export default function App() {
   let isFromAlbum = null;
 
   switch (status['state']) {
+    case 'home':
+      return HomePage({
+        foldersByAlbum,
+        urisByFolder,
+        status,
+        onStatus: setStatus,
+      });
     case 'inAlbum':
       const folderNames = [...foldersByAlbum[status['selectedAlbum']]];
       return AlbumFoldersPage({folderNames, status, onStatus: setStatus});
@@ -76,57 +82,7 @@ export default function App() {
       isFromAlbum = status['state'] === 'inPhotoFromAlbum';
       return PhotoPage({uris, status, onStatus: setStatus, isFromAlbum});
   }
-
-  const albumsAndFoldersData = Object.keys(foldersByAlbum).map((album, i) => {
-    return {id: i, name: album, isAlbum: true};
-  });
-  // since using index as key, avoid duplicate key by adding previous data length as offset
-  const offset = albumsAndFoldersData.length;
-  [...nonGroupFolders].forEach((folder, i) => {
-    if (urisByFolder[folder] == null) return;
-
-    albumsAndFoldersData.push({id: i + offset, name: folder, isAlbum: false});
-  });
-
-  const renderItem = ({item}) => {
-    if (item.isAlbum) {
-      return (
-        <Album
-          key={item.id}
-          name={item.name}
-          status={status}
-          onStatus={setStatus}
-        />
-      );
-    } else {
-      return (
-        <Folder
-          key={item.id}
-          name={item.name}
-          status={status}
-          onStatus={setStatus}
-        />
-      );
-    }
-  };
-
-  // put numColumns into const to avoid dynamically changing number of columns
-  const numColumns = 3;
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <FlatList
-        key={numColumns}
-        numColumns={numColumns}
-        data={albumsAndFoldersData}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
-    </SafeAreaView>
-  );
 }
-
-// folders that do not wanna be put into a group.
-const nonGroupFolders = new Set(['Download', 'Whatsapp', '相机', '下载']);
 
 // Gets photos' uri, then set new folders and albums with them.
 const setFolderAndAlbum = async (setUrisByFolder, setFoldersByAlbum) => {
