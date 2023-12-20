@@ -1,15 +1,11 @@
 import {useEffect, useState} from 'react';
-import {
-  BackHandler,
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {BackHandler, FlatList, SafeAreaView, View} from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
+import AlbumFoldersPage from './components/AlbumFoldersPage';
 import FolderPhotosPage from './components/FolderPhotosPage';
 import PhotoPage from './components/PhotoPage';
+
 import Album from './components/Album';
 import Folder from './components/Folder';
 
@@ -68,6 +64,9 @@ export default function App() {
   let isFromAlbum = null;
 
   switch (status['state']) {
+    case 'inAlbum':
+      const folderNames = [...foldersByAlbum[status['selectedAlbum']]];
+      return AlbumFoldersPage({folderNames, status, onStatus: setStatus});
     case 'inFolder':
     case 'inFolderFromAlbum':
       isFromAlbum = status['state'] === 'inFolderFromAlbum';
@@ -76,28 +75,6 @@ export default function App() {
     case 'inPhotoFromAlbum':
       isFromAlbum = status['state'] === 'inPhotoFromAlbum';
       return PhotoPage({uris, status, onStatus: setStatus, isFromAlbum});
-  }
-
-  if (status['state'] === 'inAlbum') {
-    const folders = [...foldersByAlbum[status['selectedAlbum']]].map(
-      (folder, i) => {
-        return (
-          <Folder
-            key={i}
-            name={folder}
-            status={status}
-            onStatus={setStatus}
-            fromAlbum={true}
-          />
-        );
-      },
-    );
-
-    return (
-      <SafeAreaView style={{flex: 1}}>
-        <View style={styles.galleryLayout}>{folders}</View>
-      </SafeAreaView>
-    );
   }
 
   const albumsAndFoldersData = Object.keys(foldersByAlbum).map((album, i) => {
@@ -177,14 +154,3 @@ const setFolderAndAlbum = async (setUrisByFolder, setFoldersByAlbum) => {
   setUrisByFolder(newUrisByFolder);
   setFoldersByAlbum(newFoldersByAlbum);
 };
-
-const styles = StyleSheet.create({
-  // used by homepage and album
-  galleryLayout: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    // Kinda a hack to replace "flex-between", by applying marginRight +15 to every children,
-    // then remove the marginRight of last children
-    marginRight: -15,
-  },
-});
