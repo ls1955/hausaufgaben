@@ -11,3 +11,10 @@ performance
 feature
 - streamline the process of creating a new folder for downloaded file
 - safe mode that hides all the folder besides non-naughty folder
+
+improvement
+- improve auto grouping logic
+- when /a-zA-Z/
+- when /\d/
+- when :chinese:, :japanese:
+- when :keyword: (本子...)
