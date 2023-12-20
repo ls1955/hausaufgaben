@@ -79,10 +79,15 @@ export default function App() {
     status['state'] === 'inPhotoFromAlbum'
   ) {
     const uris = urisByFolder[status['selectedFolder']];
-    const fromAlbum = status['state'] === 'inPhotoFromAlbum'
+    const fromAlbum = status['state'] === 'inPhotoFromAlbum';
     return (
       <SafeAreaView style={{flex: 1}}>
-        <Photo uris={uris} status={status} onStatus={setStatus} fromAlbum={fromAlbum} />
+        <Photo
+          uris={uris}
+          status={status}
+          onStatus={setStatus}
+          fromAlbum={fromAlbum}
+        />
       </SafeAreaView>
     );
   } else if (status['state'] === 'inAlbum') {
@@ -107,17 +112,29 @@ export default function App() {
     );
   }
 
-  const albumsAndFolders = Object.entries(foldersByAlbum).map(([album, folders], i) => {
-    // TODO: Include folder names at here?
-    return <Album key={i} name={album} status={status} onStatus={setStatus} />;
-  });
+  const albumsAndFolders = Object.entries(foldersByAlbum).map(
+    ([album, folders], i) => {
+      // TODO: Include folder names at here?
+      return (
+        <Album key={i} name={album} status={status} onStatus={setStatus} />
+      );
+    },
+  );
 
+  const indexOffset = albumsAndFolders.length;
   // push folders that does not belong in a group into albumsAndFolders
-  nonGroupFolders.forEach((folder) => {
+  [...nonGroupFolders].forEach((folder, i) => {
     if (urisByFolder[folder] == null) return;
 
-    albumsAndFolders.push(<Folder name={folder} status={status} onStatus={setStatus} />)
-  })
+    albumsAndFolders.push(
+      <Folder
+        key={indexOffset + i}
+        name={folder}
+        status={status}
+        onStatus={setStatus}
+      />,
+    );
+  });
 
   return (
     <SafeAreaView style={{flex: 1}}>
