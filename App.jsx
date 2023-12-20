@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
+import FolderPhotosPage from './components/FolderPhotosPage';
 import Album from './components/Album';
 import Folder from './components/Folder';
 import Photos from './components/Photos';
@@ -64,24 +65,18 @@ export default function App() {
     return () => backHandler.remove();
   }, [status]);
 
-  if (
-    status['state'] === 'inFolder' ||
-    status['state'] === 'inFolderFromAlbum'
-  ) {
-    const uris = urisByFolder[status['selectedFolder']];
-    const fromAlbum = status['state'] === 'inFolderFromAlbum';
+  let uris = null;
+  let isFromAlbum = null;
+  switch (status['state']) {
+    case 'inFolder':
+    case 'inFolderFromAlbum':
+      uris = urisByFolder[status['selectedFolder']];
+      isFromAlbum = status['state'] === 'inFolderFromAlbum';
 
-    return (
-      <SafeAreaView style={{flex: 1}}>
-        <Photos
-          uris={uris}
-          status={status}
-          onStatus={setStatus}
-          fromAlbum={fromAlbum}
-        />
-      </SafeAreaView>
-    );
-  } else if (
+      return FolderPhotosPage({uris, status, onStatus: setStatus, isFromAlbum})
+  }
+  
+  if (
     status['state'] === 'inPhoto' ||
     status['state'] === 'inPhotoFromAlbum'
   ) {
