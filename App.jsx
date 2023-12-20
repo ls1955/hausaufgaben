@@ -13,7 +13,7 @@ export default function App() {
   const [urisByFolder, setUrisByFolder] = useState({});
   const [foldersByAlbum, setFoldersByAlbum] = useState({});
   const [status, setStatus] = useState({
-    state: 'home', // home | inAlbum | inFolder | inPhoto
+    state: 'home', // home | inAlbum | inFolder | inPhoto | inFolderFromAlbum | inPhotoFromAlbum
     selectedFolder: null,
     selectedAlbum: null,
     selectedPhotoIndex: -1,
@@ -43,18 +43,28 @@ export default function App() {
     return () => backHandler.remove();
   }, [status]);
 
-  if (status['state'] === 'inFolder' || status['state'] === 'inFolderFromAlbum') {
+  if (
+    status['state'] === 'inFolder' ||
+    status['state'] === 'inFolderFromAlbum'
+  ) {
     const uris = urisByFolder[status['selectedFolder']];
+    const fromAlbum = status['state'] === 'inFolderFromAlbum';
+
     return (
       <SafeAreaView style={{flex: 1}}>
-        <Photos uris={uris} status={status} onStatus={setStatus} />
+        <Photos
+          uris={uris}
+          status={status}
+          onStatus={setStatus}
+          fromAlbum={fromAlbum}
+        />
       </SafeAreaView>
     );
-  } else if (status['state'] === 'inPhoto') {
+  } else if (status['state'] === 'inPhoto' || status['state'] === 'inPhotoFromAlbum') {
     const uris = urisByFolder[status['selectedFolder']];
     return (
       <SafeAreaView style={{flex: 1}}>
-        <Photo uris={uris} status={status} onStatus={setStatus}></Photo>
+        <Photo uris={uris} status={status} onStatus={setStatus} />
       </SafeAreaView>
     );
   } else if (status['state'] === 'inAlbum') {
