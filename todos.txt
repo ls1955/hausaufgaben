@@ -1,0 +1,13 @@
+loading
+- have to specify photo amount when using CameraRoll, possible to fetch every photo?
+
+performance
+- load all image uris beforehand is slow, possible to speed the process up?
+- possible to keep track of which uris are require to load?
+- possible to only load a chunk of uris?
+- cache the uris beforehand? (Looks like that is what Samsung Gallery app did)
+- loads the folder name, only reads the image uris when require?
+
+feature
+- streamline the process of creating a new folder for downloaded file
+- safe mode that hides all the folder besides non-naughty folder
