@@ -12,4 +12,9 @@ const getImageUris = async ({folderTitle}) => {
   return photos.edges.map(edge => edge.node.image.uri);
 };
 
-export {getImageUris};
+// Shorten giving title if it exceed given length, length is default to 10.
+const formatTitle = ({title, length = 10}) => {
+  return title.length <= length ? title : `${title.substring(0, 7)}...`
+}
+
+export {getImageUris, formatTitle};

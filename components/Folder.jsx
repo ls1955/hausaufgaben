@@ -1,5 +1,7 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 
+import { formatTitle } from '../utils';
+
 export default function Folder({title, status, onStatus, isFromAlbum}) {
   handleStatus = () => {
     const newState = isFromAlbum ? 'inFolderFromAlbum' : 'inFolder';
@@ -12,7 +14,7 @@ export default function Folder({title, status, onStatus, isFromAlbum}) {
         onPress={handleStatus}
         style={{width: 110, height: 110, backgroundColor: 'white'}}
       />
-      <Text>{title}</Text>
+      <Text>{formatTitle({title})}</Text>
     </View>
   );
 }

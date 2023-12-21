@@ -1,5 +1,7 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 
+import { formatTitle } from '../utils';
+
 // A component that represents the facade of an album (not the folders underneath).
 export default function Album({title, status, onStatus}) {
   // TODO: Include thumbnails consists of folders
@@ -14,7 +16,7 @@ export default function Album({title, status, onStatus}) {
         onPress={handleStatus}
         style={{width: 110, height: 110, backgroundColor: 'white'}}
       />
-      <Text>{title}</Text>
+      <Text>{formatTitle({title})}</Text>
     </View>
   );
 }
