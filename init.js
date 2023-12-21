@@ -1,7 +1,7 @@
-import { PermissionsAndroid } from "react-native";
+import {PermissionsAndroid} from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
-import { NON_GROUP_FOLDERS } from "./appConfigs";
+import {NON_GROUP_FOLDERS, SPECIAL_FOLDER_PREFIXES} from './appConfigs';
 
 // This file contain functions that is being use during App initialization.
 // The functions and exports order are arranged in their calling order during initialization.
@@ -26,17 +26,17 @@ const getPermission = async () => {
   return granted === PermissionsAndroid.RESULTS.GRANTED;
 };
 
-// Returns all folders title and count from this device. 
+// Returns all folders title and count from this device.
 const loadFolders = async () => {
-    const folders = await CameraRoll.getAlbums();
-    const newFolders = {};
-  
-    folders.forEach((item) => {
-      newFolders[item['title']] = {count: item['count'], imageUris: null}
-    });
-  
-    return newFolders;
-  };
+  const folders = await CameraRoll.getAlbums();
+  const newFolders = {};
+
+  folders.forEach(item => {
+    newFolders[item['title']] = {count: item['count'], imageUris: null};
+  });
+
+  return newFolders;
+};
 
 // Returns an albums object that contain grouped folders.
 const getGroupedAlbums = folders => {
@@ -45,12 +45,30 @@ const getGroupedAlbums = folders => {
   Object.keys(folders).forEach(folderTitle => {
     if (NON_GROUP_FOLDERS.has(folderTitle)) return;
 
-    const albumTitle = folderTitle[0].toUpperCase();
+    const prefix = SPECIAL_FOLDER_PREFIXES.find(pre =>
+      folderTitle.startsWith(pre),
+    );
 
-    albums[albumTitle] = albums[albumTitle] ?? new Set();
-    albums[albumTitle].add(folderTitle);
-  })
+    if (prefix != null) {
+      albums[prefix] ??= new Set();
+      albums[prefix].add(folderTitle);
+    } else if (/^\d+/.test(folderTitle)) {
+      // when it start with digits
+      albums['#'] ??= new Set();
+      albums['#'].add(folderTitle);
+    } else if (/[^\w]/.test(folderTitle)) {
+      // when it contain non English character
+      albums['...'] ??= new Set();
+      albums['...'].add(folderTitle);
+    } else {
+      const albumTitle = folderTitle[0].toUpperCase();
+
+      albums[albumTitle] ??= new Set();
+      albums[albumTitle].add(folderTitle);
+    }
+  });
+
   return albums;
 };
 
-export {getPermission, loadFolders, getGroupedAlbums}
+export {getPermission, loadFolders, getGroupedAlbums};
