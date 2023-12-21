@@ -2,7 +2,7 @@ import {FlatList, SafeAreaView} from 'react-native';
 
 import Folder from './Folder';
 
-import {FLAT_LIST_NUM_COLUMNS} from '../appConfigs';
+import {GALLERY_FLAT_LIST_NUM_COLUMNS} from '../appConfigs';
 
 // A page that shows folders inside an album.
 export default function AlbumFoldersPage({folderTitles, status, onStatus}) {
@@ -23,7 +23,7 @@ export default function AlbumFoldersPage({folderTitles, status, onStatus}) {
   return (
     <SafeAreaView style={{flex: 1}}>
       <FlatList
-        numColumns={FLAT_LIST_NUM_COLUMNS}
+        numColumns={GALLERY_FLAT_LIST_NUM_COLUMNS}
         data={data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
