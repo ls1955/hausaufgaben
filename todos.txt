@@ -26,3 +26,6 @@ tasks
 - in Homepage, have a scrollbar that allow user to scroll through stuffs via percentage
 - show albums and folders' title
 - cut down the text that are too long
+
+optionals
+- swipe the page by tapping?
