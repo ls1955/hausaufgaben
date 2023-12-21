@@ -3,12 +3,12 @@ import {SafeAreaView, StyleSheet, View} from 'react-native';
 import Folder from './Folder';
 
 // A page that shows folders inside an album.
-export default function AlbumFoldersPage({folderNames, status, onStatus}) {
-  const folders = folderNames.map((folder, i) => {
+export default function AlbumFoldersPage({folderTitles, status, onStatus}) {
+  const folders = folderTitles.map((title, i) => {
     return (
       <Folder
         key={i}
-        name={folder}
+        title={title}
         status={status}
         onStatus={onStatus}
         isFromAlbum={true}

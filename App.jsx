@@ -69,8 +69,8 @@ export default function App() {
     case 'home':
       return HomePage({albums, folders, status, onStatus: setStatus});
     case 'inAlbum':
-      const folderNames = [...albums[status['selectedAlbum']]];
-      return AlbumFoldersPage({folderNames, status, onStatus: setStatus});
+      const folderTitles = [...albums[status['selectedAlbum']]]
+      return AlbumFoldersPage({folderTitles, status, onStatus: setStatus});
     case 'inFolderFromAlbum':
       isFromAlbum = true;
     case 'inFolder':
