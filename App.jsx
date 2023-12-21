@@ -1,18 +1,18 @@
 import {useEffect, useState} from 'react';
 import {BackHandler} from 'react-native';
-import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 import HomePage from './components/HomePage';
 import AlbumFoldersPage from './components/AlbumFoldersPage';
 import FolderPhotosPage from './components/FolderPhotosPage';
 import PhotoPage from './components/PhotoPage';
 
-import askPermission from './utils/permissionHelpers';
-import {nonGroupFolders} from './app_configs';
+import getPermission from './initializers/getPermission';
+import loadFolders from './initializers/loadFolders';
+import getGroupedAlbums from './initializers/getGroupedAlbums';
 
 export default function App() {
-  const [urisByFolder, setUrisByFolder] = useState({});
-  const [foldersByAlbum, setFoldersByAlbum] = useState({});
+  const [folders, setFolders] = useState({});
+  const [albums, setAlbums] = useState({});
   const [status, setStatus] = useState({
     state: 'home', // home | inAlbum | inFolder | inPhoto | inFolderFromAlbum | inPhotoFromAlbum
     selectedFolder: null,
@@ -20,11 +20,14 @@ export default function App() {
     selectedPhotoIndex: -1,
   });
 
-  // settle read storage permission and read image URIs beforehand...
+  // settle read storage permission and initialize essential folders and albums...
   useEffect(() => {
-    askPermission().then(() =>
-      setFolderAndAlbum(setUrisByFolder, setFoldersByAlbum),
-    );
+    getPermission()
+      .then(() => loadFolders())
+      .then(newFolders => {
+        setFolders(newFolders);
+        setAlbums(getGroupedAlbums(newFolders));
+      });
   }, []);
 
   // setup back button events...
@@ -59,54 +62,22 @@ export default function App() {
   }, [status]);
 
   // start rendering the page according to state...
-  let uris = urisByFolder[status['selectedFolder']];
-  let isFromAlbum = null;
+  let uris = folders[status['selectedFolder']]?.['imageUris'];
+  let isFromAlbum = false;
 
   switch (status['state']) {
     case 'home':
-      return HomePage({
-        foldersByAlbum,
-        urisByFolder,
-        status,
-        onStatus: setStatus,
-      });
+      return HomePage({albums, folders, status, onStatus: setStatus});
     case 'inAlbum':
-      const folderNames = [...foldersByAlbum[status['selectedAlbum']]];
+      const folderNames = [...albums[status['selectedAlbum']]];
       return AlbumFoldersPage({folderNames, status, onStatus: setStatus});
-    case 'inFolder':
     case 'inFolderFromAlbum':
-      isFromAlbum = status['state'] === 'inFolderFromAlbum';
+      isFromAlbum = true;
+    case 'inFolder':
       return FolderPhotosPage({uris, status, onStatus: setStatus, isFromAlbum});
-    case 'inPhoto':
     case 'inPhotoFromAlbum':
-      isFromAlbum = status['state'] === 'inPhotoFromAlbum';
+      isFromAlbum = true;
+    case 'inPhoto':
       return PhotoPage({uris, status, onStatus: setStatus, isFromAlbum});
   }
 }
-
-// Gets photos' uri, then set new folders and albums with them.
-const setFolderAndAlbum = async (setUrisByFolder, setFoldersByAlbum) => {
-  // NOTE: Configure this to your desire photo amount
-  const photos = await CameraRoll.getPhotos({first: 200});
-
-  const newUrisByFolder = {};
-  const newFoldersByAlbum = {};
-
-  photos.edges.forEach((edge, i) => {
-    const uri = edge.node.image.uri;
-    const folder = uri.split('/').at(-2);
-
-    newUrisByFolder[folder] = newUrisByFolder[folder] ?? [];
-    newUrisByFolder[folder].push(uri);
-
-    if (nonGroupFolders.has(folder)) return;
-
-    const albumName = folder[0].toUpperCase();
-
-    newFoldersByAlbum[albumName] = newFoldersByAlbum[albumName] ?? new Set();
-    newFoldersByAlbum[albumName].add(folder);
-  });
-
-  setUrisByFolder(newUrisByFolder);
-  setFoldersByAlbum(newFoldersByAlbum);
-};
