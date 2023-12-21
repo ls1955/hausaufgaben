@@ -1,4 +1,6 @@
-import {Image, ScrollView, TouchableOpacity} from 'react-native';
+import {FlatList, Image, ScrollView, TouchableOpacity} from 'react-native';
+
+import {PHOTOS_GALLERY_FLAT_LIST_NUM_COLUMNS} from '../appConfigs';
 
 // The photos inside a Folder component. This component will be render when a folder has been clicked.
 export default function Photos({uris, status, onStatus, isFromAlbum}) {
@@ -7,25 +9,29 @@ export default function Photos({uris, status, onStatus, isFromAlbum}) {
     return onStatus({...status, state: newState, selectedPhotoIndex: index});
   };
 
-  const photos = uris.map((uri, i) => {
+  const data = uris.map((uri, i) => ({id: i, uri}));
+
+  const renderItem = ({item}) => {
     return (
       <TouchableOpacity
-        key={i}
+        key={item.id}
         style={{width: '25%'}}
-        onPress={handleStatus(i)}>
+        onPress={handleStatus(item.id)}>
         <Image
           style={{width: '100%', minHeight: 100}}
-          source={{uri}}
+          source={{uri: item.uri}}
           onError={e => console.error(e.nativeEvent.error)}
         />
       </TouchableOpacity>
     );
-  });
+  };
 
   return (
-    <ScrollView
-      contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}>
-      {photos}
-    </ScrollView>
+    <FlatList
+      numColumns={PHOTOS_GALLERY_FLAT_LIST_NUM_COLUMNS}
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={item => item.id}
+    />
   );
 }

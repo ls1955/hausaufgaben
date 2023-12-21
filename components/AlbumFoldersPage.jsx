@@ -1,36 +1,33 @@
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {FlatList, SafeAreaView} from 'react-native';
 
 import Folder from './Folder';
 
+import {FLAT_LIST_NUM_COLUMNS} from '../appConfigs';
+
 // A page that shows folders inside an album.
 export default function AlbumFoldersPage({folderTitles, status, onStatus}) {
-  const folders = folderTitles.map((title, i) => {
+  const data = folderTitles.map((title, i) => ({id: i, title}));
+
+  const renderItem = ({item}) => {
     return (
       <Folder
-        key={i}
-        title={title}
+        key={item.id}
+        title={item.title}
         status={status}
         onStatus={onStatus}
         isFromAlbum={true}
       />
     );
-  });
+  };
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={styles.galleryLayout}>{folders}</View>
+      <FlatList
+        numColumns={FLAT_LIST_NUM_COLUMNS}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
     </SafeAreaView>
   );
 }
-
-// This is an Ad-hoc style sheet, in future will likely be replace by FlatList
-const styles = StyleSheet.create({
-  // used by homepage and album
-  galleryLayout: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    // Kinda a hack to replace "flex-between", by applying marginRight +15 to every children,
-    // then remove the marginRight of last children
-    marginRight: -15,
-  },
-});
