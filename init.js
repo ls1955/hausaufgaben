@@ -26,7 +26,8 @@ const getPermission = async () => {
   return granted === PermissionsAndroid.RESULTS.GRANTED;
 };
 
-// Returns all folders title and count from this device.
+// Returns all folders title and count from this device. Note that returned folders object's keys
+// are being sorted alphabetically.
 const loadFolders = async () => {
   const folders = await CameraRoll.getAlbums();
   const newFolders = {};
@@ -35,7 +36,7 @@ const loadFolders = async () => {
     newFolders[item['title']] = {count: item['count'], imageUris: null};
   });
 
-  return newFolders;
+  return Object.fromEntries(Object.entries(newFolders).sort());
 };
 
 // Returns an albums object that contain grouped folders. Note that returned albums object is
