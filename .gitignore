@@ -64,3 +64,6 @@ yarn-error.log
 
 # testing
 /coverage
+
+# private app config
+SPECIAL_FOLDER_PREFIXES.js
