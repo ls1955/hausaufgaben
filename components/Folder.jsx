@@ -1,17 +1,9 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 
-export default function Folder({
-  name,
-  uris,
-  status,
-  onStatus,
-  fromAlbum = false,
-}) {
-  // NOTE: Is uris prop obsolete?
-
+export default function Folder({title, status, onStatus, fromAlbum = false}) {
   handleStatus = () => {
     const newState = fromAlbum ? 'inFolderFromAlbum' : 'inFolder';
-    onStatus({...status, state: newState, selectedFolder: name});
+    onStatus({...status, state: newState, selectedFolder: title});
   };
 
   return (
@@ -23,7 +15,7 @@ export default function Folder({
           height: 110,
           backgroundColor: 'white',
         }}></TouchableOpacity>
-      <Text>{name}</Text>
+      <Text>{title}</Text>
     </View>
   );
 }
