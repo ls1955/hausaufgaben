@@ -6,10 +6,7 @@ import AlbumFoldersPage from './components/AlbumFoldersPage';
 import FolderPhotosPage from './components/FolderPhotosPage';
 import PhotoPage from './components/PhotoPage';
 
-import getPermission from './initializers/getPermission';
-import loadFolders from './initializers/loadFolders';
-import getGroupedAlbums from './initializers/getGroupedAlbums';
-
+import {getPermission, loadFolders, getGroupedAlbums} from './init';
 import {getImageUris} from './utils';
 
 export default function App() {
