@@ -23,4 +23,6 @@ tasks
 - include album thumbnails (consist of first 4 folder thumbnail)
 - include folder thumbnail (use the first picture)
 - include album and folder count
-- in Homepage, have a scrollbar that allow user to scroll through stuff via percentage
+- in Homepage, have a scrollbar that allow user to scroll through stuffs via percentage
+- show albums and folders' title
+- cut down the text that are too long

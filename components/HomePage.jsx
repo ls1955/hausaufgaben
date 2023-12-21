@@ -23,6 +23,7 @@ export default function HomePage({albums, folders, status, onStatus}) {
     return item.isAlbum ? <Album {...props} /> : <Folder {...props} />;
   };
 
+  // TODO: Move this to appConfig.js
   // put numColumns into const to avoid changing number of columns dynamically
   const numColumns = 3;
   return (
