@@ -38,7 +38,8 @@ const loadFolders = async () => {
   return newFolders;
 };
 
-// Returns an albums object that contain grouped folders.
+// Returns an albums object that contain grouped folders. Note that returned albums object is
+// sorted alphabetically.
 const getGroupedAlbums = folders => {
   const albums = {};
 
@@ -68,7 +69,8 @@ const getGroupedAlbums = folders => {
     }
   });
 
-  return albums;
+  // sort the albums alphabetically before return
+  return Object.fromEntries(Object.entries(albums).sort());
 };
 
 export {getPermission, loadFolders, getGroupedAlbums};
