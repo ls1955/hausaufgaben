@@ -10,11 +10,8 @@ export default function Folder({title, status, onStatus, isFromAlbum}) {
     <View style={{alignItems: 'center', marginBottom: 20, marginRight: 15}}>
       <TouchableOpacity
         onPress={handleStatus}
-        style={{
-          width: 110,
-          height: 110,
-          backgroundColor: 'white',
-        }}></TouchableOpacity>
+        style={{width: 110, height: 110, backgroundColor: 'white'}}
+      />
       <Text>{title}</Text>
     </View>
   );
