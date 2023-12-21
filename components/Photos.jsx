@@ -1,6 +1,6 @@
-import {FlatList, Image, ScrollView, TouchableOpacity} from 'react-native';
+import {FlatList, Image, TouchableOpacity} from 'react-native';
 
-import {PHOTOS_GALLERY_FLAT_LIST_NUM_COLUMNS} from '../appConfigs';
+import {PHOTO_FLAT_LIST_NUM_COLUMNS} from '../appConfigs';
 
 // The photos inside a Folder component. This component will be render when a folder has been clicked.
 export default function Photos({uris, status, onStatus, isFromAlbum}) {
@@ -28,7 +28,7 @@ export default function Photos({uris, status, onStatus, isFromAlbum}) {
 
   return (
     <FlatList
-      numColumns={PHOTOS_GALLERY_FLAT_LIST_NUM_COLUMNS}
+      numColumns={PHOTO_FLAT_LIST_NUM_COLUMNS}
       data={data}
       renderItem={renderItem}
       keyExtractor={item => item.id}
