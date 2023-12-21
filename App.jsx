@@ -9,7 +9,8 @@ import PhotoPage from './components/PhotoPage';
 import getPermission from './initializers/getPermission';
 import loadFolders from './initializers/loadFolders';
 import getGroupedAlbums from './initializers/getGroupedAlbums';
-import {CameraRoll} from '@react-native-camera-roll/camera-roll';
+
+import {getImageUris} from './utils';
 
 export default function App() {
   const [folders, setFolders] = useState({});
@@ -105,17 +106,3 @@ export default function App() {
       return PhotoPage({uris, status, onStatus: setStatus, isFromAlbum});
   }
 }
-
-// TODO: Move this somewhere else
-const MAX_IMAGE_PER_FOLDER = 300;
-
-// TODO: Move this somewhere else.
-// Returns an array of image URIs (String) of given folderTitle.
-const getImageUris = async ({folderTitle}) => {
-  const photos = await CameraRoll.getPhotos({
-    first: MAX_IMAGE_PER_FOLDER,
-    groupName: folderTitle,
-  });
-
-  return photos.edges.map(edge => edge.node.image.uri);
-};
