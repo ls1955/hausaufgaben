@@ -1,10 +1,11 @@
 import {useEffect, useState} from 'react';
-import {BackHandler, Text} from 'react-native';
+import {BackHandler} from 'react-native';
 
 import HomePage from './components/HomePage';
 import AlbumFoldersPage from './components/AlbumFoldersPage';
 import FolderPhotosPage from './components/FolderPhotosPage';
 import PhotoPage from './components/PhotoPage';
+import LoadingPage from './components/LoadingPage';
 
 import {getPermission, loadFolders, getGroupedAlbums} from './init';
 import {getImageUris} from './utils';
@@ -88,7 +89,7 @@ export default function App() {
   const uris = folders[status['selectedFolder']].imageUris;
 
   // React will load the image Uris if it hasn't load before.
-  if (uris == null) return <Text>Loading a page here...</Text>;
+  if (uris == null) return <LoadingPage />;
 
   let isFromAlbum = false;
 
