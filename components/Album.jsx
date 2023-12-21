@@ -18,9 +18,3 @@ export default function Album({title, status, onStatus}) {
     </View>
   );
 }
-
-// TOWRITE:
-// Should update the status when itself is being clicked, such that folder
-// underneath is display
-// Should also include flag to notify that its going into folder from album
-// Looks like we need another state here.
