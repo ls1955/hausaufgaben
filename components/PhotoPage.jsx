@@ -10,7 +10,7 @@ export default function PhotoPage({uris, status, onStatus, isFromAlbum}) {
         uris={uris}
         status={status}
         onStatus={onStatus}
-        fromAlbum={isFromAlbum}
+        isFromAlbum={isFromAlbum}
       />
     </SafeAreaView>
   );

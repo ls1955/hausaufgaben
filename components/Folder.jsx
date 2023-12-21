@@ -1,8 +1,8 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 
-export default function Folder({title, status, onStatus, fromAlbum = false}) {
+export default function Folder({title, status, onStatus, isFromAlbum}) {
   handleStatus = () => {
-    const newState = fromAlbum ? 'inFolderFromAlbum' : 'inFolder';
+    const newState = isFromAlbum ? 'inFolderFromAlbum' : 'inFolder';
     onStatus({...status, state: newState, selectedFolder: title});
   };
 

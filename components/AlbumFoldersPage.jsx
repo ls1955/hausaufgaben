@@ -11,7 +11,7 @@ export default function AlbumFoldersPage({folderNames, status, onStatus}) {
         name={folder}
         status={status}
         onStatus={onStatus}
-        fromAlbum={true}
+        isFromAlbum={true}
       />
     );
   });

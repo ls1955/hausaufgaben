@@ -1,8 +1,8 @@
 import ImageView from 'react-native-image-viewing';
 
 // A component that takes a lits of uris, and show one photo at the time. Support swiping and zooming.
-export default function Photo({uris, status, onStatus, fromAlbum = false}) {
-  const nextState = fromAlbum ? 'inFolderFromAlbum' : 'inFolder';
+export default function Photo({uris, status, onStatus, isFromAlbum}) {
+  const nextState = isFromAlbum ? 'inFolderFromAlbum' : 'inFolder';
 
   return (
     <ImageView
