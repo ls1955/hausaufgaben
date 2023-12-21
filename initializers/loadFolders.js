@@ -6,7 +6,7 @@ export default loadFolders = async () => {
   const newFolders = {};
 
   folders.forEach((item) => {
-    newFolders[item['title']] = {count: item['count'], imageUris: []}
+    newFolders[item['title']] = {count: item['count'], imageUris: null}
   });
 
   return newFolders;

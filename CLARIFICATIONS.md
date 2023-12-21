@@ -14,7 +14,7 @@ folders
   key => folder' title (String)
   value => {
     count (Number)
-    imageUris (Array of String)
+    imageUris (Array(String) | Null (default))
   } (Object)
 ```
 
