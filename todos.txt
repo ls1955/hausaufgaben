@@ -8,6 +8,8 @@ tasks
 - include album and folder count
 - in Homepage, have a scrollbar that allow user to scroll through stuffs via percentage
 - show albums and folders' title on top bar
+- remember the previous position so we don't have to swipe from top again
+  - maybe we could save it into the status everytime we hit the back button on certain page?
 
 optionals
 - swipe the page by tapping?
