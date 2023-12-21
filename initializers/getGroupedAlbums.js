@@ -4,12 +4,13 @@ import { NON_GROUP_FOLDERS } from "../appConfigs";
 export default getGroupedAlbums = folders => {
   const albums = {};
 
-  for (const folderTitle of Object.keys(folders)) {
+  Object.keys(folders).forEach(folderTitle => {
     if (NON_GROUP_FOLDERS.has(folderTitle)) return;
 
-    albums[folderTitle] = albums[folderTitle] ?? new Set();
-    albums[folderTitle].add(folderTitle);
-  }
+    const albumTitle = folderTitle[0].toUpperCase();
 
+    albums[albumTitle] = albums[albumTitle] ?? new Set();
+    albums[albumTitle].add(folderTitle);
+  })
   return albums;
 };
