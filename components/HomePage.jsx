@@ -6,9 +6,9 @@ import Folder from './Folder';
 import {NON_GROUP_FOLDERS} from '../appConfigs';
 
 // The page that shows the albums and folders.
-export default function HomePage({folders, albums, status, onStatus}) {
+export default function HomePage({albums, folders, status, onStatus}) {
   // albums and folders data, folders data will be append after albums'
-  const data = Object.keys(folders).map((title, i) => {
+  const data = Object.keys(albums).map((title, i) => {
     return {id: i, title, isAlbum: true};
   });
 
@@ -19,7 +19,7 @@ export default function HomePage({folders, albums, status, onStatus}) {
     .forEach((title, i) => data.push({id: i + offset, title, isAlbum: false}));
 
   const renderItem = ({item}) => {
-    const props = {key: item.id, name: item.name, status, onStatus};
+    const props = {key: item.id, title: item.title, status, onStatus};
     return item.isAlbum ? <Album {...props} /> : <Folder {...props} />;
   };
 
