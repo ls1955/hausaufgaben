@@ -86,6 +86,7 @@ const checkScopedStoragePermissions = async () => {
 // Request the scoped storage permission for given dirName, return dir of dirName if granted, else null.
 // This function is use when the permission hasn't been granted before.
 const requestScopedStoragePermission = async dirName => {
+  // WARNING: On author device, select SD CARD ROOT Directory will BLOW UP the app.
   const dir = await openDocumentTree(true);
 
   if (dir == null) return null;
