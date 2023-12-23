@@ -1,6 +1,6 @@
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {openDocumentTree, mkdir, moveFile, listFiles} from 'react-native-saf-x';
+import {openDocumentTree, moveFile, listFiles} from 'react-native-saf-x';
 
 import {MAX_IMAGE_PER_FOLDER} from './appConfigs';
 
