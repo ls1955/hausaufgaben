@@ -18,6 +18,7 @@ export default function App() {
     selectedFolder: null,
     selectedAlbum: null,
     selectedPhotoIndex: -1,
+    showModal: false
   });
 
   // settle read storage permission and initialize essential folders and albums...

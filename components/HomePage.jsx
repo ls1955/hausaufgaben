@@ -6,7 +6,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import {useState} from 'react';
 
 import Album from './Album';
 import Folder from './Folder';
@@ -20,10 +19,8 @@ import {
 
 // The page that shows the albums and folders. It also include a top navbar for everyday operation.
 export default function HomePage({albums, folders, status, onStatus}) {
-  const [showModal, setShowModal] = useState(false);
-
-  if (showModal) {
-    return <CommitModal onShowModal={setShowModal} />;
+  if (status['showModal']) {
+    return <CommitModal status={status} onStatus={onStatus} />;
   }
 
   // albums and folders data for FlatList, folders data will be append after albums'
@@ -35,7 +32,7 @@ export default function HomePage({albums, folders, status, onStatus}) {
   [...NON_GROUP_FOLDERS]
     .filter(title => folders[title] != null)
     .forEach((title, i) => data.push({id: i + offset, title, isAlbum: false}));
-  
+
   // renderItem function for FlatList
   const renderItem = ({item}) => {
     const props = {key: item.id, title: item.title, status, onStatus};
@@ -45,7 +42,7 @@ export default function HomePage({albums, folders, status, onStatus}) {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.navBar}>
-        <Pressable onPress={() => setShowModal(true)}>
+        <Pressable onPress={() => onStatus({...status, showModal: true})}>
           <Text style={{fontSize: 30}}>C</Text>
         </Pressable>
       </View>

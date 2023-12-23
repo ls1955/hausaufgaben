@@ -4,7 +4,7 @@ import {useState} from 'react';
 // This modal is show when user want to move downloaded images/videos into a new directory.
 // It includes a folder name text input, and predefined options (like Vanilla, Doujin, etc...)
 // is plan to be included in the future.
-export default function CommitModal({onShowModal}) {
+export default function CommitModal({status, onStatus}) {
   const [folderName, setFolderName] = useState('');
 
   return (
@@ -12,7 +12,7 @@ export default function CommitModal({onShowModal}) {
       animationType="none"
       transparent={true}
       visible={true}
-      onRequestClose={() => onShowModal(false)}>
+      onRequestClose={() => onStatus({...status, showModal: false})}>
       <View>
         <TextInput
           onChangeText={setFolderName}
@@ -24,7 +24,7 @@ export default function CommitModal({onShowModal}) {
           <Pressable onPress={() => console.log("Commiting the file...")}>
             <Text>Commit</Text>
           </Pressable>
-          <Pressable onPress={() => onShowModal(false)}>
+          <Pressable onPress={() => onStatus({...status, showModal: false})}>
             <Text>Cancel</Text>
           </Pressable>
         </View>
