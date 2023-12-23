@@ -10,6 +10,9 @@ tasks
 - show albums and folders' title on top bar
 - remember the previous position so we don't have to swipe from top again
   - maybe we could save it into the status everytime we hit the back button on certain page?
+- include an ActivityIndicator while loading stuffs
+- eager load the images when entering an album (before clicking any folder)
+- auto merge the folder when the folder had exist
 
 optionals
 - swipe the page by tapping?
