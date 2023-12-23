@@ -1,5 +1,8 @@
 // This file contains various configurations related to the App itself.
 
+// Height of top nav bar
+const TOP_NAV_BAR_HEIGHT = 70;
+
 // Number of columns for flat list showing albums and folders.
 const GALLERY_FLAT_LIST_NUM_COLUMNS = 3;
 
@@ -17,6 +20,7 @@ const NON_GROUP_FOLDERS = new Set(['Download', 'Whatsapp', '相机', '下载']);
 const SPECIAL_FOLDER_PREFIXES = [];
 
 export {
+  TOP_NAV_BAR_HEIGHT,
   GALLERY_FLAT_LIST_NUM_COLUMNS,
   PHOTO_FLAT_LIST_NUM_COLUMNS,
   MAX_IMAGE_PER_FOLDER,
