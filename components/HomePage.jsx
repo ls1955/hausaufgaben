@@ -1,16 +1,16 @@
 import {
   FlatList,
+  Pressable,
   SafeAreaView,
   StyleSheet,
-  Pressable,
-  Modal,
-  View,
   Text,
+  View,
 } from 'react-native';
 import {useState} from 'react';
 
 import Album from './Album';
 import Folder from './Folder';
+import CommitModal from './CommitModal';
 
 import {
   TOP_NAV_BAR_HEIGHT,
@@ -20,36 +20,23 @@ import {
 
 // The page that shows the albums and folders. It also include a top navbar for everyday operation.
 export default function HomePage({albums, folders, status, onStatus}) {
-  const [isShowModal, setIsShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  if (isShowModal) {
-    const dialog = (
-      <Modal visible={isShowModal} style={styles.modal} transparent={true}>
-        <Text>Some text inside the model. Will replace with user input</Text>
-        <Pressable onPress={() => setIsShowModal(false)}>
-          <Text>Close this dialog</Text>
-        </Pressable>
-      </Modal>
-    );
-
-    return (
-      <SafeAreaView style={{flex: 1}}>
-        {dialog}
-      </SafeAreaView>
-    )
+  if (showModal) {
+    return <CommitModal onShowModal={setShowModal} />;
   }
 
-  // albums and folders data, folders data will be append after albums'
+  // albums and folders data for FlatList, folders data will be append after albums'
   const data = Object.keys(albums).map((title, i) => {
     return {id: i, title, isAlbum: true};
   });
-
   // as using index as key, avoid duplicate key by adding previous data length as offset
   const offset = data.length;
   [...NON_GROUP_FOLDERS]
     .filter(title => folders[title] != null)
     .forEach((title, i) => data.push({id: i + offset, title, isAlbum: false}));
-
+  
+  // renderItem function for FlatList
   const renderItem = ({item}) => {
     const props = {key: item.id, title: item.title, status, onStatus};
     return item.isAlbum ? <Album {...props} /> : <Folder {...props} />;
@@ -57,34 +44,26 @@ export default function HomePage({albums, folders, status, onStatus}) {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={styles.navbar}>
-        <Pressable onPress={() => setIsShowModal(true)}>
+      <View style={styles.navBar}>
+        <Pressable onPress={() => setShowModal(true)}>
           <Text style={{fontSize: 30}}>C</Text>
         </Pressable>
       </View>
       <FlatList
-          numColumns={GALLERY_FLAT_LIST_NUM_COLUMNS}
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-        />
+        numColumns={GALLERY_FLAT_LIST_NUM_COLUMNS}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  navbar: {
-    height: TOP_NAV_BAR_HEIGHT,
+  navBar: {
+    paddingHorizontal: 30,
     justifyContent: 'center',
     alignItems: 'flex-end',
-    paddingHorizontal: 20,
-  },
-  modal: {
-    margin: 20,
-    padding: 35,
-    backgroundColor: 'red',
-    elevation: 5,
-    justifyContent: 'center',
-    alignItems: 'center'
+    height: TOP_NAV_BAR_HEIGHT,
   },
 });
