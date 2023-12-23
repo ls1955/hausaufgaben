@@ -64,3 +64,6 @@ yarn-error.log
 
 # testing
 /coverage
+
+# directory that holds author own's configuration
+/temp
