@@ -89,7 +89,7 @@ const requestScopedStoragePermission = async dirName => {
   // WARNING: On author device, select SD CARD ROOT Directory will BLOW UP the app.
   const dir = await openDocumentTree(true);
 
-  if (dir == null) return null;
+  if (dir == null) throw `The access for ${dirName} is not granted.`;
 
   await AsyncStorage.setItem(dirName, JSON.stringify(dir));
   return dir;
