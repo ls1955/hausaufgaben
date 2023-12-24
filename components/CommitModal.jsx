@@ -1,4 +1,11 @@
-import {Modal, Pressable, Text, TextInput, View} from 'react-native';
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import {useState} from 'react';
 
 import {organizeDownloadFolder} from '../utils';
@@ -24,22 +31,50 @@ export default function CommitModal({status, onStatus}) {
       transparent={true}
       visible={true}
       onRequestClose={() => onStatus({...status, showModal: false})}>
-      <View>
+      <View style={styles.body}>
         <TextInput
           onChangeText={setFolderTitle}
           placeholder="folder-name"
           value={folderTitle}
           autoFocus={true}
+          style={styles.input}
         />
-        <View>
-          <Pressable onPress={handleCommit}>
-            <Text>Commit</Text>
+        <View style={styles.buttonsContainer}>
+          <Pressable onPress={handleCommit} style={styles.button}>
+            <Text style={styles.buttonText}>Commit</Text>
           </Pressable>
-          <Pressable onPress={() => onStatus({...status, showModal: false})}>
-            <Text>Cancel</Text>
+          <Pressable
+            onPress={() => onStatus({...status, showModal: false})}
+            style={styles.button}>
+            <Text style={styles.buttonText}>Cancel</Text>
           </Pressable>
         </View>
       </View>
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  body: {
+    borderColor: 'rgb(200, 200, 200)',
+    borderWidth: 1,
+    marginTop: 40,
+    marginHorizontal: 20,
+    padding: 20,
+    borderRadius: 10,
+  },
+  input: {
+    borderBottomColor: 'rgb(200, 200, 200)',
+    borderBottomWidth: 1,
+    paddingBottom: 2,
+  },
+  buttonsContainer: {
+    marginTop: 40,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});
