@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-camera-roll/camera-roll": "^7.2.2",
+    "@react-native-community/checkbox": "^0.5.16",
     "react": "18.2.0",
     "react-native": "0.73.0",
     "react-native-image-viewing": "git@github.com:ls1955/react-native-image-viewing.git ",
