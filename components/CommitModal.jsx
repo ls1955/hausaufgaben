@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import {useState} from 'react';
+import CheckBox from '@react-native-community/checkbox';
 
 import {organizeDownloadFolder} from '../utils';
 
@@ -15,6 +16,7 @@ import {organizeDownloadFolder} from '../utils';
 // is plan to be included in the future.
 export default function CommitModal({status, onStatus}) {
   const [folderTitle, setFolderTitle] = useState('');
+  const [isToStaging, setIsToStaging] = useState(false);
 
   const handleCommit = async () => {
     try {
@@ -39,6 +41,13 @@ export default function CommitModal({status, onStatus}) {
           autoFocus={true}
           style={styles.input}
         />
+        <View style={styles.checkboxContainer}>
+          <CheckBox
+            value={isToStaging}
+            onValueChange={val => setIsToStaging(val)}
+          />
+          <Text>To staging folder</Text>
+        </View>
         <View style={styles.buttonsContainer}>
           <Pressable onPress={handleCommit} style={styles.button}>
             <Text style={styles.buttonText}>Commit</Text>
@@ -68,8 +77,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 2,
   },
+  checkboxContainer: {
+    marginVertical: 30,
+    flexDirection: "row",
+    alignItems: "center",
+  },
   buttonsContainer: {
-    marginTop: 40,
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
