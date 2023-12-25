@@ -14,73 +14,55 @@ const getImageUris = async ({folderTitle}) => {
   return photos.edges.map(edge => edge.node.image.uri);
 };
 
-// Shorten giving title if it exceed given length, length is default to 10.
+// Shorten giving album/folder title if it exceed given length, length is default to 10.
 const formatTitle = ({title, length = 10}) => {
   return title.length <= length ? title : `${title.substring(0, 7)}...`;
 };
 
 // Moves all the images and videos from Download directory automatically into new directory.
 // The new directory will be determined by given folder name input.
-const organizeDownloadFolder = async ({folder}) => {
-  const {srcDir, defaultDir, doujinDir} = await checkScopedStoragePermissions();
+const organizeDownloadFolder = async ({folder, isToStaging}) => {
+  // ADHOC: reset storage everytime for now to ensure we are selecting all correct paths...
+  await AsyncStorage.clear();
 
-  if (!(srcDir && defaultDir && doujinDir)) {
-    console.error(
-      'Please give permissions for source, default and doujin directory',
-    );
+  const dirs = await checkScopedStoragePermissions();
+
+  if (Object.keys(dirs).length === 0) {
+    console.error('Please give permissions to all required directories');
     return;
   }
 
-  let srcFiles = await listFiles(srcDir.uri);
-  srcFiles = srcFiles.filter(f => /\.(jpg|jpeg|png|gif|mp4)$/.test(f.name));
+  const {srcDir} = dirs;
+  const assets = await getAssets({dir: srcDir});
 
-  if (srcFiles.length === 0) {
-    console.error(
-      'No file to move. Please ensure files exist and corrected directories are selected.',
-    );
-    return;
-  }
-
-  for (const f of srcFiles) {
-    const srcUri = `${srcDir.uri}/${f.name}`;
-    // NOTE: Extract base uri decision logic
-    const destBaseUri = folder.startsWith('本子')
-      ? doujinDir.uri
-      : defaultDir.uri;
-    const destUri = `${destBaseUri}/${folder}/${f.name}`;
-
-    // NOTE: Replace existing files with same name.
-    await moveFile(srcUri, destUri, {replaceIfDestinationExists: true});
-  }
+  await moveAssets({assets, folder, dirs, isToStaging});
 };
 
-// Check if srcDir, defaultDir and doujinDir are granted permissions.
-// Return an object containing three dir (null for any dir that do not have permission).
+// Check if required directories had granted permissions. // Return an object containing
+// these dir (empty object if any dir did not have permission).
 const checkScopedStoragePermissions = async () => {
-  try {
-    // The source dir. Usually is the download folder
-    let srcDir = await AsyncStorage.getItem('srcDir');
-    if (srcDir == null) {
-      srcDir = await requestScopedStoragePermission('srcDir');
+  // TODO: Extract out the constants?
+  const dirs = ['srcDir', 'defaultDir', 'doujinDir', 'stagingDir'];
+  const result = {};
+
+  for (const dirName of dirs) {
+    let dir = await AsyncStorage.getItem(dirName);
+
+    if (dir == null) {
+      dir = await requestScopedStoragePermission(dirName);
     }
 
-    // The default dir to use when storing medias
-    let defaultDir = await AsyncStorage.getItem('defaultDir');
-    if (defaultDir == null) {
-      defaultDir = await requestScopedStoragePermission('defaultDir');
+    // if the permission is still not granted, we are done
+    if (dir == null) {
+      console.log(
+        `Permission for ${dir} is not granted, please give the permission.`,
+      );
+      return {};
     }
-
-    // The dir to use when storing doujin, vanilla...
-    let doujinDir = await AsyncStorage.getItem('doujinDir');
-    if (doujinDir == null) {
-      doujinDir = await requestScopedStoragePermission('doujinDir');
-    }
-
-    return {srcDir, defaultDir, doujinDir};
-  } catch (error) {
-    console.error(error);
-    return null;
+    result[dir] = dir;
   }
+
+  return result;
 };
 
 // Request the scoped storage permission for given dirName, return dir of dirName if granted, else null.
@@ -89,10 +71,51 @@ const requestScopedStoragePermission = async dirName => {
   // WARNING: On author device, select SD CARD ROOT Directory will BLOW UP the app.
   const dir = await openDocumentTree(true);
 
-  if (dir == null) throw `The access for ${dirName} is not granted.`;
+  if (dir == null) return null;
 
   await AsyncStorage.setItem(dirName, JSON.stringify(dir));
   return dir;
+};
+
+// Return all the image, gifs or videos files' in <DocumentFileDetail> format of
+// react-native-saf-x from dir.
+const getAssets = async ({dir}) => {
+  let assets = await listFiles(dir.uri);
+
+  return assets.filter(ass => /\.(jpg|jpeg|png|gif|mp4)$/.test(ass.name));
+};
+
+// Move the assets to their correct destination.
+const moveAssets = async ({assets, folder, dirs, isToStaging}) => {
+  if (assets.length === 0) {
+    console.error(
+      'No file to move. Please ensure files exist in download directory.',
+    );
+    return;
+  }
+
+  const {srcDir} = dirs;
+
+  for (const asset of assets) {
+    const srcUri = `${srcDir.uri}/${ass.name}`;
+
+    let destBaseUri = getDestBaseUri({asset, dirs, isToStaging});
+    const destUri = `${destBaseUri}/${folder}/${asset.name}`;
+
+    // NOTE: will replace existing same file
+    await moveFile(srcUri, destUri, {replaceIfDestinationExists: true});
+  }
+};
+
+// Returns a suitable directory's uri that is determine via asset's name and given flags.
+const getDestBaseUri = ({asset, dirs, isToStaging}) => {
+  const {defaultDir, doujinDir, stagingDir} = dirs;
+
+  // TODO: extract a routing object that determine which directory to use.
+  if (isToStaging) return stagingDir.uri;
+  if (asset.name.startsWith('本子')) return doujinDir.uri;
+
+  return defaultDir.uri;
 };
 
 // TODO: Expose an option of resetting scoped storage permissions?
