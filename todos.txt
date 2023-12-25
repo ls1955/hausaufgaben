@@ -12,10 +12,11 @@ tasks
   - maybe we could save it into the status everytime we hit the back button on certain page?
 - include an ActivityIndicator while loading stuffs
 - eager load the images when entering an album (before clicking any folder)
-- auto merge the folder when the folder had exist
 - include a staging directory option for folder that will be move to other place for various reason
   (i.e. take too much space)
 - include a reset storage permission on dialog
+- show a flash message when done moving file
+- check if folder name is empty before proceed with organizing
 
-optionals
-- swipe the page by tapping?
+test
+- test if organizeDownloadFolder in utils.js work properly

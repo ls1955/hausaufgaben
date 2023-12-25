@@ -20,7 +20,8 @@ export default function CommitModal({status, onStatus}) {
 
   const handleCommit = async () => {
     try {
-      await organizeDownloadFolder({folder: folderTitle});
+      await organizeDownloadFolder({folder: folderTitle, isToStaging});
+      // TODO: Replace with a flash message in app.
       console.log('The files had been successfully moved.');
     } catch (error) {
       console.error(error);
