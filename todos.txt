@@ -17,6 +17,7 @@ tasks
 - include a reset storage permission on dialog
 - show a flash message when done moving file
 - check if folder name is empty before proceed with organizing
+- include delete button when viewing image
 
 test
 - test if organizeDownloadFolder in utils.js work properly
