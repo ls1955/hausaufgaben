@@ -58,7 +58,7 @@ const getGroupedAlbums = folders => {
       // when it start with digits
       albums['#'] ??= new Set();
       albums['#'].add(folderTitle);
-    } else if (/[^\w]/.test(folderTitle)) {
+    } else if (/^[^\w]/.test(folderTitle)) {
       // when it contain non English character
       albums['...'] ??= new Set();
       albums['...'].add(folderTitle);
