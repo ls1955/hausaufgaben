@@ -20,4 +20,6 @@ test
 
 improvements
 - Use stack navigation instead of big chunk of case statements in BackHandler
--eager load folder images when clicked on an album?
+- eager load folder images when clicked on an album?
+- rename page -> screen
+- merge commit modal in HomeScreen into existing title

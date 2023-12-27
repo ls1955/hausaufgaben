@@ -8,27 +8,27 @@ import {
   View,
 } from 'react-native';
 
-import Album from './Album';
-import Folder from './Folder';
-import CommitModal from './CommitModal';
+import Album from '../components/Album';
+import Folder from '../components/Folder';
+// import CommitModal from './CommitModal';
 
-import {AlbumsContext} from '../contexts/AlbumsContext';
-import {FoldersContext} from '../contexts/FoldersContext';
+import { AlbumsContext } from '../../contexts/AlbumsContext';
+import { FoldersContext } from '../../contexts/FoldersContext';
 
 import {
   TOP_NAV_BAR_HEIGHT,
   GALLERY_FLAT_LIST_NUM_COLUMNS,
   NON_GROUP_FOLDERS,
-} from '../appConfigs';
+} from '../../appConfigs';
 
-// The page that shows the albums and folders. It also include a top navbar for everyday operation.
-// export default function HomePage({albums, folders, status, onStatus}) {
-export default function HomePage({route, navigation}) {
+// The screen that shows the albums and folders.
+export default function HomeScreen({route, navigation}) {
   const albums = useContext(AlbumsContext);
   const folders = useContext(FoldersContext);
 
   const status = {};
   const onStatus = () => {};
+
 
   // if (status.showModal) {
   //   return <CommitModal status={status} onStatus={onStatus} />;

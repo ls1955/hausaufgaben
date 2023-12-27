@@ -1,11 +1,13 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 
-import { formatTitle } from '../utils';
+import { formatTitle } from '../../utils';
 
-export default function Folder({title, status, onStatus, isFromAlbum}) {
-  handleStatus = () => {
-    const newState = isFromAlbum ? 'inFolderFromAlbum' : 'inFolder';
-    onStatus({...status, state: newState, selectedFolder: title});
+// A component that represents the facade of an album (not the folders underneath).
+export default function Album({title, status, onStatus}) {
+  // TODO: Include thumbnails consists of folders
+
+  const handleStatus = () => {
+    onStatus({...status, state: 'inAlbum', selectedAlbum: title});
   };
 
   return (

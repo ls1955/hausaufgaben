@@ -2,11 +2,11 @@ import {useEffect, useState} from 'react';
 import {BackHandler} from 'react-native';
 import {DarkTheme, NavigationContainer} from '@react-navigation/native';
 
-import HomePage from './components/HomePage';
-import AlbumFoldersPage from './components/AlbumFoldersPage';
-import FolderPhotosPage from './components/FolderPhotosPage';
-import PhotoPage from './components/PhotoPage';
-import LoadingPage from './components/LoadingPage';
+import HomeScreen from './src/screens/HomeScreen';
+// import AlbumFoldersPage from './components/AlbumFoldersPage';
+// import FolderPhotosPage from './components/FolderPhotosPage';
+// import PhotoPage from './components/PhotoPage';
+// import LoadingPage from './components/LoadingPage';
 
 import {getPermission, loadFolders, getGroupedAlbums} from './init';
 import {getImageUris} from './utils';
@@ -90,8 +90,8 @@ export default function App() {
     <FoldersContext.Provider value={folders}>
       <AlbumsContext.Provider value={albums}>
         <NavigationContainer theme={DarkTheme}>
-          <Stack.Navigator initialRouteName="home" screenOptions={{}}>
-            <Stack.Screen name="home" component={HomePage} />
+          <Stack.Navigator initialRouteName="Home" screenOptions={{}}>
+            <Stack.Screen name="Home" component={HomeScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </AlbumsContext.Provider>
