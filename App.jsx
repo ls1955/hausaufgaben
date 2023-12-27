@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {BackHandler} from 'react-native';
+import {DarkTheme, NavigationContainer} from '@react-navigation/native';
 
 import HomePage from './components/HomePage';
 import AlbumFoldersPage from './components/AlbumFoldersPage';
@@ -9,6 +10,12 @@ import LoadingPage from './components/LoadingPage';
 
 import {getPermission, loadFolders, getGroupedAlbums} from './init';
 import {getImageUris} from './utils';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+import {FoldersContext} from './contexts/FoldersContext';
+import {AlbumsContext} from './contexts/AlbumsContext';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [folders, setFolders] = useState({});
@@ -18,7 +25,7 @@ export default function App() {
     selectedFolder: null,
     selectedAlbum: null,
     selectedPhotoIndex: -1,
-    showModal: false
+    showModal: false,
   });
 
   // settle read storage permission and initialize essential folders and albums...
@@ -78,6 +85,19 @@ export default function App() {
     cacheImageUris();
   }, [status]);
 
+  // NOTE: Where the changes started
+  return (
+    <FoldersContext.Provider value={folders}>
+      <AlbumsContext.Provider value={albums}>
+        <NavigationContainer theme={DarkTheme}>
+          <Stack.Navigator initialRouteName="home" screenOptions={{}}>
+            <Stack.Screen name="home" component={HomePage} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AlbumsContext.Provider>
+    </FoldersContext.Provider>
+  );
+
   // load the pages that doesn't require preloading image Uris
   switch (status['state']) {
     case 'home':
@@ -105,3 +125,4 @@ export default function App() {
       return PhotoPage({uris, status, onStatus: setStatus, isFromAlbum});
   }
 }
+

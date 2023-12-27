@@ -1,3 +1,4 @@
+import {useContext} from 'react';
 import {
   FlatList,
   Pressable,
@@ -11,6 +12,9 @@ import Album from './Album';
 import Folder from './Folder';
 import CommitModal from './CommitModal';
 
+import {AlbumsContext} from '../contexts/AlbumsContext';
+import {FoldersContext} from '../contexts/FoldersContext';
+
 import {
   TOP_NAV_BAR_HEIGHT,
   GALLERY_FLAT_LIST_NUM_COLUMNS,
@@ -18,10 +22,17 @@ import {
 } from '../appConfigs';
 
 // The page that shows the albums and folders. It also include a top navbar for everyday operation.
-export default function HomePage({albums, folders, status, onStatus}) {
-  if (status['showModal']) {
-    return <CommitModal status={status} onStatus={onStatus} />;
-  }
+// export default function HomePage({albums, folders, status, onStatus}) {
+export default function HomePage({route, navigation}) {
+  const albums = useContext(AlbumsContext);
+  const folders = useContext(FoldersContext);
+
+  const status = {};
+  const onStatus = () => {};
+
+  // if (status.showModal) {
+  //   return <CommitModal status={status} onStatus={onStatus} />;
+  // }
 
   // albums and folders data for FlatList, folders data will be append after albums'
   const data = Object.keys(albums).map((title, i) => {
