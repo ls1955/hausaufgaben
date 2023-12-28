@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
-import {BackHandler} from 'react-native';
 import {DarkTheme, NavigationContainer} from '@react-navigation/native';
 
 import HomeScreen from './src/screens/HomeScreen';
+import AlbumFoldersScreen from './src/screens/AlbumFoldersScreen';
 // import AlbumFoldersPage from './components/AlbumFoldersPage';
 // import FolderPhotosPage from './components/FolderPhotosPage';
 // import PhotoPage from './components/PhotoPage';
@@ -38,37 +38,6 @@ export default function App() {
       });
   }, []);
 
-  // setup back button events...
-  useEffect(() => {
-    // go back to previous state or exit the app
-    const handleBackAction = () => {
-      switch (status['state']) {
-        case 'home':
-          BackHandler.exitApp();
-        case 'inAlbum':
-        case 'inFolder':
-          setStatus({...status, state: 'home'});
-          break;
-        case 'inFolderFromAlbum':
-          setStatus({...status, state: 'inAlbum'});
-          break;
-        case 'inPhotoFromAlbum':
-          setStatus({...status, state: 'inFolderFromAlbum'});
-          break;
-        default:
-          console.error(`Unknown state ${status['state']}`);
-      }
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      handleBackAction,
-    );
-
-    return () => backHandler.remove();
-  }, [status]);
-
   useEffect(() => {
     // caches the image URIs if it hasn't been cache before, else do nothing.
     const cacheImageUris = async () => {
@@ -92,6 +61,7 @@ export default function App() {
         <NavigationContainer theme={DarkTheme}>
           <Stack.Navigator initialRouteName="Home" screenOptions={{}}>
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="AlbumFolders" component={AlbumFoldersScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </AlbumsContext.Provider>
