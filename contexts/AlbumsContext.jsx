@@ -1,4 +1,5 @@
 import { createContext } from "react";
 
-// {albumTitle => [] of folderTitle}
+// {albumTitle => Set of folderTitle}
+// TODO: Change set to array?
 export const AlbumsContext = createContext({});
