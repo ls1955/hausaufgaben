@@ -1,7 +1,9 @@
 import {FlatList, Image, TouchableOpacity} from 'react-native';
 import {useContext, useEffect, useState} from 'react';
 
+import Loading from './Loading';
 import {FoldersContext} from '../../contexts/FoldersContext';
+
 import {PHOTO_FLAT_LIST_NUM_COLUMNS} from '../../appConfigs';
 import {getImageUris} from '../../utils';
 
@@ -41,13 +43,14 @@ export default function Medias({title, navigation}) {
     return () => navigation.navigate('Media', {index, folderTitle: title});
   };
 
-  return (
+  return mediaUris != null ? (
     <FlatList
-      key={hadUpdate}
       numColumns={PHOTO_FLAT_LIST_NUM_COLUMNS}
       data={mediaData}
       renderItem={renderMedia}
       keyExtractor={item => item.id}
     />
+  ) : (
+    <Loading />
   );
 }
