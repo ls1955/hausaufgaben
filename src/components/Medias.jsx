@@ -9,19 +9,20 @@ import {getImageUris} from '../../utils';
 
 // The medias inside a folder.
 export default function Medias({title, navigation}) {
-  // a flag to rerender in case we hasn't cache mediaUris beforehand
-  const [hadUpdate, setHadUpdate] = useState(false);
+  // tell Medias to rerender itself after finish lazy loading mediaUris
+  const [_, setRerender] = useState(false);
   const folders = useContext(FoldersContext);
   const mediaUris = folders[title].imageUris;
 
   useEffect(() => {
-    const cacheMediaUris = async () => {
+    const lazyLoadMediaUris = async () => {
+      // mediaUris is already loaded, not need to load again
       if (folders[title].imageUris != null) return;
 
       folders[title].imageUris = await getImageUris({folderTitle: title});
-      setHadUpdate(true);
+      setRerender(true);
     };
-    cacheMediaUris();
+    lazyLoadMediaUris();
   }, []);
 
   const mediaData = mediaUris?.map((uri, i) => ({id: i, uri, index: i}));
