@@ -17,13 +17,6 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [folders, setFolders] = useState({});
   const [albums, setAlbums] = useState({});
-  const [status, setStatus] = useState({
-    state: 'home', // home | inAlbum | inFolder | inPhoto | inFolderFromAlbum | inPhotoFromAlbum
-    selectedFolder: null,
-    selectedAlbum: null,
-    selectedPhotoIndex: -1,
-    showModal: false,
-  });
 
   // settle read storage permission and initialize essential folders and albums...
   useEffect(() => {
@@ -34,22 +27,6 @@ export default function App() {
         setAlbums(getGroupedAlbums(newFolders));
       });
   }, []);
-
-  useEffect(() => {
-    // caches the image URIs if it hasn't been cache before, else do nothing.
-    const cacheImageUris = async () => {
-      if (status['selectedFolder'] == null) return;
-      if (folders[status['selectedFolder']]['imageUris'] != null) return;
-
-      const newFolders = {...folders};
-
-      newFolders[status['selectedFolder']]['imageUris'] = await getImageUris({
-        folderTitle: status['selectedFolder'],
-      });
-      setFolders(newFolders);
-    };
-    cacheImageUris();
-  }, [status]);
 
   // NOTE: Where the changes started
   return (
@@ -65,32 +42,5 @@ export default function App() {
       </AlbumsContext.Provider>
     </FoldersContext.Provider>
   );
-
-  // load the pages that doesn't require preloading image Uris
-  switch (status['state']) {
-    case 'home':
-      return HomePage({albums, folders, status, onStatus: setStatus});
-    case 'inAlbum':
-      const folderTitles = [...albums[status['selectedAlbum']]];
-      return AlbumFoldersPage({folderTitles, status, onStatus: setStatus});
-  }
-
-  const uris = folders[status['selectedFolder']].imageUris;
-
-  // React will load the image Uris if it hasn't load before.
-  if (uris == null) return <LoadingPage />;
-
-  let isFromAlbum = false;
-
-  switch (status['state']) {
-    case 'inFolderFromAlbum':
-      isFromAlbum = true;
-    case 'inFolder':
-      return FolderPhotosPage({uris, status, onStatus: setStatus, isFromAlbum});
-    case 'inPhotoFromAlbum':
-      isFromAlbum = true;
-    case 'inPhoto':
-      return PhotoPage({uris, status, onStatus: setStatus, isFromAlbum});
-  }
 }
 
