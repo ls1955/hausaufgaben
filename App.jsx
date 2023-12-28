@@ -3,7 +3,6 @@ import {DarkTheme, NavigationContainer} from '@react-navigation/native';
 
 import HomeScreen from './src/screens/HomeScreen';
 import AlbumFoldersScreen from './src/screens/AlbumFoldersScreen';
-// import AlbumFoldersPage from './components/AlbumFoldersPage';
 // import FolderPhotosPage from './components/FolderPhotosPage';
 // import PhotoPage from './components/PhotoPage';
 // import LoadingPage from './components/LoadingPage';
