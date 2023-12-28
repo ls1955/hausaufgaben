@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import AlbumFoldersScreen from './src/screens/AlbumFoldersScreen';
 import FolderContentScreen from './src/screens/FolderContentsScreen';
+import MediaScreen from './src/screens/MediaScreen';
 
 import {FoldersContext} from './contexts/FoldersContext';
 import {AlbumsContext} from './contexts/AlbumsContext';
@@ -36,6 +37,7 @@ export default function App() {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="AlbumFolders" component={AlbumFoldersScreen} />
             <Stack.Screen name="FolderContents" component={FolderContentScreen} />
+            <Stack.Screen name="Media" component={MediaScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </AlbumsContext.Provider>
