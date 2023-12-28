@@ -7,8 +7,6 @@ tasks
 - include album and folder count
 - in Homepage, have a scrollbar that allow user to scroll through stuffs via percentage
 - show albums and folders' title on top bar
-- remember the previous position so we don't have to swipe from top again
-  - maybe we could save it into the status everytime we hit the back button on certain page?
 - include an ActivityIndicator while loading stuffs
 - include a reset storage permission on dialog
 - show a flash message when done moving file
@@ -21,3 +19,4 @@ test
 improvements
 - eager load folder images when clicked on an album?
 - merge commit modal in HomeScreen into existing title
+- change imageUris to something like mediaUris, as it contain not only image
