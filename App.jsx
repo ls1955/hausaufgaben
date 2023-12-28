@@ -1,16 +1,15 @@
 import {useEffect, useState} from 'react';
 import {DarkTheme, NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import HomeScreen from './src/screens/HomeScreen';
 import AlbumFoldersScreen from './src/screens/AlbumFoldersScreen';
 import FolderContentScreen from './src/screens/FolderContentsScreen';
 
-import {getPermission, loadFolders, getGroupedAlbums} from './init';
-import {getImageUris} from './utils';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
 import {FoldersContext} from './contexts/FoldersContext';
 import {AlbumsContext} from './contexts/AlbumsContext';
+
+import {getPermission, loadFolders, getGroupedAlbums} from './init';
 
 const Stack = createNativeStackNavigator();
 
