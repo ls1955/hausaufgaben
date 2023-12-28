@@ -12,8 +12,8 @@ import Album from '../components/Album';
 import Folder from '../components/Folder';
 // import CommitModal from './CommitModal';
 
-import { AlbumsContext } from '../../contexts/AlbumsContext';
-import { FoldersContext } from '../../contexts/FoldersContext';
+import {AlbumsContext} from '../../contexts/AlbumsContext';
+import {FoldersContext} from '../../contexts/FoldersContext';
 
 import {
   TOP_NAV_BAR_HEIGHT,
@@ -28,7 +28,6 @@ export default function HomeScreen({route, navigation}) {
 
   const status = {};
   const onStatus = () => {};
-
 
   // if (status.showModal) {
   //   return <CommitModal status={status} onStatus={onStatus} />;
@@ -45,9 +44,9 @@ export default function HomeScreen({route, navigation}) {
     .forEach((title, i) => data.push({id: i + offset, title, isAlbum: false}));
 
   // renderItem function for FlatList
-  const renderItem = ({item}) => {
-    const props = {key: item.id, title: item.title, status, onStatus};
-    return item.isAlbum ? <Album {...props} /> : <Folder {...props} />;
+  const renderItem = ({item: {id, title, isAlbum}}) => {
+    const props = {key: id, title, navigation};
+    return isAlbum ? <Album {...props} /> : <Folder {...props} />;
   };
 
   return (
