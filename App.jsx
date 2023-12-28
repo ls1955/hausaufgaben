@@ -3,9 +3,7 @@ import {DarkTheme, NavigationContainer} from '@react-navigation/native';
 
 import HomeScreen from './src/screens/HomeScreen';
 import AlbumFoldersScreen from './src/screens/AlbumFoldersScreen';
-// import FolderPhotosPage from './components/FolderPhotosPage';
-// import PhotoPage from './components/PhotoPage';
-// import LoadingPage from './components/LoadingPage';
+import FolderContentScreen from './src/screens/FolderContentsScreen';
 
 import {getPermission, loadFolders, getGroupedAlbums} from './init';
 import {getImageUris} from './utils';
@@ -61,6 +59,7 @@ export default function App() {
           <Stack.Navigator initialRouteName="Home" screenOptions={{}}>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="AlbumFolders" component={AlbumFoldersScreen} />
+            <Stack.Screen name="FolderContents" component={FolderContentScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </AlbumsContext.Provider>

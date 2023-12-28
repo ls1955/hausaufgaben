@@ -1,22 +1,12 @@
 import {SafeAreaView} from 'react-native';
 
-import Photos from './Photos';
+import Medias from '../components/Medias';
 
-// A page that show Photos inside Folder.
-export default function FolderPhotosPage({
-  uris,
-  status,
-  onStatus,
-  isFromAlbum,
-}) {
+// A screen that show contents inside the folder.
+export default function FolderContentScreen({navigation, route: {params}}) {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <Photos
-        uris={uris}
-        status={status}
-        onStatus={onStatus}
-        isFromAlbum={isFromAlbum}
-      />
+      <Medias title={params.title} navigation={navigation} />
     </SafeAreaView>
   );
 }
