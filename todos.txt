@@ -20,3 +20,6 @@ improvements
 - eager load folder images when clicked on an album?
 - merge commit modal in HomeScreen into existing title
 - change imageUris to something like mediaUris, as it contain not only image
+
+fix
+- folders are not sorted by title
