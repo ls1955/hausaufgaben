@@ -17,10 +17,9 @@ test
 improvements
 - eager load folder images when clicked on an album?
 - merge commit modal in HomeScreen into navigation header
-- change imageUris to something like mediaUris, as it contain not only image
 
 fix
-- folders are not sorted by title
+- when sorting folder, case of title should be ignore
 
 limitation
 - GIF and videos in MediaScreen are not playable
