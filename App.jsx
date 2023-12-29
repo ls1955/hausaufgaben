@@ -34,9 +34,16 @@ export default function App() {
       <AlbumsContext.Provider value={albums}>
         <NavigationContainer theme={DarkTheme}>
           <Stack.Navigator initialRouteName="Home" screenOptions={{}}>
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{title: ''}}
+            />
             <Stack.Screen name="AlbumFolders" component={AlbumFoldersScreen} />
-            <Stack.Screen name="FolderContents" component={FolderContentScreen} />
+            <Stack.Screen
+              name="FolderContents"
+              component={FolderContentScreen}
+            />
             <Stack.Screen name="Media" component={MediaScreen} />
           </Stack.Navigator>
         </NavigationContainer>
@@ -44,4 +51,3 @@ export default function App() {
     </FoldersContext.Provider>
   );
 }
-
