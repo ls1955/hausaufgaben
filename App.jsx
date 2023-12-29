@@ -13,6 +13,8 @@ import {AlbumsContext} from './contexts/AlbumsContext';
 import {getPermission, loadFolders, getGroupedAlbums} from './init';
 import {formatTitle} from './utils';
 
+import {Button} from 'react-native';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -29,16 +31,22 @@ export default function App() {
       });
   }, []);
 
-  // NOTE: Where the changes started
   return (
     <FoldersContext.Provider value={folders}>
       <AlbumsContext.Provider value={albums}>
         <NavigationContainer theme={DarkTheme}>
-          <Stack.Navigator initialRouteName="Home" screenOptions={{}}>
+          <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{title: ''}}
+              options={{
+                title: '',
+                headerRight: () => {
+                  return (
+                    <Button onPress={() => {}} title="Organize" color="#555" />
+                  );
+                },
+              }}
             />
             <Stack.Screen
               name="AlbumFolders"
