@@ -36,6 +36,7 @@ const loadFolders = async () => {
     newFolders[title] = {count, mediaUris: []};
   });
 
+  // TODO: Sort while ignoring upper or lower case
   return Object.fromEntries(Object.entries(newFolders).sort());
 };
 
