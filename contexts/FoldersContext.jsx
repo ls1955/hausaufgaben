@@ -1,4 +1,4 @@
 import { createContext } from "react";
 
-// {folderTitle => {count, imageUris: [] of uri}}
+// {folderTitle => {count, mediaUris: [] of uri}}
 export const FoldersContext = createContext({});
