@@ -2,7 +2,7 @@ feature
 - safe mode that hides all the folder besides non-naughty folder
 
 tasks
-- include album thumbnails (consist of first 4 folder thumbnail)
+- include album thumbnails (one way or another...)
 - include folder thumbnail (use the first picture)
 - include album and folder count
 - in Homepage, have a scrollbar that allow user to scroll through stuffs via percentage
