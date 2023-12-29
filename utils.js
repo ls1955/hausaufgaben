@@ -4,8 +4,8 @@ import {openDocumentTree, moveFile, listFiles} from 'react-native-saf-x';
 
 import {MAX_IMAGE_PER_FOLDER} from './appConfigs';
 
-// Returns an array of image URIs (String) of given folderTitle.
-const getImageUris = async ({folderTitle}) => {
+// Returns an array of media URIs (String) of given folderTitle.
+const getMediaUris = async ({folderTitle}) => {
   const photos = await CameraRoll.getPhotos({
     first: MAX_IMAGE_PER_FOLDER,
     groupName: folderTitle,
@@ -121,7 +121,7 @@ const getDestBaseUri = ({asset, dirs, isToStaging}) => {
 // TODO: Expose an option of resetting scoped storage permissions?
 
 export {
-  getImageUris,
+  getMediaUris,
   formatTitle,
   organizeDownloadFolder,
   checkScopedStoragePermissions,

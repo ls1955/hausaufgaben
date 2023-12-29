@@ -5,7 +5,7 @@ import Loading from './Loading';
 import {FoldersContext} from '../../contexts/FoldersContext';
 
 import {PHOTO_FLAT_LIST_NUM_COLUMNS} from '../../appConfigs';
-import {getImageUris} from '../../utils';
+import {getMediaUris} from '../../utils';
 
 // The medias inside a folder.
 export default function Medias({title, navigation}) {
@@ -19,7 +19,7 @@ export default function Medias({title, navigation}) {
       // if mediaUris length is one, it usually means only the thumbnail is being load (TODO)
       if (folders[title].mediaUris.length >= 1) return;
 
-      folders[title].mediaUris = await getImageUris({folderTitle: title});
+      folders[title].mediaUris = await getMediaUris({folderTitle: title});
       setRerender(true);
     };
     lazyLoadMediaUris();
