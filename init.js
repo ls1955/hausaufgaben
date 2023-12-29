@@ -32,8 +32,8 @@ const loadFolders = async () => {
   const folders = await CameraRoll.getAlbums();
   const newFolders = {};
 
-  folders.forEach(item => {
-    newFolders[item['title']] = {count: item['count'], imageUris: null};
+  folders.forEach(({title, count}) => {
+    newFolders[title] = {count, mediaUris: []};
   });
 
   return Object.fromEntries(Object.entries(newFolders).sort());

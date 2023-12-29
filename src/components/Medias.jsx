@@ -12,20 +12,21 @@ export default function Medias({title, navigation}) {
   // tell Medias to rerender itself after finish lazy loading mediaUris
   const [_, setRerender] = useState(false);
   const folders = useContext(FoldersContext);
-  const mediaUris = folders[title].imageUris;
 
   useEffect(() => {
     const lazyLoadMediaUris = async () => {
       // mediaUris is already loaded, not need to load again
-      if (folders[title].imageUris != null) return;
+      // if mediaUris length is one, it usually means only the thumbnail is being load (TODO)
+      if (folders[title].mediaUris.length >= 1) return;
 
-      folders[title].imageUris = await getImageUris({folderTitle: title});
+      folders[title].mediaUris = await getImageUris({folderTitle: title});
       setRerender(true);
     };
     lazyLoadMediaUris();
   }, []);
 
-  const mediaData = mediaUris?.map((uri, i) => ({id: i, uri, index: i}));
+  const mediaUris = folders[title].mediaUris;
+  const mediaData = mediaUris.map((uri, i) => ({id: i, uri, index: i}));
   const renderMedia = ({item: {id, uri, index}}) => {
     return (
       <TouchableOpacity
