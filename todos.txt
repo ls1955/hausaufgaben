@@ -18,6 +18,3 @@ improvements
 - eager load folder images when clicked on an album?
 - merge commit modal in HomeScreen into navigation header
 - support playing .mp4
-
-fix
-- when sorting folder, case of title should be ignore

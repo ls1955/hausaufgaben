@@ -36,8 +36,14 @@ const loadFolders = async () => {
     newFolders[title] = {count, mediaUris: []};
   });
 
-  // TODO: Sort while ignoring upper or lower case
-  return Object.fromEntries(Object.entries(newFolders).sort());
+  // create a collator as suggested by MDN Web docs since there might be quite a lot of folder
+  const collator = new Intl.Collator();
+
+  return Object.fromEntries(
+    Object.entries(newFolders).sort((a, b) => {
+      return collator.compare(a[0].toLowerCase(), b[0].toLowerCase());
+    }),
+  );
 };
 
 // Returns an albums object that contain grouped folders. Note that returned albums object is
