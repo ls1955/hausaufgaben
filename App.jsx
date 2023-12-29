@@ -11,6 +11,7 @@ import {FoldersContext} from './contexts/FoldersContext';
 import {AlbumsContext} from './contexts/AlbumsContext';
 
 import {getPermission, loadFolders, getGroupedAlbums} from './init';
+import {formatTitle} from './utils';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,10 +40,21 @@ export default function App() {
               component={HomeScreen}
               options={{title: ''}}
             />
-            <Stack.Screen name="AlbumFolders" component={AlbumFoldersScreen} />
+            <Stack.Screen
+              name="AlbumFolders"
+              component={AlbumFoldersScreen}
+              options={({route}) => ({
+                title: formatTitle({title: route.params.title, length: 15}),
+                headerTitleStyle: {fontWeight: 'normal'},
+              })}
+            />
             <Stack.Screen
               name="FolderContents"
               component={FolderContentScreen}
+              options={({route}) => ({
+                title: formatTitle({title: route.params.title, length: 15}),
+                headerTitleStyle: {fontWeight: 'normal'},
+              })}
             />
             <Stack.Screen name="Media" component={MediaScreen} />
           </Stack.Navigator>

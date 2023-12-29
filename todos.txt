@@ -6,9 +6,7 @@ tasks
 - include folder thumbnail (use the first picture)
 - include album and folder count
 - in Homepage, have a scrollbar that allow user to scroll through stuffs via percentage
-- show albums and folders' title on top bar
-- include an ActivityIndicator while loading stuffs
-- include a reset storage permission on dialog
+- include a reset storage permission
 - show a flash message when done moving file
 - check if folder name or category input is given before proceed with organizing
 - include delete button when viewing image
@@ -18,7 +16,7 @@ test
 
 improvements
 - eager load folder images when clicked on an album?
-- merge commit modal in HomeScreen into existing title
+- merge commit modal in HomeScreen into navigation header
 - change imageUris to something like mediaUris, as it contain not only image
 
 fix
