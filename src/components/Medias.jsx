@@ -1,5 +1,6 @@
-import {FlatList, Image, TouchableOpacity} from 'react-native';
+import {FlatList, TouchableOpacity} from 'react-native';
 import {useContext, useEffect, useState} from 'react';
+import FastImage from 'react-native-fast-image';
 
 import Loading from './Loading';
 import {FoldersContext} from '../../contexts/FoldersContext';
@@ -33,7 +34,7 @@ export default function Medias({title, navigation}) {
         key={id}
         style={{width: '25%'}}
         onPress={handleNav(index)}>
-        <Image
+        <FastImage
           style={{width: '100%', minHeight: 100}}
           source={{uri}}
           onError={e => console.error(e.nativeEvent.error)}
