@@ -17,8 +17,13 @@ export default function OrganizeDownloadModal({navigation}) {
 
   const handleOrganize = async () => {
     try {
+      if (folderTitle === '' && category === '') {
+        // TODO: notify with flash message
+        console.log("Please enter a folderTitle or select a category")
+        return
+      }
       await organizeDownloadFolder({title: folderTitle, category, isToStaging});
-      // TODO: Notify with a flash message.
+      // TODO: notify with a flash message.
     } catch (error) {
       // TODO: Warn with flash message.
       console.error(error);
