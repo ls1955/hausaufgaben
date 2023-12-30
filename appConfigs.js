@@ -30,7 +30,7 @@ const SPECIAL_FOLDER_PREFIXES = [];
 // stagingDir: The directory to store folder that will be move to somewhere else. For author use case,
 // this is where he puts the folder that take too much space on his tiny phone, before moving them to
 // HDD later on at once.
-// 
+//
 const PERMISSION_REQUIRED_DIRECTORIES = ['downloadDir', 'defaultDir', 'doujinDir', 'stagingDir'];
 
 export {
