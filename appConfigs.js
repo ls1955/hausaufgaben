@@ -1,7 +1,4 @@
-// This file contains various configurations related to the App itself.
-
-// Height of top nav bar
-const TOP_NAV_BAR_HEIGHT = 70;
+// This file contains various app configurations.
 
 // Number of columns for flat list showing albums and folders.
 const GALLERY_FLAT_LIST_NUM_COLUMNS = 3;
@@ -40,7 +37,6 @@ const PERMISSION_REQUIRED_DIRECTORIES = ['downloadDir', 'defaultDir', 'doujinDir
 const CATEGORY_OPTIONS = ["", "doujin", "vanilla"];
 
 export {
-  TOP_NAV_BAR_HEIGHT,
   GALLERY_FLAT_LIST_NUM_COLUMNS,
   PHOTO_FLAT_LIST_NUM_COLUMNS,
   MAX_IMAGE_PER_FOLDER,
