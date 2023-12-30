@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import {Button} from 'react-native';
 import {DarkTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -13,8 +14,6 @@ import {AlbumsContext} from './contexts/AlbumsContext';
 
 import {getPermission, loadFolders, getGroupedAlbums} from './init';
 import {formatTitle} from './utils';
-
-import {Button} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
