@@ -18,3 +18,6 @@ improvements
 - eager load folder images when clicked on an album?
 - merge commit modal in HomeScreen into navigation header
 - support playing .mp4
+
+fix
+- when sorting doujin, should sort by their number instead of alphabetically
