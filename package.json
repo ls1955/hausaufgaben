@@ -21,7 +21,8 @@
     "react-native-image-viewing": "git@github.com:ls1955/react-native-image-viewing.git ",
     "react-native-saf-x": "^2.2.3",
     "react-native-safe-area-context": "^4.8.2",
-    "react-native-screens": "^3.29.0"
+    "react-native-screens": "^3.29.0",
+    "react-native-select-dropdown": "^3.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
