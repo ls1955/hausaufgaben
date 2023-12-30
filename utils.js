@@ -112,6 +112,7 @@ const getNewFolderPath = ({category, isToStaging, dirs, folder}) => {
   if (isToStaging) return `${stagingDir.uri}/${folder}`;
 
   switch(category) {
+    // FIXME: The folder is usually "" if the category is set, have to figure out the folder name yourself
     case "doujin":
     case "vanilla":
       return `${doujinDir.uri}/${folder}`

@@ -20,3 +20,9 @@ improvements
 
 fix
 - when sorting doujin, should sort by their number instead of alphabetically
+
+refactor
+- In utils.js, there is a lot of hardcoding, particularly in organizeDownloadFolder and getNewFolderPath,
+  making the code fragile and hard to reason about. Besides that, the logic flow when dealing with
+  organizing folder sucks. Unfortunately, current version of author is not smart enough to get himself
+  out of this mess.
