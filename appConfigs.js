@@ -33,6 +33,12 @@ const SPECIAL_FOLDER_PREFIXES = [];
 //
 const PERMISSION_REQUIRED_DIRECTORIES = ['downloadDir', 'defaultDir', 'doujinDir', 'stagingDir'];
 
+// Category options use in organizing feature. They are use to determine which directory to use, as well
+// as figuring out the new folder name. In author use case, the new folder name is category prepend by
+// number, as such the name could be vanilla1 for first vanilla folder, vanilla2 for second vanilla folder,
+// so on and so forth...
+const CATEGORY_OPTIONS = ["", "doujin", "vanilla"];
+
 export {
   TOP_NAV_BAR_HEIGHT,
   GALLERY_FLAT_LIST_NUM_COLUMNS,
@@ -40,5 +46,6 @@ export {
   MAX_IMAGE_PER_FOLDER,
   NON_GROUP_FOLDERS,
   SPECIAL_FOLDER_PREFIXES,
-  PERMISSION_REQUIRED_DIRECTORIES
+  PERMISSION_REQUIRED_DIRECTORIES,
+  CATEGORY_OPTIONS
 };
