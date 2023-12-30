@@ -6,6 +6,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import AlbumFoldersScreen from './src/screens/AlbumFoldersScreen';
 import FolderContentScreen from './src/screens/FolderContentsScreen';
 import MediaScreen from './src/screens/MediaScreen';
+import OrganizeDownloadModal from './src/components/OrganizeDownloadModal';
 
 import {FoldersContext} from './contexts/FoldersContext';
 import {AlbumsContext} from './contexts/AlbumsContext';
@@ -39,14 +40,16 @@ export default function App() {
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{
+              options={({navigation}) => ({
                 title: '',
-                headerRight: () => {
-                  return (
-                    <Button onPress={() => {}} title="Organize" color="#555" />
-                  );
-                },
-              }}
+                headerRight: () => (
+                  <Button
+                    onPress={() => navigation.navigate('OrganizeDownload')}
+                    title="Organize"
+                    color="#555"
+                  />
+                ),
+              })}
             />
             <Stack.Screen
               name="AlbumFolders"
@@ -65,6 +68,11 @@ export default function App() {
               })}
             />
             <Stack.Screen name="Media" component={MediaScreen} />
+            <Stack.Screen
+              name="OrganizeDownload"
+              component={OrganizeDownloadModal}
+              options={{headerShown: false, presentation: 'transparentModal'}}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </AlbumsContext.Provider>
