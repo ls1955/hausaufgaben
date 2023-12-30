@@ -4,8 +4,7 @@ feature
 tasks
 - include album thumbnails (one way or another...)
 - include folder thumbnail (use the first picture)
-- include album and folder count
-- in Homepage, have a scrollbar that allow user to scroll through stuffs via percentage
+- have a scrollbar that allow user to scroll through stuffs via percentage
 - include a reset storage permission
 - show a flash message when done moving file
 - check if folder name or category input is given before proceed with organizing
