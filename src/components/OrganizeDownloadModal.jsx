@@ -14,7 +14,7 @@ import {organizeDownloadFolder} from '../utils';
 // This modal is show when user want to move downloaded images/videos into a new directory.
 // It includes a folder name text input, and predefined options (like Vanilla, Doujin, etc...)
 // is plan to be included in the future.
-export default function CommitModal({status, onStatus}) {
+export default function OrganizeDownloadModal({status, onStatus}) {
   const [folderTitle, setFolderTitle] = useState('');
   const [isToStaging, setIsToStaging] = useState(false);
 
