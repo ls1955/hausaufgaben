@@ -1,8 +1,13 @@
 import {Pressable, Text, TextInput, View} from 'react-native';
 import {useState} from 'react';
 import CheckBox from '@react-native-community/checkbox';
+import SelectDropdown from 'react-native-select-dropdown';
 
 import {organizeDownloadFolder} from '../utils';
+import {CATEGORY_OPTIONS} from '../../appConfigs';
+
+// HACK: if this console statement is not here, for some reason CATEGORY_OPTIONS is undefined
+console.log(CATEGORY_OPTIONS);
 
 // A modal that shows up for user to organize his/her download folder.
 export default function OrganizeDownloadModal({navigation}) {
@@ -12,7 +17,7 @@ export default function OrganizeDownloadModal({navigation}) {
 
   const handleOrganize = async () => {
     try {
-      await organizeDownloadFolder({folder: folderTitle, isToStaging});
+      await organizeDownloadFolder({title: folderTitle, category, isToStaging});
       // TODO: Notify with a flash message.
     } catch (error) {
       // TODO: Warn with flash message.
@@ -26,7 +31,7 @@ export default function OrganizeDownloadModal({navigation}) {
       <View>
         <FolderTitleInput value={folderTitle} onChangeText={setFolderTitle} />
         <Text>Or</Text>
-        {/* TODO: Include dropdown list for category */}
+        <CategorySelect onSelect={setCategory} />
       </View>
       <StagingCheckbox value={isToStaging} onValueChange={setIsToStaging} />
       <ActionButtons onOrganize={handleOrganize} onCancel={handleClose} />
@@ -45,9 +50,20 @@ function FolderTitleInput({value, onChangeText}) {
   );
 }
 
+function CategorySelect({onSelect}) {
+  return (
+    <SelectDropdown
+      data={CATEGORY_OPTIONS}
+      onSelect={onSelect}
+      buttonTextAfterSelection={item => item}
+      defaultValue=""
+    />
+  );
+}
+
 function StagingCheckbox({value, onValueChange}) {
   return (
-    <View style={{flexDirection: "row", alignItems: "center"}}>
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
       <CheckBox value={value} onValueChange={onValueChange} />
       <Text>To Staging Folder</Text>
     </View>
@@ -56,7 +72,7 @@ function StagingCheckbox({value, onValueChange}) {
 
 function ActionButtons({onOrganize, onCancel}) {
   return (
-    <View style={{flexDirection: "row", justifyContent: "space-around"}}>
+    <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
       <Pressable onPress={onOrganize}>
         <Text>Organize</Text>
       </Pressable>
