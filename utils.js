@@ -2,7 +2,10 @@ import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {openDocumentTree, moveFile, listFiles} from 'react-native-saf-x';
 
-import {MAX_IMAGE_PER_FOLDER} from './appConfigs';
+import {
+  MAX_IMAGE_PER_FOLDER,
+  PERMISSION_REQUIRED_DIRECTORIES,
+} from './appConfigs';
 
 // Returns an array of media URIs (String) of given folderTitle.
 const getMediaUris = async ({folderTitle}) => {
@@ -21,10 +24,7 @@ const formatTitle = ({title, length = 10}) => {
 
 // Moves all the images and videos from Download directory automatically into new directory.
 // The new directory will be determined by given folder name input.
-const organizeDownloadFolder = async ({folder, isToStaging}) => {
-  // ADHOC: reset storage everytime for now to ensure we are selecting all correct paths...
-  await AsyncStorage.clear();
-
+const organizeDownloadFolder = async ({folderTitle, category, isToStaging}) => {
   const dirs = await checkScopedStoragePermissions();
 
   if (Object.keys(dirs).length === 0) {
@@ -32,20 +32,18 @@ const organizeDownloadFolder = async ({folder, isToStaging}) => {
     return;
   }
 
-  const {srcDir} = dirs;
-  const assets = await getAssets({dir: srcDir});
+  const {downloadDir} = dirs;
+  const assets = await getAssets({dir: downloadDir});
 
-  await moveAssets({assets, folder, dirs, isToStaging});
+  await moveAssets({assets, folder: folderTitle, category, dirs, isToStaging});
 };
 
-// Check if required directories had granted permissions. // Return an object containing
-// these dir (empty object if any dir did not have permission).
+// Check if required directories had granted permissions. Return an object containing
+// these dir (empty object if any dir fail to have have permission).
 const checkScopedStoragePermissions = async () => {
-  // TODO: Extract out the constants?
-  const dirs = ['srcDir', 'defaultDir', 'doujinDir', 'stagingDir'];
   const result = {};
 
-  for (const dirName of dirs) {
+  for (const dirName of PERMISSION_REQUIRED_DIRECTORIES) {
     let dir = await AsyncStorage.getItem(dirName);
 
     if (dir == null) {
@@ -86,7 +84,7 @@ const getAssets = async ({dir}) => {
 };
 
 // Move the assets to their correct destination.
-const moveAssets = async ({assets, folder, dirs, isToStaging}) => {
+const moveAssets = async ({assets, folder, category, dirs, isToStaging}) => {
   if (assets.length === 0) {
     console.error(
       'No file to move. Please ensure files exist in download directory.',
@@ -94,28 +92,32 @@ const moveAssets = async ({assets, folder, dirs, isToStaging}) => {
     return;
   }
 
-  const {srcDir} = dirs;
+  const {downloadDir} = dirs;
 
   for (const asset of assets) {
-    const srcUri = `${srcDir.uri}/${ass.name}`;
+    const srcUri = `${downloadDir.uri}/${ass.name}`;
 
-    let destBaseUri = getDestBaseUri({asset, dirs, isToStaging});
-    const destUri = `${destBaseUri}/${folder}/${asset.name}`;
+    let folderPath = getNewFolderPath({category, isToStaging, dirs, folder});
+    const destUri = `${folderPath}/${asset.name}`;
 
     // NOTE: will replace existing same file
     await moveFile(srcUri, destUri, {replaceIfDestinationExists: true});
   }
 };
 
-// Returns a suitable directory's uri that is determine via asset's name and given flags.
-const getDestBaseUri = ({asset, dirs, isToStaging}) => {
+// Returns a new folder path.
+const getNewFolderPath = ({category, isToStaging, dirs, folder}) => {
   const {defaultDir, doujinDir, stagingDir} = dirs;
 
-  // TODO: extract a routing object that determine which directory to use.
-  if (isToStaging) return stagingDir.uri;
-  if (asset.name.startsWith('本子')) return doujinDir.uri;
+  if (isToStaging) return `${stagingDir.uri}/${folder}`;
 
-  return defaultDir.uri;
+  switch(category) {
+    case "doujin":
+    case "vanilla":
+      return `${doujinDir.uri}/${folder}`
+  }
+
+  return `${defaultDir.uri}/${folder}`;
 };
 
 // TODO: Expose an option of resetting scoped storage permissions?
