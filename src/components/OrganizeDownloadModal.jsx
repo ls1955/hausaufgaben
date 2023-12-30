@@ -1,94 +1,61 @@
-import {
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Modal, Pressable, Text, TextInput, View} from 'react-native';
 import {useState} from 'react';
 import CheckBox from '@react-native-community/checkbox';
 
 import {organizeDownloadFolder} from '../utils';
 
-// This modal is show when user want to move downloaded images/videos into a new directory.
-// It includes a folder name text input, and predefined options (like Vanilla, Doujin, etc...)
-// is plan to be included in the future.
-export default function OrganizeDownloadModal({status, onStatus}) {
+// A modal that shows up for user to organize his/her download folder.
+export default function OrganizeDownloadModal(onShowModal) {
   const [folderTitle, setFolderTitle] = useState('');
   const [isToStaging, setIsToStaging] = useState(false);
+  const [category, setCategory] = useState('');
 
-  const handleCommit = async () => {
+  const handleOrganize = async () => {
     try {
       await organizeDownloadFolder({folder: folderTitle, isToStaging});
-      // TODO: Replace with a flash message in app.
-      console.log('The files had been successfully moved.');
+      // TODO: Notify with a flash message.
     } catch (error) {
+      // TODO: Warn with flash message.
       console.error(error);
     }
   };
+  const handleClose = () => onShowModal(false);
 
   return (
-    <Modal
-      animationType="none"
-      transparent={true}
-      visible={true}
-      onRequestClose={() => onStatus({...status, showModal: false})}>
-      <View style={styles.body}>
-        <TextInput
-          onChangeText={setFolderTitle}
-          placeholder="folder-name"
-          value={folderTitle}
-          autoFocus={true}
-          style={styles.input}
-        />
-        <View style={styles.checkboxContainer}>
-          <CheckBox
-            value={isToStaging}
-            onValueChange={val => setIsToStaging(val)}
-          />
-          <Text>To staging folder</Text>
-        </View>
-        <View style={styles.buttonsContainer}>
-          <Pressable onPress={handleCommit} style={styles.button}>
-            <Text style={styles.buttonText}>Commit</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => onStatus({...status, showModal: false})}
-            style={styles.button}>
-            <Text style={styles.buttonText}>Cancel</Text>
-          </Pressable>
-        </View>
+    <Modal transparent={true} onRequestClose={handleClose}>
+      <View>
+        <FolderTitleInput value={folderTitle} onChangeText={setFolderTitle} />
+        <StagingCheckbox value={isToStaging} onValueChange={setIsToStaging} />
       </View>
+      <ActionButtons onOrganize={handleOrganize} onCancel={handleClose} />
     </Modal>
   );
 }
 
-const styles = StyleSheet.create({
-  body: {
-    borderColor: 'rgb(200, 200, 200)',
-    borderWidth: 1,
-    marginTop: 40,
-    marginHorizontal: 20,
-    padding: 20,
-    borderRadius: 10,
-  },
-  input: {
-    borderBottomColor: 'rgb(200, 200, 200)',
-    borderBottomWidth: 1,
-    paddingBottom: 2,
-  },
-  checkboxContainer: {
-    marginVertical: 30,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  buttonText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-});
+function FolderTitleInput({value, onChangeText}) {
+  return (
+    <TextInput value={value} onChangeText={onChangeText} autoFocus={true} />
+  );
+}
+
+function StagingCheckbox({value, onValueChange}) {
+  return (
+    <View>
+      <CheckBox value={value} onValueChange={onValueChange} />
+      <Text>To Staging Folder</Text>
+    </View>
+  );
+}
+
+function ActionButtons({onOrganize, onCancel}) {
+  return (
+    <View>
+      <Pressable onPress={onOrganize}>
+        <Text>Organize</Text>
+      </Pressable>
+      <Pressable onPress={onCancel}>
+        <Text>Cancel</Text>
+      </Pressable>
+    </View>
+  );
+}
