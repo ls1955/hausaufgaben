@@ -3,11 +3,8 @@ import {useState} from 'react';
 import CheckBox from '@react-native-community/checkbox';
 import SelectDropdown from 'react-native-select-dropdown';
 
-import {organizeDownloadFolder} from '../utils';
+import {organizeDownloadFolder} from '../../utils';
 import {CATEGORY_OPTIONS} from '../../appConfigs';
-
-// HACK: if this console statement is not here, for some reason CATEGORY_OPTIONS is undefined
-console.log(CATEGORY_OPTIONS);
 
 // A modal that shows up for user to organize his/her download folder.
 export default function OrganizeDownloadModal({navigation}) {
@@ -19,8 +16,8 @@ export default function OrganizeDownloadModal({navigation}) {
     try {
       if (folderTitle === '' && category === '') {
         // TODO: notify with flash message
-        console.log("Please enter a folderTitle or select a category")
-        return
+        console.log('Please enter a folderTitle or select a category');
+        return;
       }
       await organizeDownloadFolder({title: folderTitle, category, isToStaging});
       // TODO: notify with a flash message.
