@@ -24,7 +24,12 @@ const formatTitle = ({title, length = 10}) => {
 
 // Moves all the images and videos from Download directory automatically into new directory.
 // The new directory will be determined by given folder name input.
-const organizeDownloadFolder = async ({folderTitle, category, isToStaging}) => {
+const organizeDownloadFolder = async ({
+  folderTitle,
+  category,
+  isToStaging,
+  albums,
+}) => {
   const dirs = await checkScopedStoragePermissions();
 
   if (Object.keys(dirs).length === 0) {
@@ -32,10 +37,16 @@ const organizeDownloadFolder = async ({folderTitle, category, isToStaging}) => {
     return;
   }
 
-  const {downloadDir} = dirs;
-  const assets = await getAssets({dir: downloadDir});
+  const assets = await getAssets({uri: dirs.downloadDir.uri});
 
-  await moveAssets({assets, folder: folderTitle, category, dirs, isToStaging});
+  await moveAssets({
+    assets,
+    folder: folderTitle,
+    category,
+    albums,
+    dirs,
+    isToStaging,
+  });
 };
 
 // Check if required directories had granted permissions. Return an object containing
@@ -48,6 +59,8 @@ const checkScopedStoragePermissions = async () => {
 
     if (dir == null) {
       dir = await requestScopedStoragePermission(dirName);
+    } else {
+      dir = JSON.parse(dir);
     }
 
     // if the permission is still not granted, we are done
@@ -57,7 +70,7 @@ const checkScopedStoragePermissions = async () => {
       );
       return {};
     }
-    result[dir] = dir;
+    result[dirName] = dir;
   }
 
   return result;
@@ -76,15 +89,22 @@ const requestScopedStoragePermission = async dirName => {
 };
 
 // Return all the image, gifs or videos files' in <DocumentFileDetail> format of
-// react-native-saf-x from dir.
-const getAssets = async ({dir}) => {
-  let assets = await listFiles(dir.uri);
+// react-native-saf-x from given uri.
+const getAssets = async ({uri}) => {
+  let assets = await listFiles(uri);
 
-  return assets.filter(ass => /\.(jpg|jpeg|png|gif|mp4)$/.test(ass.name));
+  return assets.filter(asset => /\.(jpg|jpeg|png|gif|mp4)$/.test(asset.name));
 };
 
 // Move the assets to their correct destination.
-const moveAssets = async ({assets, folder, category, dirs, isToStaging}) => {
+const moveAssets = async ({
+  assets,
+  folder,
+  category,
+  albums,
+  dirs,
+  isToStaging,
+}) => {
   if (assets.length === 0) {
     console.error(
       'No file to move. Please ensure files exist in download directory.',
@@ -95,9 +115,15 @@ const moveAssets = async ({assets, folder, category, dirs, isToStaging}) => {
   const {downloadDir} = dirs;
 
   for (const asset of assets) {
-    const srcUri = `${downloadDir.uri}/${ass.name}`;
+    const srcUri = `${downloadDir.uri}/${asset.name}`;
 
-    let folderPath = getNewFolderPath({category, isToStaging, dirs, folder});
+    let folderPath = getNewFolderPath({
+      category,
+      isToStaging,
+      albums,
+      dirs,
+      folder,
+    });
     const destUri = `${folderPath}/${asset.name}`;
 
     // NOTE: will replace existing same file
@@ -106,19 +132,38 @@ const moveAssets = async ({assets, folder, category, dirs, isToStaging}) => {
 };
 
 // Returns a new folder path.
-const getNewFolderPath = ({category, isToStaging, dirs, folder}) => {
+const getNewFolderPath = ({category, isToStaging, albums, dirs, folder}) => {
   const {defaultDir, doujinDir, stagingDir} = dirs;
 
   if (isToStaging) return `${stagingDir.uri}/${folder}`;
 
-  switch(category) {
-    // FIXME: The folder is usually "" if the category is set, have to figure out the folder name yourself
-    case "doujin":
-    case "vanilla":
-      return `${doujinDir.uri}/${folder}`
+  if (category === 'doujin') {
+    let folderTitle = '本子';
+    let folderIds = [...albums[folderTitle]].map(title =>
+      toNumber({str: title}),
+    );
+    let latestId = Math.max(...folderIds) + 1;
+    return `${doujinDir.uri}/${folderTitle}${latestId}`;
+  } else if (category === 'vanilla') {
+    let folderTitle = 'Vanilla';
+    let folderIds = [...albums[folderTitle]].map(title =>
+      toNumber({str: title}),
+    );
+    let latestId = Math.max(...folderIds) + 1;
+    return `${doujinDir.uri}/${folderTitle}${latestId}`;
   }
 
   return `${defaultDir.uri}/${folder}`;
+};
+
+// Return the number from str. Only use the first consequences of encountered digits as result.
+// Return -1 if the str does not contain any digits.
+const toNumber = ({str}) => {
+  let match = str.match(/\d+/);
+
+  if (match == null) return -1;
+
+  return +str.match(/\d+/)[0];
 };
 
 // TODO: Expose an option of resetting scoped storage permissions?
@@ -128,5 +173,5 @@ export {
   formatTitle,
   organizeDownloadFolder,
   checkScopedStoragePermissions,
-  requestScopedStoragePermission,
+  requestScopedStoragePermission
 };
