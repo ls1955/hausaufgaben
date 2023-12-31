@@ -7,19 +7,12 @@ tasks
 - have a scrollbar that allow user to scroll through stuffs via percentage
 - include a reset storage permission
 - show a flash message when done moving file
-- check if folder name or category input is given before proceed with organizing
 - include delete button when viewing image
-
-test
-- test if organizeDownloadFolder in utils.js work properly
 
 improvements
 - eager load folder images when clicked on an album?
 - merge commit modal in HomeScreen into navigation header
 - support playing .mp4
-
-fix
-- when sorting doujin, should sort by their number instead of alphabetically
 
 refactor
 - In utils.js, there is a lot of hardcoding, particularly in organizeDownloadFolder and getNewFolderPath,
