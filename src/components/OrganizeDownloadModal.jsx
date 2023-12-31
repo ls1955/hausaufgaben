@@ -1,5 +1,6 @@
 import {Pressable, Text, TextInput, View} from 'react-native';
 import {useState} from 'react';
+import { DarkTheme } from '@react-navigation/native';
 import CheckBox from '@react-native-community/checkbox';
 import SelectDropdown from 'react-native-select-dropdown';
 
@@ -29,7 +30,7 @@ export default function OrganizeDownloadModal({navigation}) {
   const handleClose = () => navigation.goBack();
 
   return (
-    <View style={{backgroundColor: 'rgb(1,1,1)', top: '20%', padding: 20}}>
+    <View style={{backgroundColor: DarkTheme.colors.background, top: '20%', padding: 20}}>
       <View>
         <FolderTitleInput value={folderTitle} onChangeText={setFolderTitle} />
         <Text>Or</Text>
