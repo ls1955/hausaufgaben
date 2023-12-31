@@ -1,17 +1,19 @@
 import {Pressable, Text, TextInput, View} from 'react-native';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import { DarkTheme } from '@react-navigation/native';
 import CheckBox from '@react-native-community/checkbox';
 import SelectDropdown from 'react-native-select-dropdown';
 
 import {organizeDownloadFolder} from '../../utils';
 import {CATEGORY_OPTIONS} from '../../appConfigs';
+import { AlbumsContext } from '../../contexts/AlbumsContext';
 
 // A modal that shows up for user to organize his/her download folder.
 export default function OrganizeDownloadModal({navigation}) {
   const [folderTitle, setFolderTitle] = useState('');
   const [isToStaging, setIsToStaging] = useState(false);
   const [category, setCategory] = useState('');
+  const albums = useContext(AlbumsContext);
 
   const handleOrganize = async () => {
     try {
@@ -20,7 +22,7 @@ export default function OrganizeDownloadModal({navigation}) {
         console.log('Please enter a folderTitle or select a category');
         return;
       }
-      await organizeDownloadFolder({title: folderTitle, category, isToStaging});
+      await organizeDownloadFolder({title: folderTitle, category, isToStaging, albums});
       // TODO: notify with a flash message.
     } catch (error) {
       // TODO: Warn with flash message.
@@ -47,7 +49,6 @@ function FolderTitleInput({value, onChangeText}) {
     <TextInput
       value={value}
       onChangeText={onChangeText}
-      autoFocus={true}
       placeholder="folder-name"
     />
   );
