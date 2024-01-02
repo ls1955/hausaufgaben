@@ -2,13 +2,13 @@ import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useContext, useState} from 'react';
 import {DarkTheme} from '@react-navigation/native';
 import CheckBox from '@react-native-community/checkbox';
-import SelectDropdown from 'react-native-select-dropdown';
+import {Picker} from '@react-native-picker/picker';
 
 import {organizeDownloadFolder} from '../../utils';
 import {CATEGORY_OPTIONS} from '../../appConfigs';
 import {AlbumsContext} from '../../contexts/AlbumsContext';
 
-// A modal that shows up for user to organize his/her download folder.
+// A modal that shows up for user to organize their download folder.
 export default function OrganizeDownloadModal({navigation}) {
   const [folderTitle, setFolderTitle] = useState('');
   const [isToStaging, setIsToStaging] = useState(false);
@@ -40,15 +40,20 @@ export default function OrganizeDownloadModal({navigation}) {
     <View style={styles.modalContainer}>
       <View>
         <FolderTitleInput value={folderTitle} onChangeText={setFolderTitle} />
-      <StagingCheckbox value={isToStaging} onValueChange={setIsToStaging} />
-        <Text style={styles.inBetweenText}>Or</Text>
-        <CategorySelect onSelect={setCategory} />
+        <StagingCheckbox value={isToStaging} onValueChange={setIsToStaging} />
+        <CategoryPicker
+          defaultValue={category}
+          onSelect={setCategory}
+          options={CATEGORY_OPTIONS}
+        />
       </View>
       <ActionButtons onOrganize={handleOrganize} onCancel={handleClose} />
     </View>
   );
 }
 
+// Input for folder title. Note that folder input have higher priority than category option, which mean
+// folder input will be use when both are present.
 function FolderTitleInput({value, onChangeText}) {
   return (
     <TextInput
@@ -60,22 +65,8 @@ function FolderTitleInput({value, onChangeText}) {
   );
 }
 
-function CategorySelect({onSelect}) {
-  return (
-    <SelectDropdown
-      data={CATEGORY_OPTIONS}
-      onSelect={onSelect}
-      buttonTextAfterSelection={item => item}
-      defaultButtonText="select-a-category"
-      rowStyle={styles.selectRow}
-      buttonStyle={styles.selectButton}
-      rowTextStyle={styles.selectSelectedRow}
-      buttonTextStyle={styles.selectText}
-      selectedRowTextStyle={[styles.selectText, styles.selectSelectedRow]}
-    />
-  );
-}
-
+// Checkbox to determine whether given folder should be move to staging_area folder. Will not move the
+// folder to staging_area if it is created from category option. This behavior is in discussion.
 function StagingCheckbox({value, onValueChange}) {
   return (
     <View style={styles.checkBoxContainer}>
@@ -85,6 +76,21 @@ function StagingCheckbox({value, onValueChange}) {
   );
 }
 
+// The picker to select a category.
+function CategoryPicker({defaultValue, onSelect, options}) {
+  const handleSelect = newVal => onSelect(newVal);
+  const items = options.map((option, i) => (
+    <Picker.Item key={i} label={option} value={option} />
+  ));
+
+  return (
+    <Picker selectedValue={defaultValue} onValueChange={handleSelect} mode="dropdown">
+      {items}
+    </Picker>
+  );
+}
+
+// A container that holds organize and cancel button.
 function ActionButtons({onOrganize, onCancel}) {
   return (
     <View style={styles.buttonsContainer}>
@@ -127,12 +133,17 @@ const styles = StyleSheet.create({
     borderBottomColor: 'white',
   },
   selectSelectedRow: {
-    borderBottomWidth: 1, borderBottomColor: "white"
+    borderBottomWidth: 1,
+    borderBottomColor: 'white',
   },
   selectButton: {
     backgroundColor: 'rgb(40, 40, 40)',
     color: DarkTheme.colors.text,
   },
   selectText: {color: DarkTheme.colors.text},
-  buttonsContainer: {flexDirection: 'row', justifyContent: 'space-around', marginTop: 15}
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 15,
+  },
 });
