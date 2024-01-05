@@ -24,3 +24,8 @@ todo:
 - style OrganizeDownloadModal
 - append new folder and album into context after organizeDownloadFolder
 - include flash message for modal notification
+
+fix
+- when to_staging_area is checked, the content are moved to staging_area/undefined
+- include indication when content is being move
+- sort doujin/vanilla numerically instead of aphabetically
