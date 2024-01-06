@@ -23,7 +23,7 @@ export default function OrganizeDownloadModal({navigation}) {
         return;
       }
       await organizeDownloadFolder({
-        title: folderTitle,
+        folderTitle,
         category,
         isToStaging,
         albums,
@@ -84,7 +84,10 @@ function CategoryPicker({defaultValue, onSelect, options}) {
   ));
 
   return (
-    <Picker selectedValue={defaultValue} onValueChange={handleSelect} mode="dropdown">
+    <Picker
+      selectedValue={defaultValue}
+      onValueChange={handleSelect}
+      mode="dropdown">
       {items}
     </Picker>
   );
