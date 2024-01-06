@@ -29,3 +29,7 @@ fix
 - when to_staging_area is checked, the content are moved to staging_area/undefined
 - include indication when content is being move
 - sort doujin/vanilla numerically instead of aphabetically
+
+function
+- sanitize folder input beforehand (lookup illegal character in Android file system)
+- rename format function to something like shorten?
