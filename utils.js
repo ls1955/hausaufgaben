@@ -97,11 +97,16 @@ const requestScopedStoragePermission = async dirName => {
 };
 
 // Return all the image, gifs or videos files' in <DocumentFileDetail> format of
-// react-native-saf-x from given uri.
+// react-native-saf-x from given uri. Return empty array if no files.
 const getAssets = async ({uri}) => {
-  let assets = await listFiles(uri);
+  try {
+    let assets = await listFiles(uri);
 
-  return assets.filter(asset => /\.(jpg|jpeg|png|gif|mp4)$/.test(asset.name));
+    return assets.filter(asset => /\.(jpg|jpeg|png|gif|mp4)$/.test(asset.name));
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };
 
 // Move the assets to their correct destination.
@@ -114,7 +119,7 @@ const moveAssets = async ({
   isToStaging,
 }) => {
   if (assets.length === 0) {
-    console.error(
+    console.info(
       'No file to move. Please ensure files exist in download directory.',
     );
     return;
