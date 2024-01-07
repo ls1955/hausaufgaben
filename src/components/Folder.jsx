@@ -2,7 +2,7 @@ import {useContext} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 
 import {FoldersContext} from '../../contexts/FoldersContext';
-import {formatTitle} from '../../utils';
+import {abbreviate} from '../../utils';
 
 // A component that represent a folder cover.
 export default function Folder({title, navigation}) {
@@ -16,7 +16,7 @@ export default function Folder({title, navigation}) {
         onPress={handleNav}
         style={{width: 110, height: 110, backgroundColor: 'white'}}
       />
-      <Text style={{fontWeight: "bold"}}>{formatTitle({title})}</Text>
+      <Text style={{fontWeight: "bold"}}>{abbreviate({title})}</Text>
       <Text style={{fontSize: 12, marginTop: 2}}>{count}</Text>
     </View>
   );

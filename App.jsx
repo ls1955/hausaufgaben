@@ -13,7 +13,7 @@ import {FoldersContext} from './contexts/FoldersContext';
 import {AlbumsContext} from './contexts/AlbumsContext';
 
 import {getPermission, loadFolders, getGroupedAlbums} from './init';
-import {formatTitle} from './utils';
+import {abbreviate} from './utils';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,7 +54,7 @@ export default function App() {
               name="AlbumFolders"
               component={AlbumFoldersScreen}
               options={({route}) => ({
-                title: formatTitle({title: route.params.title, length: 15}),
+                title: abbreviate({title: route.params.title}),
                 headerTitleStyle: {fontWeight: 'normal'},
               })}
             />
@@ -62,7 +62,7 @@ export default function App() {
               name="FolderContents"
               component={FolderContentScreen}
               options={({route}) => ({
-                title: formatTitle({title: route.params.title, length: 15}),
+                title: abbreviate({title: route.params.title}),
                 headerTitleStyle: {fontWeight: 'normal'},
               })}
             />

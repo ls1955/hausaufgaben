@@ -17,9 +17,11 @@ const getMediaUris = async ({folderTitle}) => {
   return photos.edges.map(edge => edge.node.image.uri);
 };
 
-// Shorten giving album/folder title if it exceed given length, length is default to 10.
-const formatTitle = ({title, length = 10}) => {
-  return title.length <= length ? title : `${title.substring(0, 7)}...`;
+// Abbreviate title if it exceed *maxLength*.
+const abbreviate = ({title, maxLength = 15}) => {
+  return title.length <= maxLength
+    ? title
+    : `${title.substring(0, maxLength - 3)}...`;
 };
 
 // Moves all the images and videos from Download directory automatically into new directory.
@@ -170,8 +172,8 @@ const toNumber = ({str}) => {
 
 export {
   getMediaUris,
-  formatTitle,
+  abbreviate,
   organizeDownloadFolder,
   checkScopedStoragePermissions,
-  requestScopedStoragePermission
+  requestScopedStoragePermission,
 };

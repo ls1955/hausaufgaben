@@ -1,8 +1,8 @@
-import { useContext } from 'react';
+import {useContext} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 
-import { AlbumsContext } from '../../contexts/AlbumsContext';
-import {formatTitle} from '../../utils';
+import {AlbumsContext} from '../../contexts/AlbumsContext';
+import {abbreviate} from '../../utils';
 
 // A component that represents an album cover.
 export default function Album({title, navigation}) {
@@ -18,7 +18,7 @@ export default function Album({title, navigation}) {
         onPress={handleNav}
         style={{width: 110, height: 110, backgroundColor: 'white'}}
       />
-      <Text style={{fontWeight: "bold"}}>{formatTitle({title})}</Text>
+      <Text style={{fontWeight: 'bold'}}>{abbreviate({title})}</Text>
       <Text style={{fontSize: 12, marginTop: 2}}>{count}</Text>
     </View>
   );
