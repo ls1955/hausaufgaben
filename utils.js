@@ -43,12 +43,18 @@ const organizeDownloadFolder = async ({
 
   await moveAssets({
     assets,
-    folder: folderTitle,
+    folder: sanitize({folderTitle}),
     category,
     albums,
     dirs,
     isToStaging,
   });
+};
+
+const INVALID_FILE_CHAR = /[\/:*?"<>|]/g;
+// Returns a new folderTitle where invalid file characters are remove.
+const sanitize = ({folderTitle}) => {
+  return folderTitle.replaceAll(INVALID_FILE_CHAR, '');
 };
 
 // Check if required directories had granted permissions. Return an object containing
