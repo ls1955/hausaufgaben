@@ -76,7 +76,9 @@ android {
 
     namespace "com.hausaufgaben"
     defaultConfig {
-        applicationId "com.hausaufgaben"
+        // toggle between debug and production build
+        applicationId "com.hausaufgaben.debug"
+        // applicationId "com.hausaufgaben"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
