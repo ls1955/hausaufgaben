@@ -10,9 +10,8 @@ tasks
 - include delete button when viewing image
 
 improvements
-- eager load folder images when clicked on an album?
-- merge commit modal in HomeScreen into navigation header
-- support playing .mp4
+- eager load folder images when clicked on an album? (current performance is good enough)
+- support playing .mp4 (might have to roll out own package)
 
 refactor
 - In utils.js, there is a lot of hardcoding, particularly in organizeDownloadFolder and getNewFolderPath,
@@ -26,10 +25,5 @@ todo:
 - include flash message for modal notification
 
 fix
-- when to_staging_area is checked, the content are moved to staging_area/undefined
 - include indication when content is being move
 - sort doujin/vanilla numerically instead of aphabetically
-
-function
-- sanitize folder input beforehand (lookup illegal character in Android file system)
-- rename format function to something like shorten?
