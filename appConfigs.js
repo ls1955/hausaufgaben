@@ -1,5 +1,8 @@
 // This file contains various app configurations.
 
+// The app name. Usually use as the title of flash messages.
+const APP_NAME = 'Hausaufgaben';
+
 // Number of columns for flat list showing albums and folders.
 const GALLERY_FLAT_LIST_NUM_COLUMNS = 3;
 
@@ -37,6 +40,7 @@ const PERMISSION_REQUIRED_DIRECTORIES = ['downloadDir', 'defaultDir', 'doujinDir
 const CATEGORY_OPTIONS = ["", "doujin", "vanilla"];
 
 export {
+  APP_NAME,
   GALLERY_FLAT_LIST_NUM_COLUMNS,
   PHOTO_FLAT_LIST_NUM_COLUMNS,
   MAX_IMAGE_PER_FOLDER,
