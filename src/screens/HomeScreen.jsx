@@ -11,6 +11,7 @@ import {
   GALLERY_FLAT_LIST_NUM_COLUMNS,
   NON_GROUP_FOLDERS,
 } from '../../appConfigs';
+import FlashMessage from 'react-native-flash-message';
 
 // The screen that shows the albums and folders.
 export default function HomeScreen({navigation}) {
@@ -43,6 +44,7 @@ export default function HomeScreen({navigation}) {
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
+      <FlashMessage />
     </SafeAreaView>
   );
 }

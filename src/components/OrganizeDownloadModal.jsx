@@ -4,7 +4,12 @@ import {DarkTheme} from '@react-navigation/native';
 import CheckBox from '@react-native-community/checkbox';
 import {Picker} from '@react-native-picker/picker';
 
-import {organizeDownloadFolder} from '../../utils';
+import {
+  organizeDownloadFolder,
+  showErrorFlash,
+  showInvalidInputFlash,
+  showSuccessOrganizeFlash,
+} from '../../utils';
 import {CATEGORY_OPTIONS} from '../../appConfigs';
 import {AlbumsContext} from '../../contexts/AlbumsContext';
 
@@ -17,21 +22,19 @@ export default function OrganizeDownloadModal({navigation}) {
 
   const handleOrganize = async () => {
     try {
-      if (folderTitle === '' && category === '') {
-        // TODO: notify with flash message
-        console.log('Please enter a folderTitle or select a category');
-        return;
-      }
+      if (folderTitle === '' && category === '') return showInvalidInputFlash();
+
+      navigation.goBack();
       await organizeDownloadFolder({
         folderTitle,
         category,
         isToStaging,
         albums,
       });
-      // TODO: notify with a flash message.
+
+      showSuccessOrganizeFlash();
     } catch (error) {
-      // TODO: Warn with flash message.
-      console.error(error);
+      showErrorFlash({error});
     }
   };
   const handleClose = () => navigation.goBack();

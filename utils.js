@@ -1,8 +1,10 @@
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {openDocumentTree, moveFile, listFiles} from 'react-native-saf-x';
+import {showMessage} from 'react-native-flash-message';
 
 import {
+  APP_NAME,
   MAX_IMAGE_PER_FOLDER,
   PERMISSION_REQUIRED_DIRECTORIES,
 } from './appConfigs';
@@ -179,6 +181,22 @@ const toNumber = ({str}) => {
   return +str.match(/\d+/)[0];
 };
 
+const showErrorFlash = ({error}) => {
+  const type = 'danger';
+  showMessage({message: APP_NAME, description: error, type, duration: 4000});
+};
+
+const showInvalidInputFlash = () => {
+  const description = 'Please enter a folder title or category.';
+  const type = 'default';
+  showMessage({message: APP_NAME, description, type, duration: 3000});
+};
+
+const showSuccessOrganizeFlash = () => {
+  const description = 'Finish organize download folder.';
+  showMessage({message: APP_NAME, description, type: 'success'});
+};
+
 // TODO: Expose an option of resetting scoped storage permissions?
 
 export {
@@ -187,4 +205,7 @@ export {
   organizeDownloadFolder,
   checkScopedStoragePermissions,
   requestScopedStoragePermission,
+  showErrorFlash,
+  showInvalidInputFlash,
+  showSuccessOrganizeFlash,
 };
