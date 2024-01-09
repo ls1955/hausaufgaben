@@ -14,7 +14,7 @@ export default function Folder({title, navigation}) {
     <View style={{alignItems: 'center', marginBottom: 20, marginRight: 15}}>
       <TouchableOpacity
         onPress={handleNav}
-        style={{width: 110, height: 110, backgroundColor: 'white'}}
+        style={{minWidth: 108, minHeight: 108, backgroundColor: 'white'}}
       />
       <Text style={{fontWeight: "bold"}}>{abbreviate({title})}</Text>
       <Text style={{fontSize: 12, marginTop: 2}}>{count}</Text>
