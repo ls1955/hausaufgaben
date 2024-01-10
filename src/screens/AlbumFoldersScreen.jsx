@@ -11,11 +11,11 @@ export default function AlbumFoldersScreen({navigation, route: {params}}) {
   const albums = useContext(AlbumsContext);
   // splat it as it is Set
   const folderData = [...albums[params.title]].map((title, i) => {
-    return {id: i, title};
+    return {key: i, title};
   });
 
-  const renderFolder = ({item: {id, title}}) => {
-    return <Folder key={id} title={title} navigation={navigation} />;
+  const renderFolder = ({item: {key, title}}) => {
+    return <Folder key={key} title={title} navigation={navigation} />;
   };
 
   return (
@@ -24,7 +24,6 @@ export default function AlbumFoldersScreen({navigation, route: {params}}) {
         numColumns={GALLERY_FLAT_LIST_NUM_COLUMNS}
         data={folderData}
         renderItem={renderFolder}
-        keyExtractor={item => item.id}
       />
     </SafeAreaView>
   );

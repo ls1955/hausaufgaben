@@ -42,7 +42,6 @@ export default function HomeScreen({navigation}) {
         numColumns={GALLERY_FLAT_LIST_NUM_COLUMNS}
         data={data}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
       />
       <FlashMessage />
     </SafeAreaView>

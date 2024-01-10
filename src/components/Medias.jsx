@@ -27,11 +27,11 @@ export default function Medias({title, navigation}) {
   }, []);
 
   const mediaUris = folders[title].mediaUris;
-  const mediaData = mediaUris.map((uri, i) => ({id: i, uri, index: i}));
-  const renderMedia = ({item: {id, uri, index}}) => {
+  const mediaData = mediaUris.map((uri, i) => ({key: i, uri, index: i}));
+  const renderMedia = ({item: {key, uri, index}}) => {
     return (
       <TouchableOpacity
-        key={id}
+        key={key}
         style={{width: '25%'}}
         onPress={handleNav(index)}>
         <FastImage
@@ -51,7 +51,6 @@ export default function Medias({title, navigation}) {
       numColumns={PHOTO_FLAT_LIST_NUM_COLUMNS}
       data={mediaData}
       renderItem={renderMedia}
-      keyExtractor={item => item.id}
     />
   ) : (
     <Loading />
