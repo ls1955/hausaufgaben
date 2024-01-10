@@ -51,6 +51,7 @@ export default function Medias({title, navigation}) {
       numColumns={PHOTO_FLAT_LIST_NUM_COLUMNS}
       data={mediaData}
       renderItem={renderMedia}
+      contentContainerStyle={{paddingRight: 5}}
     />
   ) : (
     <Loading />
