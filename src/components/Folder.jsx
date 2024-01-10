@@ -1,21 +1,38 @@
-import {useContext} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {useContext, useEffect, useState} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 import {FoldersContext} from '../../contexts/FoldersContext';
-import {abbreviate} from '../../utils';
+import {abbreviate, getThumbnailUri} from '../../utils';
 
 // A component that represent a folder cover.
 export default function Folder({title, navigation}) {
-  const handleNav = () => navigation.navigate('FolderContents', {title});
+  const [_, setRerender] = useState(false);
+  const {mediaUris, count} = useContext(FoldersContext)[title];
 
-  const count = useContext(FoldersContext)[title].count;
+  // NOTE: due to mutation of mediaUris, the thumbnail will be loaded twice, causing same image
+  // to be pushed into the mediaUris, thus prevent loading of rest of folder content later on.
+  // Should NOT be an issue during production.
+  useEffect(() => {
+    const lazyLoadThumbNail = async () => {
+      if (mediaUris.length > 0) return;
+
+      const thumbnailUri = await getThumbnailUri({folderTitle: title});
+      mediaUris.push(thumbnailUri);
+      setRerender(true);
+    }
+    lazyLoadThumbNail();
+  }, []);
+
+  const handleNav = () => navigation.navigate('FolderContents', {title});
 
   return (
     <View style={{alignItems: 'center', marginBottom: 20, marginRight: 15}}>
       <TouchableOpacity
         onPress={handleNav}
         style={{minWidth: 108, minHeight: 108, backgroundColor: 'white'}}
-      />
+      >
+        {mediaUris.length >= 1 && <Image source={{uri: mediaUris[0]}} style={{width: 108, height: 108, resizeMode: "cover"}} />}
+        </TouchableOpacity>
       <Text style={{fontWeight: "bold"}}>{abbreviate({title})}</Text>
       <Text style={{fontSize: 12, marginTop: 2}}>{count}</Text>
     </View>

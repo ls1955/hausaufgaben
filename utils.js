@@ -10,14 +10,20 @@ import {
 } from './appConfigs';
 
 // Returns an array of media URIs (String) of given folderTitle.
-const getMediaUris = async ({folderTitle}) => {
+const getMediaUris = async ({folderTitle, first = MAX_IMAGE_PER_FOLDER}) => {
   const photos = await CameraRoll.getPhotos({
-    first: MAX_IMAGE_PER_FOLDER,
+    first,
     groupName: folderTitle,
   });
 
   return photos.edges.map(edge => edge.node.image.uri);
 };
+
+// Returns the first media URIs of folderTitle.
+const getThumbnailUri = async ({folderTitle}) => {
+  const photos = await getMediaUris({folderTitle, first: 1})
+  return photos[0];
+}
 
 // Abbreviate title if it exceed *maxLength*.
 const abbreviate = ({title, maxLength = 15}) => {
@@ -201,6 +207,7 @@ const showSuccessOrganizeFlash = () => {
 
 export {
   getMediaUris,
+  getThumbnailUri,
   abbreviate,
   organizeDownloadFolder,
   checkScopedStoragePermissions,
