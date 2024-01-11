@@ -1,5 +1,7 @@
 import {useContext, useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
+
+import FastImage from 'react-native-fast-image';
 
 import {FoldersContext} from '../../contexts/FoldersContext';
 import Cover from './Cover';
@@ -29,7 +31,7 @@ export default function Folder({title, navigation}) {
     <View style={{alignItems: 'center', marginBottom: 20, marginRight: 15}}>
       <Cover onNav={handleNav}>
         {mediaUris.length >= 1 && (
-          <Image source={{uri: mediaUris[0]}} style={styles.image} />
+          <FastImage source={{uri: mediaUris[0]}} style={styles.image} />
         )}
       </Cover>
       <Text style={{fontWeight: 'bold'}}>{abbreviate({title})}</Text>
