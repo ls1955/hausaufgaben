@@ -16,9 +16,8 @@ export default function Medias({title, navigation}) {
 
   useEffect(() => {
     const lazyLoadMediaUris = async () => {
-      // mediaUris is already loaded, not need to load again
-      // if mediaUris length is one, it usually means only the thumbnail is being load (TODO)
-      if (folders[title].mediaUris.length >= 1) return;
+      // already load content before (including thumbnail)
+      if (folders[title].mediaUris.length > 1) return;
 
       folders[title].mediaUris = await getMediaUris({folderTitle: title});
       setRerender(true);
