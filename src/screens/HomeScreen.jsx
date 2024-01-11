@@ -18,8 +18,6 @@ export default function HomeScreen({navigation}) {
   const albums = useContext(AlbumsContext);
   const folders = useContext(FoldersContext);
 
-  // TODO: Include a commit button at header that open commit modal
-
   // albums and folders data for FlatList, folders data will be append after albums'
   const data = Object.keys(albums).map((title, i) => {
     return {id: i, title, isAlbum: true};

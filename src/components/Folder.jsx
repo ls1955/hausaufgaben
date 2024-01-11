@@ -1,7 +1,8 @@
 import {useContext, useEffect, useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 
 import {FoldersContext} from '../../contexts/FoldersContext';
+import Cover from './Cover';
 import {abbreviate, getThumbnailUri} from '../../utils';
 
 // A component that represent a folder cover.
@@ -19,7 +20,7 @@ export default function Folder({title, navigation}) {
       const thumbnailUri = await getThumbnailUri({folderTitle: title});
       mediaUris.push(thumbnailUri);
       setRerender(true);
-    }
+    };
     lazyLoadThumbNail();
   }, []);
 
@@ -27,14 +28,17 @@ export default function Folder({title, navigation}) {
 
   return (
     <View style={{alignItems: 'center', marginBottom: 20, marginRight: 15}}>
-      <TouchableOpacity
-        onPress={handleNav}
-        style={{minWidth: 108, minHeight: 108, backgroundColor: 'white'}}
-      >
-        {mediaUris.length >= 1 && <Image source={{uri: mediaUris[0]}} style={{width: 108, height: 108, resizeMode: "cover"}} />}
-        </TouchableOpacity>
-      <Text style={{fontWeight: "bold"}}>{abbreviate({title})}</Text>
+      <Cover onNav={handleNav}>
+        {mediaUris.length >= 1 && (
+          <Image source={{uri: mediaUris[0]}} style={styles.image} />
+        )}
+      </Cover>
+      <Text style={{fontWeight: 'bold'}}>{abbreviate({title})}</Text>
       <Text style={{fontSize: 12, marginTop: 2}}>{count}</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  image: {width: 108, height: 108, resizeMode: 'cover'},
+});
