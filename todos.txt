@@ -2,13 +2,10 @@ feature
 - safe mode that hides all the folder besides non-naughty folder
 
 tasks
-- include album thumbnails (one way or another...)
-- include folder thumbnail (use the first picture)
 - include a reset storage permission
 - include delete button when viewing image
 
 improvements
-- eager load folder images when clicked on an album? (current performance is good enough)
 - support playing .mp4 (might have to roll out own package)
 
 refactor
@@ -17,15 +14,14 @@ refactor
   organizing folder sucks. Unfortunately, current version of author is not smart enough to get himself
   out of this mess.
 - Styles. There are a lots of hardcoded value on style, which make it unresponsive to different device dimension.
-- Shows a flash message when done moving file (timing of showing seems late in production)
 
 todo:
 - style OrganizeDownloadModal
 - append new folder and album into context after organizeDownloadFolder
 - the header will move around when flatlist in homescreen is not ready
-- set default album and folder cover style
+- have a GalleryScreen that contains a SectionList that shows every folder name conveniently?
+- include navigation buttons on top of the header for GalleryScreen, toggle show thumbnail, SettingScreen?
 
 fix
-- sort doujin/vanilla numerically instead of aphabetically
 - improve abbreviate function, when there are chinese character, every character take more space than alphabet
-- include a sortHashByKeyAlphabetically and sortHashByKeyNumerically util function?
+- timing of show flash message after finish organize download folder seems off
