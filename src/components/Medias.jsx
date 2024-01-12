@@ -28,18 +28,7 @@ export default function Medias({title, navigation}) {
   const mediaUris = folders[title].mediaUris;
   const mediaData = mediaUris.map((uri, i) => ({key: i, uri, index: i}));
   const renderMedia = ({item: {key, uri, index}}) => {
-    return (
-      <TouchableOpacity
-        key={key}
-        style={{width: '25%'}}
-        onPress={handleNav(index)}>
-        <FastImage
-          style={{width: '100%', minHeight: 100}}
-          source={{uri}}
-          onError={e => console.error(e.nativeEvent.error)}
-        />
-      </TouchableOpacity>
-    );
+    return <Media key={key} uri={uri} onPress={handleNav(index)} />;
   };
   const handleNav = index => {
     return () => navigation.navigate('Media', {index, folderTitle: title});
@@ -56,3 +45,16 @@ export default function Medias({title, navigation}) {
     <Loading />
   );
 }
+
+// The small touchable image shows inside the Folder content.
+const Media = ({uri, onPress}) => {
+  return (
+    <TouchableOpacity style={{width: '25%'}} onPress={onPress}>
+      <FastImage
+        style={{width: '100%', minHeight: 100}}
+        source={{uri}}
+        onError={e => console.error(e.nativeEvent.error)}
+      />
+    </TouchableOpacity>
+  );
+};
