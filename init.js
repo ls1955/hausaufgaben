@@ -1,7 +1,15 @@
 import {PermissionsAndroid} from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
-import {NON_GROUP_FOLDERS, SPECIAL_FOLDER_PREFIXES} from './appConfigs';
+import {
+  sortObjectByKeyAlphabetically,
+  sortSetNumerically
+} from './utils';
+import {
+  NON_GROUP_FOLDERS,
+  NUMERIC_ORDER_ALBUMS,
+  SPECIAL_FOLDER_PREFIXES,
+} from './appConfigs';
 
 // This file contain functions that is being use during App initialization.
 // The functions and exports order are arranged in their calling order during initialization.
@@ -26,8 +34,7 @@ const getPermission = async () => {
   return granted === PermissionsAndroid.RESULTS.GRANTED;
 };
 
-// Returns all folders title and count from this device. Note that returned folders object's keys
-// are being sorted alphabetically.
+// Returns all folders title and count from this device.
 const loadFolders = async () => {
   const folders = await CameraRoll.getAlbums();
   const newFolders = {};
@@ -36,18 +43,10 @@ const loadFolders = async () => {
     newFolders[title] = {count, mediaUris: []};
   });
 
-  // create a collator as suggested by MDN Web docs since there might be quite a lot of folder
-  const collator = new Intl.Collator();
-
-  return Object.fromEntries(
-    Object.entries(newFolders).sort((a, b) => {
-      return collator.compare(a[0].toLowerCase(), b[0].toLowerCase());
-    }),
-  );
+  return sortObjectByKeyAlphabetically({object: newFolders, ignoreCase: true});
 };
 
-// Returns an albums object that contain grouped folders. Note that returned albums object is
-// sorted alphabetically.
+// Returns an albums object that contain grouped folders.
 const getGroupedAlbums = folders => {
   const albums = {};
 
@@ -77,8 +76,13 @@ const getGroupedAlbums = folders => {
     }
   });
 
-  // sort the albums alphabetically before return
-  return Object.fromEntries(Object.entries(albums).sort());
+  for (const album of NUMERIC_ORDER_FOLDERS) {
+    if (albums[album] == null) return
+
+    albums[album] = sortSetNumerically({set: albums[album]});
+  }
+
+  return sortObjectByKeyAlphabetically({object: albums});
 };
 
 export {getPermission, loadFolders, getGroupedAlbums};

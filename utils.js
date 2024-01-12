@@ -21,15 +21,37 @@ const getMediaUris = async ({folderTitle, first = MAX_IMAGE_PER_FOLDER}) => {
 
 // Returns the first media URIs of folderTitle.
 const getThumbnailUri = async ({folderTitle}) => {
-  const photos = await getMediaUris({folderTitle, first: 1})
+  const photos = await getMediaUris({folderTitle, first: 1});
   return photos[0];
-}
+};
 
 // Abbreviate title if it exceed *maxLength*.
 const abbreviate = ({title, maxLength = 15}) => {
   return title.length <= maxLength
     ? title
     : `${title.substring(0, maxLength - 3)}...`;
+};
+
+const INVALID_FILE_CHAR = /[\/:*?"<>|]/g;
+// Returns a new folderTitle where invalid file characters are remove.
+const sanitize = ({folderTitle}) => {
+  return folderTitle.replaceAll(INVALID_FILE_CHAR, '');
+};
+
+const sortObjectByKeyAlphabetically = ({object, ignoreCase = false}) => {
+  if (ignoreCase) {
+    const collator = new Intl.Collator();
+    return Object.fromEntries(
+      Object.entries(object).sort((a, b) => {
+        return collator.compare(a[0].toLowerCase(), b[0].toLowerCase());
+      }),
+    );
+  }
+  return Object.fromEntries(Object.entries(object).sort());
+};
+
+const sortSetNumerically = ({set}) => {
+  return new Set([...set].sort((a, b) => toNumber({str: a}) - toNumber({str: b})));
 };
 
 // Moves all the images and videos from Download directory automatically into new directory.
@@ -57,12 +79,6 @@ const organizeDownloadFolder = async ({
     dirs,
     isToStaging,
   });
-};
-
-const INVALID_FILE_CHAR = /[\/:*?"<>|]/g;
-// Returns a new folderTitle where invalid file characters are remove.
-const sanitize = ({folderTitle}) => {
-  return folderTitle.replaceAll(INVALID_FILE_CHAR, '');
 };
 
 // Check if required directories had granted permissions. Return an object containing
@@ -206,13 +222,15 @@ const showSuccessOrganizeFlash = () => {
 // TODO: Expose an option of resetting scoped storage permissions?
 
 export {
+  abbreviate,
+  checkScopedStoragePermissions,
   getMediaUris,
   getThumbnailUri,
-  abbreviate,
   organizeDownloadFolder,
-  checkScopedStoragePermissions,
   requestScopedStoragePermission,
   showErrorFlash,
   showInvalidInputFlash,
   showSuccessOrganizeFlash,
+  sortObjectByKeyAlphabetically,
+  sortSetNumerically,
 };
