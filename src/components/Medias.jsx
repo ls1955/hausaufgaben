@@ -13,11 +13,13 @@ export default function Medias({title, navigation}) {
   // tell Medias to rerender itself after finish lazy loading mediaUris
   const [_, setRerender] = useState(false);
   const folders = useContext(FoldersContext);
+  const {mediaUris, count} = folders[title];
 
   useEffect(() => {
     const lazyLoadMediaUris = async () => {
       // already load content before (including thumbnail)
-      if (folders[title].mediaUris.length > 1) return;
+      // the second condition take care of scenario when folder only have 1 image
+      if (mediaUris.length > 1 || (mediaUris.length === count)) return;
 
       folders[title].mediaUris = await getMediaUris({folderTitle: title});
       setRerender(true);
@@ -25,7 +27,6 @@ export default function Medias({title, navigation}) {
     lazyLoadMediaUris();
   }, []);
 
-  const mediaUris = folders[title].mediaUris;
   const mediaData = mediaUris.map((uri, i) => ({key: i, uri, index: i}));
   const renderMedia = ({item: {key, uri, index}}) => {
     return <Media key={key} uri={uri} onPress={handleNav(index)} />;
@@ -34,7 +35,8 @@ export default function Medias({title, navigation}) {
     return () => navigation.navigate('Media', {index, folderTitle: title});
   };
 
-  return mediaUris != null ? (
+  // has every photo been loaded?
+  return mediaUris.length === count ? (
     <FlatList
       numColumns={PHOTO_FLAT_LIST_NUM_COLUMNS}
       data={mediaData}
