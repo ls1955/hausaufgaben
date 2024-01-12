@@ -76,7 +76,7 @@ const getGroupedAlbums = folders => {
     }
   });
 
-  for (const album of NUMERIC_ORDER_FOLDERS) {
+  for (const album of NUMERIC_ORDER_ALBUMS) {
     if (albums[album] == null) return
 
     albums[album] = sortSetNumerically({set: albums[album]});
