@@ -19,6 +19,9 @@ const NON_GROUP_FOLDERS = new Set(['Download', 'Whatsapp', '相机', '下载']);
 // Folders that start with any of these prefix will be grouped into their own group.
 const SPECIAL_FOLDER_PREFIXES = [];
 
+// ALbums where folders are sorted according numerically.
+const NUMERIC_ORDER_ALBUMS = new Set([]);
+
 // Directories that will require scoped storage permissions in order to make use of Organize Download
 // folder feature. User could give permission to custom path for each directory, as long as those
 // path align with the purpose, it will work as expected.
@@ -31,21 +34,27 @@ const SPECIAL_FOLDER_PREFIXES = [];
 // this is where he puts the folder that take too much space on his tiny phone, before moving them to
 // HDD later on at once.
 //
-const PERMISSION_REQUIRED_DIRECTORIES = ['downloadDir', 'defaultDir', 'doujinDir', 'stagingDir'];
+const PERMISSION_REQUIRED_DIRECTORIES = [
+  'downloadDir',
+  'defaultDir',
+  'doujinDir',
+  'stagingDir',
+];
 
 // Category options use in organizing feature. They are use to determine which directory to use, as well
 // as figuring out the new folder name. In author use case, the new folder name is category prepend by
 // number, as such the name could be vanilla1 for first vanilla folder, vanilla2 for second vanilla folder,
 // so on and so forth...
-const CATEGORY_OPTIONS = ["", "doujin", "vanilla"];
+const CATEGORY_OPTIONS = ['', 'doujin', 'vanilla'];
 
 export {
   APP_NAME,
+  CATEGORY_OPTIONS,
   GALLERY_FLAT_LIST_NUM_COLUMNS,
-  PHOTO_FLAT_LIST_NUM_COLUMNS,
   MAX_IMAGE_PER_FOLDER,
   NON_GROUP_FOLDERS,
-  SPECIAL_FOLDER_PREFIXES,
+  NUMERIC_ORDER_ALBUMS,
   PERMISSION_REQUIRED_DIRECTORIES,
-  CATEGORY_OPTIONS
+  PHOTO_FLAT_LIST_NUM_COLUMNS,
+  SPECIAL_FOLDER_PREFIXES,
 };
