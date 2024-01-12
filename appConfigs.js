@@ -19,7 +19,7 @@ const NON_GROUP_FOLDERS = new Set(['Download', 'Whatsapp', '相机', '下载']);
 // Folders that start with any of these prefix will be grouped into their own group.
 const SPECIAL_FOLDER_PREFIXES = [];
 
-// ALbums where folders are sorted according numerically.
+// ALbums where folders are sorted numerically.
 const NUMERIC_ORDER_ALBUMS = new Set([]);
 
 // Directories that will require scoped storage permissions in order to make use of Organize Download
