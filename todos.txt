@@ -7,6 +7,7 @@ tasks
 
 improvements
 - support playing .mp4 (might have to roll out own package)
+- moving files one by one is quite slow
 
 refactor
 - In utils.js, there is a lot of hardcoding, particularly in organizeDownloadFolder and getNewFolderPath,
@@ -25,3 +26,7 @@ todo:
 fix
 - improve abbreviate function, when there are chinese character, every character take more space than alphabet
 - timing of show flash message after finish organize download folder seems off
+
+todo
+- include a navbar, like so:
+  | toggle_safe_mode(eyeball? Ionicons from package) | organize | more_options(triple dot) |

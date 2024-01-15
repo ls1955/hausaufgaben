@@ -42,6 +42,7 @@ export default function App() {
               options={({navigation}) => ({
                 title: '',
                 headerRight: () => (
+                  // TODO: Extract out an Nav component, that contains more button underneath
                   <Button
                     onPress={() => navigation.navigate('OrganizeDownload')}
                     title="Organize"
