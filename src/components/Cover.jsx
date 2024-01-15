@@ -11,8 +11,8 @@ export default function Cover({onNav, children}) {
 
 const styles = StyleSheet.create({
   cover: {
-    minWidth: 108,
-    minHeight: 108,
+    minWidth: 100,
+    minHeight: 100,
     backgroundColor: 'rgb(69, 69, 71)',
   },
 });

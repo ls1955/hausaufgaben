@@ -41,5 +41,5 @@ export default function Folder({title, navigation}) {
 }
 
 const styles = StyleSheet.create({
-  image: {width: 108, height: 108, resizeMode: 'cover'},
+  image: {width: 100, height: 100, resizeMode: 'cover'},
 });

@@ -35,7 +35,7 @@ export default function HomeScreen({navigation}) {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, paddingLeft: 5}}>
       <FlatList
         numColumns={GALLERY_FLAT_LIST_NUM_COLUMNS}
         data={data}
