@@ -205,7 +205,7 @@ const toNumber = ({str}) => {
 
 const showErrorFlash = ({error}) => {
   const type = 'danger';
-  showMessage({message: APP_NAME, description: error, type, duration: 4000});
+  showMessage({message: APP_NAME, description: error.message, type, duration: 4000})
 };
 
 const showInvalidInputFlash = () => {
