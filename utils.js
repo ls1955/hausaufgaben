@@ -51,7 +51,9 @@ const sortObjectByKeyAlphabetically = ({object, ignoreCase = false}) => {
 };
 
 const sortSetNumerically = ({set}) => {
-  return new Set([...set].sort((a, b) => toNumber({str: a}) - toNumber({str: b})));
+  return new Set(
+    [...set].sort((a, b) => toNumber({str: a}) - toNumber({str: b})),
+  );
 };
 
 // Moves all the images and videos from Download directory automatically into new directory.
@@ -174,20 +176,24 @@ const getNewFolderPath = ({category, isToStaging, albums, dirs, folder}) => {
 
   if (isToStaging) return `${stagingDir.uri}/${folder}`;
 
-  if (category === 'doujin') {
-    let folderTitle = '本子';
-    let folderIds = [...albums[folderTitle]].map(title =>
-      toNumber({str: title}),
-    );
-    let latestId = Math.max(...folderIds) + 1;
-    return `${doujinDir.uri}/${folderTitle}${latestId}`;
-  } else if (category === 'vanilla') {
-    let folderTitle = 'Vanilla';
-    let folderIds = [...albums[folderTitle]].map(title =>
-      toNumber({str: title}),
-    );
-    let latestId = Math.max(...folderIds) + 1;
-    return `${doujinDir.uri}/${folderTitle}${latestId}`;
+  try {
+    if (category === 'doujin') {
+      let albumTitle = '本子';
+      let folderIds = [...albums[albumTitle]].map(title =>
+        toNumber({str: title}),
+      );
+      let latestId = Math.max(...folderIds) + 1;
+      return `${doujinDir.uri}/${albumTitle}${latestId}`;
+    } else if (category === 'vanilla') {
+      let albumTitle = 'Vanilla';
+      let folderIds = [...albums[albumTitle]].map(title =>
+        toNumber({str: title}),
+      );
+      let latestId = Math.max(...folderIds) + 1;
+      return `${doujinDir.uri}/${albumTitle}${latestId}`;
+    }
+  } catch (error) {
+    throw 'Album did not exist when organize via category. Did you use the correct appConfig? Throw from getNewFolderPath.';
   }
 
   return `${defaultDir.uri}/${folder}`;
@@ -205,7 +211,12 @@ const toNumber = ({str}) => {
 
 const showErrorFlash = ({error}) => {
   const type = 'danger';
-  showMessage({message: APP_NAME, description: error.message, type, duration: 4000})
+  showMessage({
+    message: APP_NAME,
+    description: error.message,
+    type,
+    duration: 4000,
+  });
 };
 
 const showInvalidInputFlash = () => {
