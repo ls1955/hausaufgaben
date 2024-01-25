@@ -7,7 +7,7 @@ tasks
 
 improvements
 - support playing .mp4 (might have to roll out own package)
-- moving files one by one is quite slow
+- moving files one by one is quite slow (use native module)?
 
 refactor
 - In utils.js, there is a lot of hardcoding, particularly in organizeDownloadFolder and getNewFolderPath,
