@@ -55,7 +55,7 @@ export default function App() {
               name="AlbumFolders"
               component={AlbumFoldersScreen}
               options={({route}) => ({
-                title: abbreviate({title: route.params.title}),
+                title: route.params.title,
                 headerTitleStyle: {fontWeight: 'normal'},
               })}
             />
@@ -63,7 +63,7 @@ export default function App() {
               name="FolderContents"
               component={FolderContentScreen}
               options={({route}) => ({
-                title: abbreviate({title: route.params.title}),
+                title: route.params.title,
                 headerTitleStyle: {fontWeight: 'normal'},
               })}
             />

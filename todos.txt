@@ -20,11 +20,8 @@ todo:
 - style OrganizeDownloadModal
 - append new folder and album into context after organizeDownloadFolder
 - the header will move around when flatlist in homescreen is not ready
-- have a GalleryScreen that contains a SectionList that shows every folder name conveniently?
-- include navigation buttons on top of the header for GalleryScreen, toggle show thumbnail, SettingScreen?
 
 fix
-- improve abbreviate function, when there are chinese character, every character take more space than alphabet
 - timing of show flash message after finish organize download folder seems off
 
 todo

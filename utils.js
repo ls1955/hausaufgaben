@@ -25,13 +25,6 @@ const getThumbnailUri = async ({folderTitle}) => {
   return photos[0];
 };
 
-// Abbreviate title if it exceed *maxLength*.
-const abbreviate = ({title, maxLength = 15}) => {
-  return title.length <= maxLength
-    ? title
-    : `${title.substring(0, maxLength - 3)}...`;
-};
-
 const INVALID_FILE_CHAR = /[\/:*?"<>|]/g;
 // Returns a new folderTitle where invalid file characters are remove.
 const sanitize = ({folderTitle}) => {
@@ -233,7 +226,6 @@ const showSuccessOrganizeFlash = () => {
 // TODO: Expose an option of resetting scoped storage permissions?
 
 export {
-  abbreviate,
   checkScopedStoragePermissions,
   getMediaUris,
   getThumbnailUri,
