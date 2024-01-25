@@ -4,8 +4,8 @@ import {FlatList, SafeAreaView} from 'react-native';
 import Album from '../components/Album';
 import Folder from '../components/Folder';
 
-import {AlbumsContext} from '../../contexts/AlbumsContext';
-import {FoldersContext} from '../../contexts/FoldersContext';
+import {AlbumsContext} from '../contexts/AlbumsContext';
+import {FoldersContext} from '../contexts/FoldersContext';
 
 import {
   GALLERY_FLAT_LIST_NUM_COLUMNS,

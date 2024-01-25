@@ -11,7 +11,7 @@ import {
   showSuccessOrganizeFlash,
 } from '../../utils';
 import {CATEGORY_OPTIONS} from '../../appConfigs';
-import {AlbumsContext} from '../../contexts/AlbumsContext';
+import {AlbumsContext} from '../contexts/AlbumsContext';
 
 // A modal that shows up for user to organize their download folder.
 export default function OrganizeDownloadModal({navigation}) {

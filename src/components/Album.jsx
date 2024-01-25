@@ -1,7 +1,7 @@
 import {useContext} from 'react';
 import {View} from 'react-native';
 
-import {AlbumsContext} from '../../contexts/AlbumsContext';
+import {AlbumsContext} from '../contexts/AlbumsContext';
 import Cover from './Cover';
 import TitleText from './TitleText';
 

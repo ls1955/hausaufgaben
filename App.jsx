@@ -9,11 +9,10 @@ import FolderContentScreen from './src/screens/FolderContentsScreen';
 import MediaScreen from './src/screens/MediaScreen';
 import OrganizeDownloadModal from './src/components/OrganizeDownloadModal';
 
-import {FoldersContext} from './contexts/FoldersContext';
-import {AlbumsContext} from './contexts/AlbumsContext';
+import {FoldersContext} from './src/contexts/FoldersContext';
+import {AlbumsContext} from './src/contexts/AlbumsContext';
 
 import {getPermission, loadFolders, getGroupedAlbums} from './init';
-import {abbreviate} from './utils';
 
 const Stack = createNativeStackNavigator();
 

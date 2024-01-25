@@ -1,7 +1,7 @@
-import { useContext } from 'react';
+import {useContext} from 'react';
 import ImageView from 'react-native-image-viewing';
 
-import { FoldersContext } from '../../contexts/FoldersContext';
+import {FoldersContext} from '../contexts/FoldersContext';
 
 // The screen that shows media one at a time.
 export default function MediaScreen({navigation, route: {params}}) {

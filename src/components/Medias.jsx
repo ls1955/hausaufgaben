@@ -3,8 +3,7 @@ import {useContext, useEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image';
 
 import Loading from './Loading';
-import {FoldersContext} from '../../contexts/FoldersContext';
-
+import {FoldersContext} from '../contexts/FoldersContext';
 import {PHOTO_FLAT_LIST_NUM_COLUMNS} from '../../appConfigs';
 import {getMediaUris} from '../../utils';
 

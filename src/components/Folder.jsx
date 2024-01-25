@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 
 import FastImage from 'react-native-fast-image';
 
-import {FoldersContext} from '../../contexts/FoldersContext';
+import {FoldersContext} from '../contexts/FoldersContext';
 import Cover from './Cover';
 import TitleText from './TitleText';
 import {getThumbnailUri} from '../../utils';
