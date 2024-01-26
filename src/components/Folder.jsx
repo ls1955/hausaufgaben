@@ -1,12 +1,11 @@
 import {useContext} from 'react';
-import {StyleSheet, View} from 'react-native';
-
-import FastImage from 'react-native-fast-image';
+import {View} from 'react-native';
 
 import {FoldersContext} from '../contexts/FoldersContext';
+import useThumbnailURI from '../hooks/useThumbnailURI';
 import Cover from './Cover';
 import TitleText from './TitleText';
-import useThumbnailURI from '../hooks/useThumbnailURI';
+import Thumbnail from './Thumbnail';
 
 // A component that represent a folder cover.
 export default function Folder({title, navigation}) {
@@ -25,16 +24,10 @@ export default function Folder({title, navigation}) {
         width: '28%',
       }}>
       <Cover onNav={handleNav}>
-        {thumbnailUri && (
-          <FastImage source={{uri: thumbnailUri}} style={styles.image} />
-        )}
+        {thumbnailUri && <Thumbnail source={{uri: thumbnailUri}} />}
       </Cover>
       <TitleText>{title}</TitleText>
       <TitleText style={{fontSize: 12, marginTop: 2}}>{count}</TitleText>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  image: {width: 100, height: 100, resizeMode: 'cover'},
-});
