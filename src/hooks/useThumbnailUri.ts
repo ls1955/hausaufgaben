@@ -4,7 +4,7 @@ import {FoldersContext} from '../contexts/FoldersContext';
 import {getThumbnailUri} from '../../utils';
 
 // Returns thumbnailUri. Lazy load and mutate FoldersContext if it does not exist.
-export default function useThumbnailURI(folder: string): {
+export default function useThumbnailUri(folder: string): {
   thumbnailUri: string | undefined;
 } {
   const folders = useContext(FoldersContext);

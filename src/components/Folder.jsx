@@ -2,7 +2,7 @@ import {useContext} from 'react';
 import {View} from 'react-native';
 
 import {FoldersContext} from '../contexts/FoldersContext';
-import useThumbnailURI from '../hooks/useThumbnailURI';
+import useThumbnailUri from '../hooks/useThumbnailUri';
 import Cover from './Cover';
 import TitleText from './TitleText';
 import Thumbnail from './Thumbnail';
@@ -11,7 +11,7 @@ import Thumbnail from './Thumbnail';
 export default function Folder({title, navigation}) {
   const folders = useContext(FoldersContext);
   const {count} = folders[title];
-  const {thumbnailUri} = useThumbnailURI(title);
+  const {thumbnailUri} = useThumbnailUri(title);
 
   const handleNav = () => navigation.navigate('FolderContents', {title});
 
