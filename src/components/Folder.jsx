@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
+import {useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import FastImage from 'react-native-fast-image';
@@ -6,25 +6,13 @@ import FastImage from 'react-native-fast-image';
 import {FoldersContext} from '../contexts/FoldersContext';
 import Cover from './Cover';
 import TitleText from './TitleText';
-import {getThumbnailUri} from '../../utils';
+import useThumbnailURI from '../hooks/useThumbnailURI';
 
 // A component that represent a folder cover.
 export default function Folder({title, navigation}) {
-  const [_, setRerender] = useState(false);
   const folders = useContext(FoldersContext);
-  const {mediaUris, count} = folders[title];
-
-  useEffect(() => {
-    const lazyLoadThumbNail = async () => {
-      if (mediaUris.length > 0) return;
-
-      const thumbnailUri = await getThumbnailUri({folderTitle: title});
-
-      folders[title].mediaUris = [thumbnailUri];
-      setRerender(true);
-    };
-    lazyLoadThumbNail();
-  }, []);
+  const {count} = folders[title];
+  const {thumbnailUri} = useThumbnailURI(title);
 
   const handleNav = () => navigation.navigate('FolderContents', {title});
 
@@ -37,8 +25,8 @@ export default function Folder({title, navigation}) {
         width: '28%',
       }}>
       <Cover onNav={handleNav}>
-        {mediaUris.length >= 1 && (
-          <FastImage source={{uri: mediaUris[0]}} style={styles.image} />
+        {thumbnailUri && (
+          <FastImage source={{uri: thumbnailUri}} style={styles.image} />
         )}
       </Cover>
       <TitleText>{title}</TitleText>
