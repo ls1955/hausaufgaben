@@ -1,28 +1,12 @@
 import {FlatList, TouchableOpacity} from 'react-native';
-import {useContext, useEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image';
 
+import useMediaUris from '../hooks/useMediaUris';
 import Loading from './Loading';
-import {FoldersContext} from '../contexts/FoldersContext';
-import {PHOTO_FLAT_LIST_NUM_COLUMNS} from '../../appConfigs';
-import {getMediaUris} from '../../utils';
 
-// The medias inside a folder.
+// The medias inside a folder. It is the grid of media you see before viewing individual image.
 export default function Medias({title, navigation}) {
-  // tell Medias to rerender itself after finish lazy loading mediaUris
-  const [_, setRerender] = useState(false);
-  const folders = useContext(FoldersContext);
-  const {mediaUris, count} = folders[title];
-
-  useEffect(() => {
-    const lazyLoadMediaUris = async () => {
-      if (mediaUris.length === count) return;
-
-      folders[title].mediaUris = await getMediaUris({folderTitle: title});
-      setRerender(true);
-    };
-    lazyLoadMediaUris();
-  }, []);
+  const {mediaUris, actualSize} = useMediaUris(title);
 
   const mediaData = mediaUris.map((uri, i) => ({key: i, uri, index: i}));
   const renderMedia = ({item: {key, uri, index}}) => {
@@ -32,9 +16,9 @@ export default function Medias({title, navigation}) {
     return () => navigation.navigate('Media', {index, folderTitle: title});
   };
 
-  return mediaUris.length === count ? (
+  return mediaUris.length === actualSize ? (
     <FlatList
-      numColumns={PHOTO_FLAT_LIST_NUM_COLUMNS}
+      numColumns={4}
       data={mediaData}
       renderItem={renderMedia}
       contentContainerStyle={{paddingRight: 5}}
