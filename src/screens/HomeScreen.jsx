@@ -1,17 +1,15 @@
 import {useContext} from 'react';
 import {FlatList, SafeAreaView} from 'react-native';
+import FlashMessage from 'react-native-flash-message';
 
 import Album from '../components/Album';
 import Folder from '../components/Folder';
-
 import {AlbumsContext} from '../contexts/AlbumsContext';
 import {FoldersContext} from '../contexts/FoldersContext';
-
 import {
   GALLERY_FLAT_LIST_NUM_COLUMNS,
   NON_GROUP_FOLDERS,
 } from '../../appConfigs';
-import FlashMessage from 'react-native-flash-message';
 
 // The screen that shows the albums and folders.
 export default function HomeScreen({navigation}) {
