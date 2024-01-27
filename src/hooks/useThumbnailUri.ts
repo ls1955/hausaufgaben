@@ -3,7 +3,7 @@ import {useContext, useEffect, useState} from 'react';
 import {FoldersContext} from '../contexts/FoldersContext';
 import {getThumbnailUri} from '../../utils';
 
-// Returns thumbnailUri. Lazy load and mutate FoldersContext if it does not exist.
+// Returns folder's thumbnailUri. Lazy load and mutate FoldersContext if it does not exist.
 export default function useThumbnailUri(folder: string): {
   thumbnailUri: string | undefined;
 } {
