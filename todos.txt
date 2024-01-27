@@ -17,14 +17,13 @@ refactor
 - Styles. There are a lots of hardcoded value on style, which make it unresponsive to different device dimension.
 
 todo:
-- style OrganizeDownloadModal
-- append new folder and album into context after organizeDownloadFolder
-- the header will move around when flatlist in homescreen is not ready
+- update folder and album accordingly after organizeDownloadFolder
 
 fix
+- the header will move around when flatlist in homescreen is not ready
 - timing of show flash message after finish organize download folder seems off
 
 todo
 - include a navbar, like so:
   | toggle_safe_mode(eyeball? Ionicons from package) | organize | more_options(triple dot) |
-- create custom hooks like useThumbNail, useImageURIs?
+- rewrite library-like code with TypeScript?
