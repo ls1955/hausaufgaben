@@ -6,9 +6,6 @@ const APP_NAME = 'Hausaufgaben';
 // Number of columns for flat list showing albums and folders.
 const GALLERY_FLAT_LIST_NUM_COLUMNS = 3;
 
-// Number of columns for flat list showing image.
-const PHOTO_FLAT_LIST_NUM_COLUMNS = 4;
-
 // Maximum image amount per folder. It exists because CameraRoll require an image amount when
 // fetching photos. Modify this if you think this isn't enough.
 const MAX_IMAGE_PER_FOLDER = 300;
@@ -55,6 +52,5 @@ export {
   NON_GROUP_FOLDERS,
   NUMERIC_ORDER_ALBUMS,
   PERMISSION_REQUIRED_DIRECTORIES,
-  PHOTO_FLAT_LIST_NUM_COLUMNS,
   SPECIAL_FOLDER_PREFIXES,
 };
