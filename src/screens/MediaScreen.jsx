@@ -19,7 +19,7 @@ export default function MediaScreen({navigation, route: {params}}) {
       <ImageView
         images={mediaUris.map(uri => ({uri}))}
         imageIndex={index}
-        visible={true}
+        visible
         onRequestClose={handleGoBack}
         HeaderComponent={() => null}
       />

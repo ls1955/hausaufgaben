@@ -60,7 +60,7 @@ export default function OrganizeDownloadModal({navigation}) {
 function FolderTitleInput({value, onChangeText}) {
   return (
     <TextInput
-      autoFocus={true}
+      autoFocus
       value={value}
       onChangeText={onChangeText}
       placeholder="new-folder-title"
