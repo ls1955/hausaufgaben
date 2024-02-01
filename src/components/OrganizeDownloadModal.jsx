@@ -114,7 +114,7 @@ function ActionButtons({onOrganize, onCancel}) {
 const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: 'rgb(40, 40, 40)',
-    marginTop: 'auto',
+    marginTop: '40%',
     borderRadius: 10,
     padding: 20,
   },
