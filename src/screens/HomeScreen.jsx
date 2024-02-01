@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import {FlatList, SafeAreaView} from 'react-native';
+import {FlatList, SafeAreaView, StatusBar} from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 
 import Album from '../components/Album';
@@ -34,6 +34,7 @@ export default function HomeScreen({navigation}) {
 
   return (
     <SafeAreaView style={{flex: 1, paddingLeft: 5}}>
+      <StatusBar hidden />
       <FlatList
         numColumns={GALLERY_FLAT_LIST_NUM_COLUMNS}
         data={data}
