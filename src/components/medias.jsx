@@ -2,7 +2,7 @@ import {FlatList, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import useMediaUris from '../hooks/useMediaUris';
-import Loading from './Loading';
+import Loading from './loading';
 
 // The medias inside a folder. It is the grid of media you see before viewing individual image.
 export default function Medias({title, navigation}) {

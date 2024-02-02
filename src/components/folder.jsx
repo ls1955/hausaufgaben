@@ -1,11 +1,11 @@
 import {useContext} from 'react';
 import {View} from 'react-native';
 
-import {FoldersContext} from '../contexts/FoldersContext';
+import {FoldersContext} from '../contexts/folders-context';
 import useThumbnailUri from '../hooks/useThumbnailUri';
-import Cover from './Cover';
-import TitleText from './TitleText';
-import Thumbnail from './Thumbnail';
+import Cover from './cover';
+import TitleText from './title-text';
+import Thumbnail from './thumbnail';
 
 // A component that represent a folder cover.
 export default function Folder({title, navigation}) {

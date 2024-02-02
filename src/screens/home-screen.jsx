@@ -2,10 +2,10 @@ import {useContext} from 'react';
 import {FlatList, SafeAreaView, StatusBar} from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 
-import Album from '../components/Album';
-import Folder from '../components/Folder';
-import {AlbumsContext} from '../contexts/AlbumsContext';
-import {FoldersContext} from '../contexts/FoldersContext';
+import Album from '../components/album';
+import Folder from '../components/folder';
+import {AlbumsContext} from '../contexts/albums-context';
+import {FoldersContext} from '../contexts/folders-context';
 import {
   GALLERY_FLAT_LIST_NUM_COLUMNS,
   NON_GROUP_FOLDERS,

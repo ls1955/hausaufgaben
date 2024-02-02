@@ -1,6 +1,6 @@
 import {SafeAreaView} from 'react-native';
 
-import Medias from '../components/Medias';
+import Medias from '../components/medias';
 
 // A screen that show contents inside the folder.
 export default function FolderContentScreen({navigation, route: {params}}) {

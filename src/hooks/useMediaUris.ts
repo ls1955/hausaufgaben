@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from 'react';
 
-import {FoldersContext} from '../contexts/FoldersContext';
+import {FoldersContext} from '../contexts/folders-context';
 import {getMediaUris} from '../../utils';
 
 // Returns folder's media URIs. Lazy load and mutate FoldersContext if all image hasn't load.

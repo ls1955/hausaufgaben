@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from 'react';
 
-import {FoldersContext} from '../contexts/FoldersContext';
+import {FoldersContext} from '../contexts/folders-context';
 import {getThumbnailUri} from '../../utils';
 
 // Returns folder's thumbnailUri. Lazy load and mutate FoldersContext if it does not exist.

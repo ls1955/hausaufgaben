@@ -1,9 +1,9 @@
 import {useContext} from 'react';
 import {View} from 'react-native';
 
-import {AlbumsContext} from '../contexts/AlbumsContext';
-import Cover from './Cover';
-import TitleText from './TitleText';
+import {AlbumsContext} from '../contexts/albums-context';
+import Cover from './cover';
+import TitleText from './title-text';
 
 // A component that represents an album cover.
 export default function Album({title, navigation}) {
