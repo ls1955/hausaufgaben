@@ -66,7 +66,11 @@ export default function App() {
                 headerTitleStyle: {fontWeight: 'normal'},
               })}
             />
-            <Stack.Screen name="Media" component={MediaScreen} />
+            <Stack.Screen
+              name="Media"
+              component={MediaScreen}
+              options={{headerShown: false}}
+            />
             <Stack.Screen
               name="OrganizeDownload"
               component={OrganizeDownloadModal}

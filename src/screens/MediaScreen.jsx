@@ -1,5 +1,4 @@
 import {useContext} from 'react';
-import {StatusBar, View} from 'react-native';
 import ImageView from 'react-native-image-viewing';
 
 import {FoldersContext} from '../contexts/FoldersContext';
@@ -12,17 +11,13 @@ export default function MediaScreen({navigation, route: {params}}) {
   const handleGoBack = () => navigation.goBack();
 
   return (
-    <View>
-      {/* Have to show the status bar at here to avoid weird visual behaviour */}
-      {/* TOFIX: Investigate react-native-image-viewing */}
-      <StatusBar hidden={false} />
-      <ImageView
-        images={mediaUris.map(uri => ({uri}))}
-        imageIndex={index}
-        visible
-        onRequestClose={handleGoBack}
-        HeaderComponent={() => null}
-      />
-    </View>
+    <ImageView
+      images={mediaUris.map(uri => ({uri}))}
+      imageIndex={index}
+      visible
+      onRequestClose={handleGoBack}
+      HeaderComponent={() => null}
+      presentationStyle="overFullScreen"
+    />
   );
 }
