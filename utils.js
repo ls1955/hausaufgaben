@@ -7,7 +7,7 @@ import {
   APP_NAME,
   MAX_IMAGE_PER_FOLDER,
   PERMISSION_REQUIRED_DIRECTORIES,
-} from './appConfigs';
+} from './app-configs';
 
 // Returns an array of media URIs (String) of given folderTitle.
 const getMediaUris = async ({folderTitle, first = MAX_IMAGE_PER_FOLDER}) => {
