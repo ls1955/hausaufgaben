@@ -1,9 +1,12 @@
 feature
 - safe mode that hides all the folder besides non-naughty folder
+  - do we really need that feature? Might be nice to have.
 
 tasks
 - include a reset storage permission
 - include delete button when viewing image
+  - modify existing image-viewing library to include onSingleTouch callback?
+  - include delete file function and update state accordingly...
 
 improvements
 - support playing .mp4 (might have to roll out own package)
@@ -15,9 +18,6 @@ refactor
   organizing folder sucks. Unfortunately, current version of author is not smart enough to get himself
   out of this mess.
 - Styles. There are a lots of hardcoded value on style, which make it unresponsive to different device dimension.
-
-todo:
-- update folder and album accordingly when new folders change
 
 fix
 - the header will move around when flatlist in homescreen is not ready
