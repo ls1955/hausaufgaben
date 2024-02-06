@@ -9,7 +9,7 @@ import {FoldersContext} from '../contexts/folders-context';
 import {
   GALLERY_FLAT_LIST_NUM_COLUMNS,
   NON_GROUP_FOLDERS,
-} from '../../appConfigs';
+} from '../../app-configs';
 
 // The screen that shows the albums and folders.
 export default function HomeScreen({navigation}) {

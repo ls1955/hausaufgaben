@@ -7,7 +7,7 @@ import {
   APP_NAME,
   MAX_IMAGE_PER_FOLDER,
   PERMISSION_REQUIRED_DIRECTORIES,
-} from './appConfigs';
+} from './app-configs';
 
 // Returns an array of media URIs (String) of given folderTitle.
 const getMediaUris = async ({folderTitle, first = MAX_IMAGE_PER_FOLDER}) => {
@@ -146,7 +146,7 @@ const moveAssets = async ({
 
   const {downloadDir} = dirs;
 
-  for (const asset of assets) {
+  const moveFilePromises = assets.map(async asset => {
     const srcUri = `${downloadDir.uri}/${asset.name}`;
 
     let folderPath = getNewFolderPath({
@@ -158,9 +158,10 @@ const moveAssets = async ({
     });
     const destUri = `${folderPath}/${asset.name}`;
 
-    // NOTE: will replace existing same file
     await moveFile(srcUri, destUri, {replaceIfDestinationExists: true});
-  }
+  });
+
+  await Promise.all(moveFilePromises);
 };
 
 // Returns a new folder path.

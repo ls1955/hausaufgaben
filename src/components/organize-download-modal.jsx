@@ -10,7 +10,7 @@ import {
   showInvalidInputFlash,
   showSuccessOrganizeFlash,
 } from '../../utils';
-import {CATEGORY_OPTIONS} from '../../appConfigs';
+import {CATEGORY_OPTIONS} from '../../app-configs';
 import {AlbumsContext} from '../contexts/albums-context';
 
 // A modal that shows up for user to organize their download folder.

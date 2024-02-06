@@ -9,7 +9,7 @@ import {
   NON_GROUP_FOLDERS,
   NUMERIC_ORDER_ALBUMS,
   SPECIAL_FOLDER_PREFIXES,
-} from './appConfigs';
+} from './app-configs';
 
 // This file contain functions that is being use during App initialization.
 // The functions and exports order are arranged in their calling order during initialization.

@@ -4,7 +4,7 @@ import {useContext} from 'react';
 import Folder from '../components/folder';
 import {AlbumsContext} from '../contexts/albums-context';
 
-import {GALLERY_FLAT_LIST_NUM_COLUMNS} from '../../appConfigs';
+import {GALLERY_FLAT_LIST_NUM_COLUMNS} from '../../app-configs';
 
 // A page that shows folders inside an album.
 export default function AlbumFoldersScreen({navigation, route: {params}}) {
