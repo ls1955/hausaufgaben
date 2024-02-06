@@ -1,12 +1,25 @@
+import {useContext, useEffect} from 'react';
 import {FlatList, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-import useMediaUris from '../hooks/useMediaUris';
 import Loading from './loading';
+import {FoldersContext} from '../contexts/folders-context';
+import {getMediaUris} from '../../utils';
 
 // The medias inside a folder. It is the grid of media you see before viewing individual image.
 export default function Medias({title, navigation}) {
-  const {mediaUris, actualSize} = useMediaUris(title);
+  const {folders, setFolders} = useContext(FoldersContext);
+  const {mediaUris, count} = folders[title];
+
+  useEffect(() => {
+    const loadMediaUris = async () => {
+      if (mediaUris.length === count) return;
+
+      const newMediaUris = await getMediaUris({folderTitle: title});
+      setFolders({...folders, title: {mediaUris: newMediaUris, count}});
+    };
+    loadMediaUris();
+  }, []);
 
   const mediaData = mediaUris.map((uri, i) => ({key: i, uri, index: i}));
   const renderMedia = ({item: {key, uri, index}}) => {

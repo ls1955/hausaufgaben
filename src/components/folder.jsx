@@ -1,17 +1,27 @@
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 import {View} from 'react-native';
 
 import {FoldersContext} from '../contexts/folders-context';
-import useThumbnailUri from '../hooks/useThumbnailUri';
 import Cover from './cover';
 import TitleText from './title-text';
 import Thumbnail from './thumbnail';
+import {getThumbnailUri} from '../../utils';
 
 // A component that represent a folder cover.
 export default function Folder({title, navigation}) {
-  const folders = useContext(FoldersContext);
-  const {count} = folders[title];
-  const {thumbnailUri} = useThumbnailUri(title);
+  const {folders, setFolders} = useContext(FoldersContext);
+  const {count, mediaUris} = folders[title];
+  const thumbnailUri = mediaUris[0];
+
+  useEffect(() => {
+    const loadThumbnail = async () => {
+      if (mediaUris.length >= 1) return;
+
+      const uri = await getThumbnailUri({folderTitle: title});
+      setFolders({...folders, title: {mediaUris: [uri], count}});
+    };
+    loadThumbnail();
+  }, []);
 
   const handleNav = () => navigation.navigate('FolderContents', {title});
 

@@ -6,7 +6,8 @@ import {FoldersContext} from '../contexts/folders-context';
 // The screen that shows media one at a time.
 export default function MediaScreen({navigation, route: {params}}) {
   const {index, folderTitle} = params;
-  const mediaUris = useContext(FoldersContext)[folderTitle].mediaUris;
+  const {folders} = useContext(FoldersContext);
+  const {mediaUris} = folders[folderTitle];
 
   const handleGoBack = () => navigation.goBack();
 

@@ -14,7 +14,7 @@ import {
 // The screen that shows the albums and folders.
 export default function HomeScreen({navigation}) {
   const albums = useContext(AlbumsContext);
-  const folders = useContext(FoldersContext);
+  const {folders} = useContext(FoldersContext);
 
   // albums and folders data for FlatList, folders data will be append after albums'
   const data = Object.keys(albums).map((title, i) => {
