@@ -15,8 +15,8 @@ export default function Medias({title, navigation}) {
     const loadMediaUris = async () => {
       if (mediaUris.length === count) return;
 
-      const newMediaUris = await getMediaUris({folderTitle: title});
-      setFolders(prev => ({...prev, title: {mediaUris: newMediaUris, count}}));
+      const uris = await getMediaUris({folderTitle: title});
+      setFolders(prev => ({...prev, [title]: {mediaUris: uris, count}}));
     };
     loadMediaUris();
   }, []);
@@ -29,7 +29,7 @@ export default function Medias({title, navigation}) {
     return () => navigation.navigate('Media', {index, folderTitle: title});
   };
 
-  return mediaUris.length === actualSize ? (
+  return mediaUris.length === count ? (
     <FlatList
       numColumns={4}
       data={mediaData}

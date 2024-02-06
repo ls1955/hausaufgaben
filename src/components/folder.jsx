@@ -18,7 +18,7 @@ export default function Folder({title, navigation}) {
       if (mediaUris.length >= 1) return;
 
       const uri = await getThumbnailUri({folderTitle: title});
-      setFolders(prev => ({...prev, title: {mediaUris: [uri], count}}));
+      setFolders(prev => ({...prev, [title]: {mediaUris: [uri], count}}));
     };
     loadThumbnail();
   }, []);
