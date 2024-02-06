@@ -16,7 +16,7 @@ export default function Medias({title, navigation}) {
       if (mediaUris.length === count) return;
 
       const newMediaUris = await getMediaUris({folderTitle: title});
-      setFolders({...folders, title: {mediaUris: newMediaUris, count}});
+      setFolders(prev => ({...prev, title: {mediaUris: newMediaUris, count}}));
     };
     loadMediaUris();
   }, []);
