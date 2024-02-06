@@ -31,7 +31,7 @@ export default function App() {
   }, []);
 
   return (
-    <FoldersContext.Provider value={folders}>
+    <FoldersContext.Provider value={{folders, setFolders}}>
       <AlbumsContext.Provider value={albums}>
         <NavigationContainer theme={DarkTheme}>
           <Stack.Navigator initialRouteName="Home">
