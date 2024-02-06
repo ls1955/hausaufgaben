@@ -28,3 +28,9 @@ todo
 - include a navbar, like so:
   | toggle_safe_mode(eyeball? Ionicons from package) | organize | more_options(triple dot) |
 - rewrite library-like code with TypeScript?
+
+thoughts
+- When downloading new stuff, any simple way to let the app know there are new file?
+  - The data themselves won't change, and try to update the album in interval... didn't sounds right
+  - There are probably something that author missed...
+- After organized the file, we could simply update data inside Album and Folder context...
