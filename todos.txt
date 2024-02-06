@@ -21,7 +21,6 @@ refactor
 
 fix
 - the header will move around when flatlist in homescreen is not ready
-- timing of show flash message after finish organize download folder seems off
 - avoid mutating folders and albums context
 
 todo
