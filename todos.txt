@@ -21,6 +21,7 @@ refactor
 
 fix
 - the header will move around when flatlist in homescreen is not ready
+- use a library that have more of the smell of native?
 - avoid mutating folders and albums context
 
 todo
