@@ -38,3 +38,6 @@ thoughts
 performance
 - rerendering a lot of stuff when updating context, not ideal
   - look into useRef, memo...
+  - separate FoldersContext into "getter" and "setter"
+  - ...or: split component into two, outer read the value, pass it to inner children as prop
+  - ditch useContext and pass props all the way down + useMemo?
