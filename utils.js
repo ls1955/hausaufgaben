@@ -1,6 +1,6 @@
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {openDocumentTree, moveFile, listFiles} from 'react-native-saf-x';
+import {listFiles, mkdir, moveFile, openDocumentTree} from 'react-native-saf-x';
 import {showMessage} from 'react-native-flash-message';
 
 import {
@@ -146,7 +146,7 @@ const moveAssets = async ({
 
   const {downloadDir} = dirs;
 
-  const moveFilePromises = assets.map(async asset => {
+  const moveFilePromises = assets.map(async (asset, i) => {
     const srcUri = `${downloadDir.uri}/${asset.name}`;
 
     let folderPath = getNewFolderPath({
@@ -158,6 +158,8 @@ const moveAssets = async ({
     });
     const destUri = `${folderPath}/${asset.name}`;
 
+    // only create the folder at the first time else duplicate folders will be create
+    if (i === 0) await mkdir(folderPath);
     await moveFile(srcUri, destUri, {replaceIfDestinationExists: true});
   });
 
@@ -177,6 +179,7 @@ const getNewFolderPath = ({category, isToStaging, albums, dirs, folder}) => {
         toNumber({str: title}),
       );
       let latestId = Math.max(...folderIds) + 1;
+      // TODO: Include the new album title back into albums
       return `${doujinDir.uri}/${albumTitle}${latestId}`;
     } else if (category === 'vanilla') {
       let albumTitle = 'Vanilla';
@@ -187,6 +190,8 @@ const getNewFolderPath = ({category, isToStaging, albums, dirs, folder}) => {
       return `${doujinDir.uri}/${albumTitle}${latestId}`;
     }
   } catch (error) {
+    console.error(error.name)
+    console.error(error.message)
     throw 'Album did not exist when organize via category. Did you use the correct appConfig? Throw from getNewFolderPath.';
   }
 
