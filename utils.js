@@ -179,7 +179,10 @@ const getNewFolderPath = ({category, isToStaging, albums, dirs, folder}) => {
         toNumber({str: title}),
       );
       let latestId = Math.max(...folderIds) + 1;
-      // TODO: Include the new album title back into albums
+      // DUCTTAPE
+      // to ensure we always have the latest folder title in case multiple doujin is inserted
+      // without reopening the app, as current app will not update value automatically
+      albums[albumTitle].add(`${albumTitle}${latestId}`)
       return `${doujinDir.uri}/${albumTitle}${latestId}`;
     } else if (category === 'vanilla') {
       let albumTitle = 'Vanilla';
@@ -187,6 +190,8 @@ const getNewFolderPath = ({category, isToStaging, albums, dirs, folder}) => {
         toNumber({str: title}),
       );
       let latestId = Math.max(...folderIds) + 1;
+      // DUCTTAPE
+      albums[albumTitle].add(`${albumTitle}${latestId}`)
       return `${doujinDir.uri}/${albumTitle}${latestId}`;
     }
   } catch (error) {
