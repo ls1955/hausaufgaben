@@ -21,7 +21,7 @@ class MainApplication : Application(), ReactApplication {
             // Packages that cannot be autolinked yet can be added manually here, for example:
             // packages.add(new MyReactNativePackage());
             PackageList(this).packages.apply {
-              add(new new RNFileViewerPackage)
+              add(new RNFileViewerPackage())
             }
 
         override fun getJSMainModuleName(): String = "index"
