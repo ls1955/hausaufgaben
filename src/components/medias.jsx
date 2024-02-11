@@ -1,5 +1,6 @@
 import {FlatList, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import FileViewer from 'react-native-file-viewer';
 
 import useMediaUris from '../hooks/useMediaUris';
 import Loading from './loading';
@@ -12,8 +13,12 @@ export default function Medias({title, navigation}) {
   const renderMedia = ({item: {key, uri, index}}) => {
     return <Media key={key} uri={uri} onPress={handleNav(index)} />;
   };
-  const handleNav = index => {
-    return () => navigation.navigate('Media', {index, folderTitle: title});
+  const handleNav = index => async () => {
+    try {
+      await FileViewer.open(mediaUris[index]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return mediaUris.length === actualSize ? (
