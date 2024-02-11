@@ -127,6 +127,9 @@ dependencies {
 
     // For animated GIF support
     implementation "com.facebook.fresco:animated-gif:3.1.0"
+
+    // To open media files via other app
+    compile project(':react-native-file-viewer')
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
