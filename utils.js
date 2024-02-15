@@ -146,24 +146,27 @@ const moveAssets = async ({
 
   const {downloadDir} = dirs;
 
-  const moveFilePromises = assets.map(async (asset, i) => {
-    const srcUri = `${downloadDir.uri}/${asset.name}`;
-
-    let folderPath = getNewFolderPath({
-      category,
-      isToStaging,
-      albums,
-      dirs,
-      folder,
-    });
-    const destUri = `${folderPath}/${asset.name}`;
-
-    // only create the folder at the first time else duplicate folders will be create
-    if (i === 0) await mkdir(folderPath);
-    await moveFile(srcUri, destUri, {replaceIfDestinationExists: true});
-  });
-
-  await Promise.all(moveFilePromises);
+  // move files in batch to avoid using too much device memory when there are a lot of files
+  const batchSize = 20;
+  for (let i = 0; i < assets.length; i += batchSize) {
+    const moveFilePromises = assets.slice(i, i + batchSize).map(async (asset, j) => {
+      const srcUri = `${downloadDir.uri}/${asset.name}`;
+      let folderPath = getNewFolderPath({
+        category,
+        isToStaging,
+        albums,
+        dirs,
+        folder,
+      });
+      const destUri = `${folderPath}/${asset.name}`;
+    
+      // only mkdir the directory at first time to avoid creating duplicate directory
+      // from being created (this issue occurs when all promises run together)
+      if (i * j === 0) await mkdir(folderPath);
+      await moveFile(srcUri, destUri, {replaceIfDestinationExists: true});
+    })
+    await Promise.all(moveFilePromises)
+  }
 };
 
 // Returns a new folder path.
