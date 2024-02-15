@@ -147,7 +147,7 @@ const moveAssets = async ({
   const {downloadDir} = dirs;
 
   // move files in batch to avoid using too much device memory when there are a lot of files
-  const batchSize = 20;
+  const batchSize = 30;
   for (let i = 0; i < assets.length; i += batchSize) {
     const moveFilePromises = assets.slice(i, i + batchSize).map(async (asset, j) => {
       const srcUri = `${downloadDir.uri}/${asset.name}`;
