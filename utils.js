@@ -1,6 +1,6 @@
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {listFiles, mkdir, moveFile, openDocumentTree} from 'react-native-saf-x';
+import {exists, listFiles, mkdir, moveFile, openDocumentTree} from 'react-native-saf-x';
 import {showMessage} from 'react-native-flash-message';
 
 import {
@@ -146,23 +146,23 @@ const moveAssets = async ({
 
   const {downloadDir} = dirs;
 
+  const folderPath = getNewFolderPath({
+    category,
+    isToStaging,
+    albums,
+    dirs,
+    folder,
+  });
   // move files in batch to avoid using too much device memory when there are a lot of files
   const batchSize = 30;
   for (let i = 0; i < assets.length; i += batchSize) {
     const moveFilePromises = assets.slice(i, i + batchSize).map(async (asset, j) => {
       const srcUri = `${downloadDir.uri}/${asset.name}`;
-      let folderPath = getNewFolderPath({
-        category,
-        isToStaging,
-        albums,
-        dirs,
-        folder,
-      });
       const destUri = `${folderPath}/${asset.name}`;
     
       // only mkdir the directory at first time to avoid creating duplicate directory
       // from being created (this issue occurs when all promises run together)
-      if (i * j === 0) await mkdir(folderPath);
+      if (i * j === 0 && !exists(folderPath)) await mkdir(folderPath);
       await moveFile(srcUri, destUri, {replaceIfDestinationExists: true});
     })
     await Promise.all(moveFilePromises)
