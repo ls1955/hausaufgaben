@@ -66,8 +66,7 @@ const organizeDownloadFolder = async ({
   const dirs = await checkScopedStoragePermissions();
 
   if (Object.keys(dirs).length === 0) {
-    console.error('Please give permissions to all required directories');
-    return;
+    throw new Error('Not all directory have permission');
   }
 
   const assets = await getAssets({uri: dirs.downloadDir.uri});
@@ -96,12 +95,8 @@ const checkScopedStoragePermissions = async () => {
       dir = JSON.parse(dir);
     }
 
-    // if the permission is still not granted, we are done
     if (dir == null) {
-      console.log(
-        `Permission for ${dir} is not granted, please give the permission.`,
-      );
-      return {};
+      throw new Error(`Permission for ${dir} not granted`);
     }
     result[dirName] = dir;
   }
@@ -129,7 +124,7 @@ const getAssets = async ({uri}) => {
 
     return assets.filter(asset => /\.(jpg|jpeg|png|gif|mp4)$/.test(asset.name));
   } catch (error) {
-    console.error(error);
+    showErrorFlash({error});
     return [];
   }
 };
@@ -143,15 +138,9 @@ const moveAssets = async ({
   dirs,
   isToStaging,
 }) => {
-  if (assets.length === 0) {
-    console.info(
-      'No file to move. Please ensure files exist in download directory.',
-    );
-    return;
-  }
+  if (assets.length === 0) throw new Error('Download directory empty');
 
   const {downloadDir} = dirs;
-
   const folderPath = getNewFolderPath({
     category,
     isToStaging,
@@ -204,9 +193,8 @@ const getNewFolderPath = ({category, isToStaging, albums, dirs, folder}) => {
       return `${doujinDir.uri}/${albumTitle}${latestId}`;
     }
   } catch (error) {
-    console.error(error.name);
-    console.error(error.message);
-    throw 'Album did not exist when organize via category. Did you use the correct appConfig? Throw from getNewFolderPath.';
+    showErrorFlash({error});
+    throw new Error('Album did not exist during organization. Did you use the correct app configs?');
   }
 
   return `${defaultDir.uri}/${folder}`;
