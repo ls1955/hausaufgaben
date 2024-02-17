@@ -1,6 +1,12 @@
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {exists, listFiles, mkdir, moveFile, openDocumentTree} from 'react-native-saf-x';
+import {
+  exists,
+  listFiles,
+  mkdir,
+  moveFile,
+  openDocumentTree,
+} from 'react-native-saf-x';
 import {showMessage} from 'react-native-flash-message';
 
 import {
@@ -153,19 +159,19 @@ const moveAssets = async ({
     dirs,
     folder,
   });
+
+  if (!(await exists(folderPath))) await mkdir(folderPath);
+
   // move files in batch to avoid using too much device memory when there are a lot of files
   const batchSize = 30;
   for (let i = 0; i < assets.length; i += batchSize) {
-    const moveFilePromises = assets.slice(i, i + batchSize).map(async (asset, j) => {
+    const moveFiles = assets.slice(i, i + batchSize).map(async asset => {
       const srcUri = `${downloadDir.uri}/${asset.name}`;
       const destUri = `${folderPath}/${asset.name}`;
-    
-      // only mkdir the directory at first time to avoid creating duplicate directory
-      // from being created (this issue occurs when all promises run together)
-      if (i * j === 0 && !exists(folderPath)) await mkdir(folderPath);
+
       await moveFile(srcUri, destUri, {replaceIfDestinationExists: true});
-    })
-    await Promise.all(moveFilePromises)
+    });
+    await Promise.all(moveFiles);
   }
 };
 
@@ -185,7 +191,7 @@ const getNewFolderPath = ({category, isToStaging, albums, dirs, folder}) => {
       // DUCTTAPE
       // to ensure we always have the latest folder title in case multiple doujin is inserted
       // without reopening the app, as current app will not update value automatically
-      albums[albumTitle].add(`${albumTitle}${latestId}`)
+      albums[albumTitle].add(`${albumTitle}${latestId}`);
       return `${doujinDir.uri}/${albumTitle}${latestId}`;
     } else if (category === 'vanilla') {
       let albumTitle = 'Vanilla';
@@ -194,12 +200,12 @@ const getNewFolderPath = ({category, isToStaging, albums, dirs, folder}) => {
       );
       let latestId = Math.max(...folderIds) + 1;
       // DUCTTAPE
-      albums[albumTitle].add(`${albumTitle}${latestId}`)
+      albums[albumTitle].add(`${albumTitle}${latestId}`);
       return `${doujinDir.uri}/${albumTitle}${latestId}`;
     }
   } catch (error) {
-    console.error(error.name)
-    console.error(error.message)
+    console.error(error.name);
+    console.error(error.message);
     throw 'Album did not exist when organize via category. Did you use the correct appConfig? Throw from getNewFolderPath.';
   }
 
