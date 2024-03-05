@@ -28,3 +28,6 @@ todo
 - include a navbar, like so:
   | toggle_safe_mode(eyeball? Ionicons from package) | organize | more_options(triple dot) |
 - rewrite library-like code with TypeScript?
+
+try
+replace `contexts` as `states` in `App`, pass the props to underneath component via https://reactnavigation.org/docs/screen/#children
